@@ -15,19 +15,17 @@ Excel Spreadsheet MUST NOT BE OPEN.
 ONE line of ERROR will always be there. That ERROR is "ERROR StatusLogger Log4j2 could not find a logging implementation. Please add log4j-core to the classpath. Using SimpleLogger to log to the console...".
 (if it aint broke dont fix it)
 
-MUST CHANGE FILE ADDRESS EVERYTIME AS OF RIGHT NOW
 */
 
-public class WriteDataToExcel {
+public class ExcelWriter {
 
     public static void main(String[] args)
     {
         // workbook object - One file
         XSSFWorkbook workbook = new XSSFWorkbook();
 
-        // spreadsheet object - data in file
-        XSSFSheet spreadsheet = workbook.createSheet
-                (" Booking View ");
+        // spreadsheet object - sub data in file
+        XSSFSheet spreadsheet = workbook.createSheet(" Booking View ");
 
         // creating a row object 
         XSSFRow row;
@@ -40,14 +38,12 @@ public class WriteDataToExcel {
                 new Object[]
                         { "Room #", "Availability", "Reserver ID" , "Reserve Time", "Check In", "Check Out"} // Columns
         );
-
         // to add rows follow the format below
-        bookingView.put("2", new Object[]{ "1", "Open", "" , "", "", ""});
+        bookingView.put("2", new Object[]{ "1", "Booked", "10001" , "3/21/25", "1200", "1500"});
+        bookingView.put("3", new Object[]{ "2", "Open", "" , "", "", ""});
 
         Set<String> keyid = bookingView.keySet(); // set of row index
-
         int rowid = 0;
-
         // writing the data into the sheets...
         for (String key : keyid) {
             row = spreadsheet.createRow(rowid++);
@@ -62,13 +58,13 @@ public class WriteDataToExcel {
         // .xlsx is the format for Excel Sheets... 
         // writing the workbook into the file...
         /////////////////////////////////////////////////////////////////////////////////
-        try { // have to change file address every time so we must find a way around that
-            FileOutputStream out = new FileOutputStream(new File("C:/Users/lords/Desktop/code/Java/Hotel_Management/src/Hotel_Data.xlsx"));
+        try {
+            FileOutputStream out = new FileOutputStream(new File("Hotel_Data.xlsx"));
             workbook.write(out);
             out.close();
+            System.out.println("Ignore ERROR StatusLogger Log4j2.\nHotel_Data.xlsx written successfully!");
         }
         catch(Exception e) { // keeps things working
-            System.out.println("catch block");
             e.printStackTrace();
         }
         /////////////////////////////////////////////////////////////////////////////////
