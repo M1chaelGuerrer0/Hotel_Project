@@ -7,34 +7,23 @@ import java.io.FileOutputStream;
 import java.util.Scanner;
 
 public class Creator {
-
-    public static void main(String[] args) {
-        Scanner scnr = new Scanner(System.in);
-        System.out.println("Enter the number of rows to create:");
-        int rowCount = scnr.nextInt();
-        System.out.println("Enter the name of the Workbook:\n(Don't include .xlsx)");
-        String file = scnr.next();
-        System.out.println("Enter the name of the Spreadsheet:");
-        String spreadsheet = scnr.next();
-        try {
-            // Create a new Excel file with the specified number of rows and 6 columns
-            createExcelFile(file+".xlsx",spreadsheet, rowCount);
-            System.out.println("Excel file created successfully!");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            scnr.close();
-        }
-    }
-    // still need to make more dynamic
     public static void createExcelFile(String filePath, String spreadSheet, int rowCount) throws Exception {
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet(spreadSheet);
         // Create header row
         Row headerRow = sheet.createRow(0);
-        String[] headers = {"Room#", "Availability", "Reserver ID", "Reserve Time", "Check In", "Check Out"};
+        /////////////////////////////////////// header row initialize
+        Scanner scnr = new Scanner(System.in);
+        System.out.println("Enter number of columns:");
+        int size = scnr.nextInt();
+        String temp;
+        String[] headers = new String[size];
+        for(int i = 0; i < size; i++) {
+            System.out.println("Enter column #"+(i+1));
+            temp = scnr.next();
+            headers[i] = temp;
+        }
+        ///////////////////////////////////////
         for(int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(headers[i]);
@@ -45,13 +34,13 @@ public class Creator {
             for(int j = 0; j < headers.length; j++) {
                 Cell cell = row.createCell(j);
                 if(j == 0) {
-                    cell.setCellValue(i); // Room number
+                    cell.setCellValue(i); // Room number // still need to make more customizable
                 }
                 else if(j == 1) {
-                    cell.setCellValue("Open"); // Availability
+                    cell.setCellValue("Open"); // Availability // still need to make more customizable
                 }
                 else {
-                    cell.setCellValue("N/A"); // Default value for other columns
+                    cell.setCellValue("N/A"); // Default value for other columns // still need to make more customizable
                 }
             }
         }
@@ -62,6 +51,4 @@ public class Creator {
         }
         workbook.close();
     }
-    // int currentRowCount = sheet.getLastRowNum();
-
 }
