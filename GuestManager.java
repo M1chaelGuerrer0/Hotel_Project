@@ -10,6 +10,7 @@ import java.sql.*;
     You need to put root as user and use the same password from earlier.
     You need to download the mysql-connector-j-9.2.0.zip and extract.
     Then you need to find mysql-connector-j-9.2.0.jar and put it under modules.
+    Under the variable password change to your own passward to connect to database.
 
 */
 
@@ -34,7 +35,7 @@ public class GuestManager {
     // Database connection details
     private static final String URL = "jdbc:mysql://localhost:3306/hoteldb";
     private static final String USER = "root";
-    private static final String PASSWORD = "113529";
+    private static final String PASSWORD = "";
 
     // Add a new guest
     public static void addGuest(String name, String email, String phone) {
