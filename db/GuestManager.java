@@ -10,7 +10,14 @@ import java.sql.*;
     You need to put root as user and use the same password from earlier.
     You need to download the mysql-connector-j-9.2.0.zip and extract.
     Then you need to find mysql-connector-j-9.2.0.jar and put it under modules.
-    Under the variable password change to your own passward to connect to database.
+    Under console paste :
+        CREATE TABLE guests (
+        guest_id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(100) UNIQUE,
+        phone VARCHAR(20),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 */
 
