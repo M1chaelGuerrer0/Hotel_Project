@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class Register {
     private String first;
     private String last;

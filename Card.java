@@ -1,10 +1,10 @@
-public class Card_Info {
+public class Card {
     private int cardID;
     private String cardNumber;
     private String expiration;
     private String cvc;
 
-    public Card_Info(int cardID, String cardNumber, String expiration, String cvc) {
+    public Card(int cardID, String cardNumber, String expiration, String cvc) {
         setCardID(cardID);
         setCardNumber(cardNumber);
         setExpiration(expiration);
