@@ -2,6 +2,9 @@ public class Reservation {
     private String checkInDate;
     private String checkOutDate;
     private int revId;
+    private int userId;
+    private String reserveTime;
+
 
 
     public void setCheckInDate(String checkInDate) {
@@ -29,6 +32,19 @@ public class Reservation {
     }
 
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
+    public int getUserId() {
+        return userId;
+    }
 
+    public void setReserveTime(String reserveTime) {
+        this.reserveTime = reserveTime;
+    }
+
+    public String getReserveTime() {
+        return reserveTime;
+    }
 }
