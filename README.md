@@ -1,7 +1,7 @@
 # Hotel_Project
 DEDSEC Hotel Project
 
-** EVERYTHING YOU NEED TO RUN
+## EVERYTHING YOU NEED TO RUN
 - You need to install mySQL installer and install workbench, client, and shell.
 - You need to make a password and remember it.
 - You need to create a schema called hoteldb.
@@ -11,7 +11,7 @@ DEDSEC Hotel Project
 - You need to download the mysql-connector-j-9.2.0.zip and extract.
 - Then you need to find mysql-connector-j-9.2.0.jar and put it under modules.
 
-** Troubleshoot
+## Troubleshoot
     If having sync issues disconnect and reconnect.
     For more accuracy use the workbench for viewing the tables.
 
