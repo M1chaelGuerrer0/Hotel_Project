@@ -1,5 +1,5 @@
 public class Card {
-    private int cardID;
+    private int card_id;
     private String cardNumber;
     private String expiration;
     private String cvc;
@@ -12,7 +12,7 @@ public class Card {
     }
     /////// Setters ///////
     public void setCardID(int cardID) {
-        this.cardID = cardID;
+        this.card_id = cardID;
     }
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
@@ -25,7 +25,7 @@ public class Card {
     }
     /////// Getters ///////
     public int getCardID() {
-        return cardID;
+        return card_id;
     }
     public String getCardNumber() {
         return cardNumber;

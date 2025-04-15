@@ -1,11 +1,21 @@
 public class HotelApp {
     public static void main(String[] args) {
-        // Add a new guest
-        System.out.println("add test"); GuestManager.addGuest("Juan Carlos", "JuanCarlos1@yahoo.com", "911-420-6969");
-        // Update a guest
-        //System.out.println("update test"); GuestManager.updateGuest(2, "Johnathan Pork", "john.Pork@example.com", "123-456-7890");
-        // delete test
-        //System.out.println("delete test"); GuestManager.deleteGuest(1);
-        GuestManager.displayAllGuests();
+        User user = new User();
+        user.setFirst("Lamar");
+        user.setLast("Davis");
+        user.setEmail("GreenLD@gmail.com");
+        user.setPassword("IHeartChop");
+        user.setPhoneNumber("9114206969");
+        user.setAddress1("11111 Strawberry St");
+        user.setAddress2("");
+        user.setCity("LS");
+        user.setCountry("US");
+        user.setState("CA");
+        user.setZipCode("90001");
+        user.setCardId(1);
+        user.setUserId(1);
+        user.displayUser();
+        //HotelDataBase.addGuest(user);
+        HotelDataBase.updateGuest(user);
     }
 }
