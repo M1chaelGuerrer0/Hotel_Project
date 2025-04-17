@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo9.RegisterController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="335.0" prefWidth="600.0">
+         <children>
+            <Label text="First Name" />
+            <TextField fx:id="firstName" alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+            <Label text="Last Name" />
+            <TextField fx:id="lastName" alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+            <Label text="Phone Number" />
+            <TextField fx:id="phoneNum" alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+            <Label text="Email" />
+            <TextField fx:id="userEmail" alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+            <Label text="Password" />
+            <TextField fx:id="userPassword" alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+            <Label text="Confirm password" />
+            <TextField fx:id="confirmPassword" alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+            <Label text="Street 1" />
+            <TextField fx:id="street1" alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+            <Label text="Street 2" />
+            <TextField fx:id="street2" alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+            <Label text="City" />
+            <TextField fx:id="userCity" alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+            <Label text="ZipCode" />
+            <TextField fx:id="zip" alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+            <Label text="State" />
+            <TextField fx:id="userState" alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+            <Label text="Country" />
+            <TextField fx:id="userCountry" alignment="TOP_CENTER" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+            <Button mnemonicParsing="false" onAction="#registerButton" text="Register" />
+            <Button mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
+         </children>
+      </VBox>
+   </children>
+</VBox>
