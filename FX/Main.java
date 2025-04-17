@@ -29,6 +29,11 @@ public class Main extends Application {
         }
     }
 
+    /*
+        Switches from the current scene back to the Parent scene
+
+        @param stage closes the stage fed into the parameter once "ok" is selected
+    */
     public void  logout(Stage stage) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Exit");

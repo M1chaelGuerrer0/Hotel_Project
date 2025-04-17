@@ -14,6 +14,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/*
+    PARENT CONTROLLER
+    4/16/25
+    Ivan Amaya
+
+    This class serves as the controller for all the buttons located on the Parent scene
+*/
 public class ParentController extends LoginController {
 
     @FXML
@@ -34,6 +41,11 @@ public class ParentController extends LoginController {
 
     private Stage stage;
 
+    /*
+        Switches from the current scene to the Login scene
+
+        @param event listens for when an event fires
+    */
     public void loginButton(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("login.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -42,6 +54,12 @@ public class ParentController extends LoginController {
         stage.show();
     }
 
+    /*
+        Prompts the user with a warning message informing them that they are about log out, also swapping the
+        logStatus to false indicating that they are no longer logged in
+
+        @param event listens for when an event fires
+    */
     public void logoutButton(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");
@@ -49,13 +67,18 @@ public class ParentController extends LoginController {
         alert.setContentText("Are you sure you would like to logout?");
 
         if(alert.showAndWait().get() == ButtonType.OK) {
-            logStatus = false;
+            logStatus = false;                                      // Indicates whether the user is logged in or not
             stage = (Stage) parentScene.getScene().getWindow();
             System.out.println("Logged Out Successfully");
             System.out.println(logStatus);
         }
     }
 
+    /*
+        Switches from the current scene to the Account scene
+
+        @param event listens for when an event fires
+    */
     public void accountButton(ActionEvent event) throws IOException {
         System.out.println(logStatus);
         if (LoginController.logStatus) {

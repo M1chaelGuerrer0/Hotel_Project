@@ -13,7 +13,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/*
+    LOGIN CONTROLLER
+    4/16/25
+    Ivan Amaya
 
+    This class serves as the controller for all the buttons located on the Login scene, while verifying that the
+    account does indeed exist within the database
+*/
 public class LoginController {
 
     @FXML
@@ -45,6 +52,11 @@ public class LoginController {
 
     public static Boolean logStatus = false;
 
+    /*
+        Switches from the current scene back to the Parent scene
+
+        @param event listens for when an event fires
+    */
     public void continueAsGuestButton(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("Parent.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -53,6 +65,11 @@ public class LoginController {
         stage.show();
     }
 
+    /*
+        Switches from the current scene to the Register scene
+
+        @param event listens for when an event fires
+    */
     public void registerButton(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("registerLog.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -61,7 +78,15 @@ public class LoginController {
         stage.show();
     }
 
+    /*
+        Verifies that the entered information exists in the database, and then logs the user in while swapping
+        back to the Parent scene. Also changes the value of logStatus to true.
+
+        @param event listens for when an event fires
+    */
     public void loginButton(ActionEvent event) throws IOException {
+        // TODO : Verify that the user's entered data matches with info found in the database
+
         logStatus = true;
 
         root = FXMLLoader.load(getClass().getResource("Parent.fxml"));
@@ -71,11 +96,6 @@ public class LoginController {
         stage.show();
 
         System.out.println(logStatus);
-    }
-
-    public void closeLog(ActionEvent event) {
-        stage = (Stage) loginScene.getScene().getWindow();
-        stage.close();
     }
 
 
