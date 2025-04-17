@@ -1,17 +1,20 @@
 import java.sql.*;
 /*
  EVERYTHING YOU NEED TO RUN
- * You need to install mySQL installer and install workbench, client, and shell.
+ * You need to install mySQL installer and make a custom installation
+ *  install workbench, client, and shell.
  * You need to make a password and remember it.
  * You need to create a schema called hoteldb.
  * You need to add the plugin called Database Navigator on IntelliJ.
+ *  Found under settings and plugins.
  * You need to add a connection called hoteldb_connection and make sure the database is hoteldb.
  * You need to put root as user and use the same password from earlier.
  * You need to download the mysql-connector-j-9.2.0.zip and extract.
  * Then you need to find mysql-connector-j-9.2.0.jar and put it under modules.
+ *  Under Project structure
  * Create the database tables in "hoteldb.sql"
  * Default USER is root but if you changed it on your end
-   you have to change the variable in this code.
+ * You have to change the variable in this code.
  * Change the PASSWORD variable to your password in this code.
 
  Troubleshoot
