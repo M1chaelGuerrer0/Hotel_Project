@@ -1,0 +1,96 @@
+<!--
+Account
+4/16/25
+@author Ivan Amaya
+ This class is connected to the controller class of account.
+-->
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="accountScene" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Hotel.AccountController">
+   <children>
+      <Button fx:id="cancel" layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
+      <Label layoutX="19.0" layoutY="102.0" text="Email:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="19.0" layoutY="123.0" text="Password:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="20.0" layoutY="164.0" text="Address 1:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="20.0" layoutY="188.0" text="Address 2:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="21.0" layoutY="251.0" text="City:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="20.0" layoutY="209.0" text="State:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="36.0" layoutY="92.0" />
+      <Label layoutX="190.0" layoutY="14.0" prefHeight="39.0" prefWidth="220.0" text="Account Information" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="emailDisplay" layoutX="65.0" layoutY="102.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="passwordDisplay" layoutX="94.0" layoutY="123.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="address1Display" layoutX="101.0" layoutY="164.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="address2Display" layoutX="101.0" layoutY="187.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="stateDisplay" layoutX="65.0" layoutY="209.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="countryDisplay" layoutX="86.0" layoutY="231.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="20.0" layoutY="230.0" text="Country:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="cityDisplay" layoutX="59.0" layoutY="252.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
