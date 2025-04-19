@@ -1,11 +1,11 @@
 package com.example.demo9;
 /*
-This is the controller class is responsible for switching into
-different scenes like reservation and registering.
-
-@E.Sanchez
-@version 1.0
- */
+    Reservation Controller
+    4/16/25
+    @author E. Sanchez
+    This is the controller class is responsible for switching into
+    different scenes like reservation and registering.
+*/
 
 
 import javafx.event.ActionEvent;

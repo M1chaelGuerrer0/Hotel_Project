@@ -1,3 +1,11 @@
+/*
+    ACCOUNT CONTROLLER
+    4/16/25
+    @author Ivan Amaya
+    This class serves as the controller for all the buttons located on the Account scene, also allowing users to
+    change the data they have saved to the database
+*/
+
 package com.example.Hotel;
 
 import javafx.event.ActionEvent;
@@ -15,15 +23,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/*
-    ACCOUNT CONTROLLER
-    4/16/25
-    @author Ivan Amaya
-    @version 1.0
-    
-    This class serves as the controller for all the buttons located on the Account scene, also allowing users to
-    change the data they have saved to the database
-*/
 public class AccountController {
 
     @FXML

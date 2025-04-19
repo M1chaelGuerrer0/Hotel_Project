@@ -1,9 +1,10 @@
-package com.example.demo9;
 /*
-This is the class that runs the code.
-@E.Sanchez
-@version 1.0
- */
+    Reservation Application
+    4/16/25
+    @author E. Sanchez
+    This is the class that runs the code.
+*/
+package com.example.demo9;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,12 +13,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
-
-
-/*
-
- */
 public class ReservationApplication extends Application {
     /*
     This runs the reservation page

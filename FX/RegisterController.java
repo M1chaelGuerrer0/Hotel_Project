@@ -1,3 +1,11 @@
+/*
+    REGISTER CONTROLLER
+    4/16/25
+    @author Ivan Amaya
+    This class serves as the controller for all the buttons located on the Register scene, along with the saving of
+    the user's information into the database
+*/
+
 package com.example.Hotel;
 
 import javafx.event.ActionEvent;
@@ -17,15 +25,6 @@ import java.net.URL;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-/*
-    REGISTER CONTROLLER
-    4/16/25
-    @author Ivan Amaya
-    @version 1.0
-
-    This class serves as the controller for all the buttons located on the Register scene, along with the saving of
-    the user's information into the database
-*/
 public class RegisterController {
 
     @FXML

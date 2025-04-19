@@ -1,3 +1,11 @@
+/*
+    LOGIN CONTROLLER
+    4/16/25
+    @author Ivan Amaya
+    This class serves as the controller for all the buttons located on the Login scene, while verifying that the
+    account does indeed exist within the database
+*/
+
 package com.example.Hotel;
 
 import javafx.event.ActionEvent;
@@ -13,15 +21,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/*
-    LOGIN CONTROLLER
-    4/16/25
-    @author Ivan Amaya
-    @version 1.0
-    
-    This class serves as the controller for all the buttons located on the Login scene, while verifying that the
-    account does indeed exist within the database
-*/
 public class LoginController {
 
     @FXML

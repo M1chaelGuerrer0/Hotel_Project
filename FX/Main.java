@@ -1,3 +1,10 @@
+/*
+    MAIN
+    4/16/25
+    @author Ivan Amaya
+    Main runs the UI for login and registeration.
+*/
+
 package com.example.Hotel;
 
 import javafx.application.Application;
@@ -7,16 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-
-/*
-    MAIN
-    4/16/25
-    @author Ivan Amaya
-    @version 1.0
-
-    Main runs the UI for login and registeration.
-*/
-
 
 public class Main extends Application {
 

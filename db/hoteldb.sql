@@ -1,12 +1,11 @@
 /*
+    HotelDataBase
+    4/16/25
+    @author Michael Guerrero  
     Hoteldb is a collection of sql commands to be run, such as the creation
     of the tables for the hoteldb schema.
 
-    To Run:
-    Highlight each statement and run indivdually.
-
-    @author Michael Guerrero
-    @version 1.0
+    To Run: Highlight each statement and run indivdually.
 */
 
 -- run each statement manually by highlighting them with your cursor.

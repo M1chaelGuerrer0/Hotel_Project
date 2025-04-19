@@ -1,3 +1,10 @@
+/*
+    PARENT CONTROLLER
+    4/16/25
+    @author Ivan Amaya
+    This class serves as the controller for all the buttons located on the Parent scene
+*/
+
 package com.example.Hotel;
 
 import javafx.event.ActionEvent;
@@ -14,14 +21,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/*
-    PARENT CONTROLLER
-    4/16/25
-    @author Ivan Amaya
-    @version 1.0
-
-    This class serves as the controller for all the buttons located on the Parent scene
-*/
 public class ParentController extends LoginController {
 
     @FXML

@@ -1,3 +1,11 @@
+/*
+    PAYMENT CONTROLLER
+    4/16/25
+    @author Ivan Amaya
+    This class serves as the controller for all the buttons located on the Payment scene, also storing their card
+    information to the database
+*/
+
 package com.example.Hotel;
 
 import javafx.event.ActionEvent;
@@ -14,15 +22,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/*
-    PAYMENT CONTROLLER
-    4/16/25
-    @author Ivan Amaya
-    @version 1.0
-
-    This class serves as the controller for all the buttons located on the Payment scene, also storing their card
-    information to the database
-*/
 public class PaymentController {
 
     @FXML

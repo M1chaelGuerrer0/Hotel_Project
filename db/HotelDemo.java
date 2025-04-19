@@ -1,9 +1,9 @@
 /*
+    HotelDemo
+    4/16/25
+    @author Michael Guerrero  
     HotelDemo is a testing place for the methods in HotelDataBase.
     This file is to be removed when a working prototype version is in place.
-
-    @author Michael Guerrero
-    @version 1.0
 */
 
 public class HotelDemo {

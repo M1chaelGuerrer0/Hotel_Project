@@ -1,8 +1,9 @@
 /*
+    HotelDataBase
+    4/16/25
+    @author Michael Guerrero    
     A Hotel database keep track of its guest, guest payment information, rooms, reservations, and workers. 
     From the database, information can be extracted to be edited or used elsewere.
-    @author Michael Guerrero
-    @version 1.0
 */
 
 import java.sql.*;
