@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="loginScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gooncentral.LoginController">
+<AnchorPane fx:id="loginScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Hotel.LoginController">
    <children>
       <Button fx:id="continueAsGuest" layoutX="570.0" layoutY="338.0" mnemonicParsing="false" onAction="#continueAsGuestButton" prefHeight="25.0" prefWidth="116.0" text="Continue as Guest" />
       <Label layoutX="462.0" layoutY="40.0" prefHeight="56.0" prefWidth="137.0" text="Welcome Back!" textAlignment="CENTER">

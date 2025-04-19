@@ -1,4 +1,4 @@
-package com.example.gooncentral;
+package com.example.Hotel;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +17,8 @@ import java.io.IOException;
 /*
     PARENT CONTROLLER
     4/16/25
-    Ivan Amaya
+    @author Ivan Amaya
+    @version 1.0
 
     This class serves as the controller for all the buttons located on the Parent scene
 */

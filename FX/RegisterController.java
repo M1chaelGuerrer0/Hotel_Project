@@ -1,4 +1,4 @@
-package com.example.gooncentral;
+package com.example.Hotel;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +20,8 @@ import java.util.ResourceBundle;
 /*
     REGISTER CONTROLLER
     4/16/25
-    Ivan Amaya
+    @author Ivan Amaya
+    @version 1.0
 
     This class serves as the controller for all the buttons located on the Register scene, along with the saving of
     the user's information into the database

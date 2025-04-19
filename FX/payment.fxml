@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="paymentScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="384.0" prefWidth="336.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gooncentral.PaymentController">
+<AnchorPane fx:id="paymentScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="384.0" prefWidth="336.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Hotel.PaymentController">
    <children>
       <TextField fx:id="cardNum" layoutX="11.0" layoutY="31.0" prefHeight="25.0" prefWidth="149.0" promptText="#### #### ####" />
       <TextField fx:id="cardExp" layoutX="13.0" layoutY="89.0" prefHeight="25.0" prefWidth="59.0" promptText="## / ##" />

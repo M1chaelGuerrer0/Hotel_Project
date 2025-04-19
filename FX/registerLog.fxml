@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="registerScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="529.0" prefWidth="418.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gooncentral.RegisterController">
+<AnchorPane fx:id="registerScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="529.0" prefWidth="418.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Hotel.RegisterController">
    <children>
       <Button fx:id="cancel" layoutX="28.0" layoutY="489.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
       <TextField fx:id="firstName" layoutX="28.0" layoutY="106.0" prefHeight="25.0" prefWidth="171.0" promptText="First" />
