@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*
+This class makes the user enter important information before they reserve a room.
+@E.Sanchez
+@version 1.0
+ */
+
+-->
+
+
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>

@@ -1,4 +1,10 @@
 public class Reservation {
+    /*
+This class contains important information needed in order to reserve a room.
+@E.Sanchez
+@version 1.0
+ */
+
     private String checkInDate;
     private String checkOutDate;
     private int revId;

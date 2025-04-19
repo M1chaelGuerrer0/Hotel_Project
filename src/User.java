@@ -1,4 +1,10 @@
 public class User {
+    /*
+This class contains important information about the user.
+@E.Sanchez
+@version 1.0
+ */
+
     private String first;
     private String last;
     private String phoneNumber;
@@ -11,6 +17,24 @@ public class User {
     private String zipCode;
     private String country;
     private String password;
+    /*
+@param first  String - user first name
+@param last String - user last name
+@param phoneNumber Integer - phone number of user
+@param email String  - email of user
+@param userId Integer - user ID of user
+@param address1 String  - address1 of user
+@param address2 String  - address2 of user
+@param city String  - city of user
+@param state String  - state of user
+@param zipCode Integer - zip code of user
+@param country String  - country of user
+@param password String  - password of user
+@param cardId - card ID of user
+
+
+*/
+
 
     // setters
     public void setFirst(String first){this.first = first;}

@@ -1,4 +1,10 @@
 public class Card {
+/*
+This class contains the information about the customers card.
+@E.Sanchez
+@version 1.0
+ */
+
     private int card_id;
     private String holderName;
     private String cardNumber;
