@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /*
-This class makes the user enter important information before they reserve a room.
-@E.Sanchez
-@version 1.0
+   Guest Add On
+   4/16/25
+   @author E.Sanchez
+   This class makes the user enter important information before they reserve a room.
  */
 
 -->

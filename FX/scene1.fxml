@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
-/*
-This class allows the customer to choose what room they would like to reserve.
-@E.Sanchez
-@version 1.0
- */
+scene1
+4/26/25
+@author E.Sanchez
+ This class allows the customer to choose what room they would like to reserve.
 
 -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>

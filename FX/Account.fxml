@@ -1,4 +1,12 @@
+<!--
+Account
+4/16/25
+@author Ivan Amaya
+ This class is connected to the controller class of account.
+-->
 <?xml version="1.0" encoding="UTF-8"?>
+
+
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>

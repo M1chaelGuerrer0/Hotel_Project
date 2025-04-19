@@ -1,11 +1,10 @@
 <!--
-/*
-This class allows the customer to choose how long they will stay in the hotel.
-@E.Sanchez
-@version 1.0
- */
-
+scene2
+4/16/25
+@author E.Sanchez
+ This class allows the customer to choose how long they will stay in the hotel.
 -->
+
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
