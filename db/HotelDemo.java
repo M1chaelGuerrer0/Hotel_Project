@@ -1,3 +1,11 @@
+/*
+    HotelDemo is a testing place for the methods in HotelDataBase.
+    This file is to be removed when a working prototype version is in place.
+
+    @author Michael Guerrero
+    @version 1.0
+*/
+
 public class HotelDemo {
     public static void main(String[] args) {
         User guest = new User();
@@ -15,7 +23,7 @@ public class HotelDemo {
         guest.setCountry("US");
         guest.setState("CA");
         guest.setZipCode("90001");
-        guest.displayUser(); // display current guest
+        // guest.displayUser(); // display current guest
 
         // card
         card.setHolderName(guest.getFirst()+" "+guest.getLast());
