@@ -1,3 +1,10 @@
+/*
+    A Hotel database keep track of its guest, guest payment information, rooms, reservations, and workers. 
+    From the database, information can be extracted to be edited or used elsewere.
+    @author Michael Guerrero
+    @version 1.0
+*/
+
 import java.sql.*;
 /*
  EVERYTHING YOU NEED TO RUN
@@ -27,7 +34,7 @@ public class HotelDataBase {
     // Database connection details
     private static final String URL = "jdbc:mysql://localhost:3306/hoteldb";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "YOUR_PASSWORD";
 
     // Guest ////////////////////////////////////////////
     /*
