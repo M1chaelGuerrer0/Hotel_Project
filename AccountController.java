@@ -35,6 +35,9 @@ public class AccountController extends HotelDataBase {
     private Button cancel;
 
     @FXML
+    private Button save;
+
+    @FXML
     private Label emailDisplay;
 
     @FXML
@@ -117,13 +120,11 @@ public class AccountController extends HotelDataBase {
     }
 
     /*
-        Allows the user to switch their stored personal information in their account
+        Allows new inputs to replace old email and password, then store that in the database
 
         @param event listens for when an event fires
     */
-    public void editButton(ActionEvent event) throws IOException {
-        // Allows new inputs to replace old email and password, then store that in the database
-
+    public void saveButton(ActionEvent event) throws IOException {
         String firstname = firstName.getText();
         System.out.println(firstname);
         String lastname = lastName.getText();
@@ -152,8 +153,9 @@ public class AccountController extends HotelDataBase {
         User guest = new User();
 
         int match = password.compareTo(conPass);           // compares the two password input to confirm if they match
-        // will return 0, if a mismatch will return an int != 0
+                                                           // will return 0, if a mismatch will return an int != 0
         System.out.println(match);
+
 
         /*
             Checks whether match was 0, and if so then the password is saved and the scene is swapped to back to
@@ -196,6 +198,19 @@ public class AccountController extends HotelDataBase {
     */
     public void cancelAccount(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("parent.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /*
+        Allows the user to switch their stored personal information in their account
+
+        @param event listens for when an event fires
+    */
+    public void editButton(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("edit.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
