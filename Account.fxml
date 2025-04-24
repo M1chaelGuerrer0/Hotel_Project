@@ -92,7 +92,7 @@
             <Insets bottom="2.0" left="4.0" right="4.0" top="2.0" />
          </padding>
       </Button>
-      <Button fx:id="editAddress" layoutX="14.0" layoutY="322.0" mnemonicParsing="false" onAction="#editButton" text="Edit">
+      <Button fx:id="editAddress" layoutX="14.0" layoutY="323.0" mnemonicParsing="false" onAction="#editButton" text="Edit">
          <font>
             <Font size="11.0" />
          </font>
