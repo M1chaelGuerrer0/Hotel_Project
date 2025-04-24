@@ -110,5 +110,6 @@
             <Font size="16.0" />
          </font>
       </Label>
+      <Button fx:id="initialize" layoutX="2.0" layoutY="1.0" mnemonicParsing="false" onAction="#displayInfo" text="Button" visible="false" />
    </children>
 </AnchorPane>
