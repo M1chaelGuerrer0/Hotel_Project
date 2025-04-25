@@ -37,7 +37,6 @@ public class HotelDataBase {
     /*
      * Add a new guest to guest table in the database
      * @param guest User object that gives information to be stored
-     * @throws SQLException If database access fails
      */
     public static void addGuest(User guest) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -67,7 +66,6 @@ public class HotelDataBase {
     /*
      * update guest information to the guest table in the database
      * @param newGuest User object that gives information to be stored
-     * @throws SQLException If database access fails
      */
     public static void updateGuest(User newGuest) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -106,7 +104,6 @@ public class HotelDataBase {
      * Delete a guest from the guest table in the database
      * @param guestId Integer that is in reference to the guestID
      * that is to be deleted from the guest table from in the database
-     * @throws SQLException If database access fails
      */
     public static void deleteGuest(String email) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -124,7 +121,6 @@ public class HotelDataBase {
      * Gets one guest from the guest table in the database
      * @param guestId Integer that is in reference to the guestID
      * that is to be used to grab from the database
-     * @throws SQLException If database access fails
      * @return guest User object
      */
     public static User getGuest(String email) {
@@ -134,6 +130,7 @@ public class HotelDataBase {
                      "SELECT * FROM guests WHERE email = '"+email+"'")) {
             User user = new User();
             while(rs.next()) {
+                user.setUser_id(rs.getInt("guest_id"));
                 user.setFirst(rs.getString("firstname"));
                 user.setLast(rs.getString("lastname"));
                 user.setEmail(rs.getString("email"));
@@ -142,6 +139,7 @@ public class HotelDataBase {
                 user.setAddress1(rs.getString("address1"));
                 user.setAddress2(rs.getString("address2"));
                 user.setCity(rs.getString("city"));
+                user.setCountry(rs.getString("country"));
                 user.setState(rs.getString("state"));
                 user.setZipCode(rs.getString("zipCode"));
             }
@@ -156,15 +154,14 @@ public class HotelDataBase {
     // Card /////////////////////////////////////////////
     /*
      * Add a new card to card table in the database
-     * @param card Card object that gives information to be stored
-     * @throws SQLException If database access fails
+     * @param card an object created by the card class to be put into the database
      */
-    public static void addCard(Card card, String email) {
+    public static void addCard(Card card) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(
-                     "INSERT INTO card (holderName, cardNumber, expiration, cvc, address1, address2, city, country, state, zipCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                     "INSERT INTO card (guest_id, holderName, cardNumber, expiration, cvc, address1, address2, city, country, state, zipCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
             conn.setAutoCommit(false);
-            stmt.setString(1, email);
+            stmt.setInt(1, card.getGuest_id());
             stmt.setString(2, card.getHolderName());
             stmt.setString(3, card.getCardNumber());
             stmt.setString(4, card.getExpiration());
@@ -182,9 +179,13 @@ public class HotelDataBase {
         }
     }
 
-    public static void updateCard(Card newCard, String email) {
+    /*
+     * Updates a card in the card table in the database
+     * @param card an object created by the card class to be put into the database
+     */
+    public static void updateCard(Card newCard) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement("UPDATE guests SET " +
+             PreparedStatement stmt = conn.prepareStatement("UPDATE card SET " +
                      "holderName=?," +
                      "cardNumber=?," +
                      "expiration=?," +
@@ -194,7 +195,7 @@ public class HotelDataBase {
                      "city=?," +
                      "country=?," +
                      "state=?," +
-                     "zipCode=? WHERE email=?")) {
+                     "zipCode=? WHERE card_id="+newCard.getCard_id())) {
             conn.setAutoCommit(false);
             stmt.setString(1, newCard.getHolderName());
             stmt.setString(2, newCard.getCardNumber());
@@ -206,18 +207,20 @@ public class HotelDataBase {
             stmt.setString(8, newCard.getCountry());
             stmt.setString(9, newCard.getState());
             stmt.setString(10, newCard.getZipCode());
-            stmt.setString(11, email);
             stmt.executeUpdate();
             conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
+    /*
+     * Deletes a card in the card table in the database
+     * @param card_id the id associated with the card
+     */
     public static void deleteCard(int card_id) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(
-                     "DELETE FROM guests WHERE card_id = ?")) {
+                     "DELETE FROM card WHERE card_id = ?")) {
             conn.setAutoCommit(false);
             stmt.setInt(1, card_id);
             stmt.executeUpdate();
@@ -226,7 +229,66 @@ public class HotelDataBase {
             e.printStackTrace();
         }
     }
+    /*
+     * Display all cards that are associated with a guest
+     * @param guest_id the id of the guest
+     */
+    public static void displayCards(int guest_id) {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM card Where guest_id = "+guest_id)) {
+            System.out.println("\nList of Cards connected to guest_id = "+guest_id+
+                    "\nCard_id\tholderName\tcardNumber\texpiration\tcvc" +
+                    "\taddress1\taddress2\tcity\tcountry\tstate\tzipCode");
+            while (rs.next()) {
+                System.out.println(
+                        rs.getInt("card_id") + "\t" +
+                        rs.getString("holderName") + "\t" +
+                        rs.getString("cardNumber") + "\t" +
+                        rs.getString("expiration") + "\t"+
+                        rs.getString("cvc") + "\t" +
+                        rs.getString("address1") + "\t" +
+                        rs.getString("address2") + "\t" +
+                        rs.getString("city") + "\t" +
+                        rs.getString("country") + "\t" +
+                        rs.getString("state") + "\t" +
+                        rs.getString("zipCode") + "\t"
+                );
 
-    // more in progress
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    /*
+     * Gets a card in the card table in the database
+     * @param card_id the id associated with the card
+     * @return card an object created by the card class
+     */
+    public static Card getCard(int card_id) {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(
+                     "SELECT * FROM card WHERE card_id = " + card_id)) {
+            Card card = new Card();
+            while(rs.next()) {
+                card.setCard_id(rs.getInt("card_id"));
+                card.setHolderName(rs.getString("holderName"));
+                card.setCardNumber(rs.getString("cardNumber"));
+                card.setExpiration(rs.getString("expiration"));
+                card.setCvc(rs.getString("cvc"));
+                card.setAddress1(rs.getString("address1"));
+                card.setAddress2(rs.getString("address2"));
+                card.setCity(rs.getString("city"));
+                card.setCountry(rs.getString("country"));
+                card.setState(rs.getString("state"));
+                card.setZipCode(rs.getString("zipCode"));
+            }
+            return card;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     // End of Card //////////////////////////////////////
 }

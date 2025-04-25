@@ -10,6 +10,7 @@ public class User {
     private String zipCode;
     private String country;
     private String password;
+    private int user_id;
 
     // setters
     public void setFirst(String first){this.first = first;}
@@ -23,7 +24,7 @@ public class User {
     public void setState(String state) {this.state = state;}
     public void setZipCode(String zipCode) {this.zipCode = zipCode;}
     public void setCountry(String country) {this.country = country;}
-
+    public void setUser_id(int user_id) {this.user_id = user_id;}
     // Getters
     public String getFirst(){return first;}
     public String getLast(){return last;}
@@ -36,15 +37,23 @@ public class User {
     public String getZipCode() {return zipCode;}
     public String getState() {return state;}
     public String getCountry() {return country;}
-
+    public int getUser_id() {return user_id;}
     /*
      * Displays current User fields
      */
     public void displayUser() {
-        System.out.println("first name: " + this.first + "\nlast name: " + this.last +
-                "\npassword: "+ this.password + "\nphoneNumber: " + this.phoneNumber + "\nemail: " + this.email +
-                "\naddress1: " + this.address1 + "\naddress2: " + this.address2 + "\ncity: " + this.city +
-                "\ncountry: " + this.country + "\nstate: " + this.state + "\nzipCode: " + this.zipCode
+        System.out.println(
+                "first name: " + this.first +
+                "\nlast name: " + this.last +
+                "\npassword: "+ this.password +
+                "\nphoneNumber: " + this.phoneNumber +
+                "\nemail: " + this.email +
+                "\naddress1: " + this.address1 +
+                "\naddress2: " + this.address2 +
+                "\ncity: " + this.city +
+                "\ncountry: " + this.country +
+                "\nstate: " + this.state +
+                "\nzipCode: " + this.zipCode
         );
     }
 }

@@ -26,7 +26,8 @@ create TABLE guests (
 -- creates card table
 create TABLE card (
     card_id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(100) UNIQUE NOT NULL,
+    guest_id INT,
+    FOREIGN KEY (guest_id) REFERENCES guests(guest_id) ON DELETE CASCADE,
     holderName VARCHAR(50) NOT NULL,
     cardNumber VARCHAR(16) UNIQUE NOT NULL,
     expiration VARCHAR(5) NOT NULL,
