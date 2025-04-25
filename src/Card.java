@@ -1,11 +1,4 @@
 public class Card {
-/*
-This class contains the information about the customers card.
-@E.Sanchez
-@version 1.0
- */
-
-    private int card_id;
     private String holderName;
     private String cardNumber;
     private String expiration;
@@ -18,9 +11,6 @@ This class contains the information about the customers card.
     private String zipCode;
 
     /////// Setters ///////
-    public void setCardID(int cardID) {
-        this.card_id = cardID;
-    }
     public void setHolderName(String holderName) {this.holderName = holderName;}
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
@@ -38,9 +28,6 @@ This class contains the information about the customers card.
     public void setZipCode(String zipCode) {this.zipCode = zipCode;}
     public void setCountry(String country) {this.country = country;}
     /////// Getters ///////
-    public int getCardID() {
-        return card_id;
-    }
     public String getCardNumber() {
         return cardNumber;
     }

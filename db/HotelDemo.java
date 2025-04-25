@@ -1,43 +1,24 @@
-/*
-    HotelDemo
-    4/16/25
-    @author Michael Guerrero  
-    HotelDemo is a testing place for the methods in HotelDataBase.
-    This file is to be removed when a working prototype version is in place.
-*/
-
 public class HotelDemo {
     public static void main(String[] args) {
+        /* Guest
         User guest = new User();
-        Card card = new Card();
-
-        // guest
-        guest.setFirst("Lamar");
-        guest.setLast("Davis");
-        guest.setEmail("GreenLD@gmail.com");
-        guest.setPassword("IHeartChop");
-        guest.setPhoneNumber("9114206969");
-        guest.setAddress1("11111 Strawberry St");
-        guest.setAddress2("");
-        guest.setCity("LS");
-        guest.setCountry("US");
+        guest.setFirst("John");
+        guest.setLast("Pork");
+        guest.setPhoneNumber("xxxxxxxxxxx");
+        guest.setEmail("johnnyPorker@hotmail.com");
+        guest.setUserId(2);
+        guest.setAddress1("11111 xxxxx xx");
+        guest.setCity("LA");
         guest.setState("CA");
-        guest.setZipCode("90001");
-        // guest.displayUser(); // display current guest
+        guest.setZipCode("11111");
+        guest.setCountry("US");
+        guest.setPassword("123");
+        */
 
-        // card
-        card.setHolderName(guest.getFirst()+" "+guest.getLast());
-        card.setCardNumber("xxxxxxxxxx");
-        card.setExpiration("xx/xx");
-        card.setCvc("xxx");
-        card.setCity(guest.getCity());
-        card.setCountry(guest.getCountry());
-        card.setAddress1(guest.getAddress1());
-        card.setAddress2(guest.getAddress2());
-        card.setState(guest.getState());
-        card.setZipCode(guest.getZipCode());
-
-
+        String email = "GreenLD@gmail.com";
+        User guestExample = HotelDataBase.getGuest(email);
+        String passwordExample = guestExample.getPassword();
+        System.out.println(passwordExample);
         // HotelDataBase.addGuest(guest);
         // HotelDataBase.updateGuest(guest);
         // HotelDataBase.deleteGuest(1);

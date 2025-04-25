@@ -1,11 +1,3 @@
-/*
-    HotelDataBase
-    4/16/25
-    @author Michael Guerrero    
-    A Hotel database keep track of its guest, guest payment information, rooms, reservations, and workers. 
-    From the database, information can be extracted to be edited or used elsewere.
-*/
-
 import java.sql.*;
 /*
  EVERYTHING YOU NEED TO RUN
@@ -29,13 +21,17 @@ import java.sql.*;
  Troubleshoot
  * If having sync issues disconnect and reconnect.
  * For more accuracy use the workbench for viewing the tables.
+
+ Test
+ 4/24/25 video
  */
+
 
 public class HotelDataBase {
     // Database connection details
     private static final String URL = "jdbc:mysql://localhost:3306/hoteldb";
     private static final String USER = "root";
-    private static final String PASSWORD = "YOUR_PASSWORD";
+    private static final String PASSWORD = "113529";
 
     // Guest ////////////////////////////////////////////
     /*
@@ -75,9 +71,18 @@ public class HotelDataBase {
      */
     public static void updateGuest(User newGuest) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement("UPDATE guests SET firstname=?, " +
-                     "lastname=?, email=?, password=?, phone=?, address1=?, address2=?, city=?, country=?, " +
-                     "state=?, zipCode=? WHERE guest_id=?")) {
+             PreparedStatement stmt = conn.prepareStatement("UPDATE guests SET " +
+                     "firstname=?," +
+                     "lastname=?," +
+                     "email=?," +
+                     "password=?," +
+                     "phone=?," +
+                     "address1=?," +
+                     "address2=?," +
+                     "city=?," +
+                     "country=?," +
+                     "state=?," +
+                     "zipCode=? WHERE email=?")) {
             conn.setAutoCommit(false);
             stmt.setString(1, newGuest.getFirst());
             stmt.setString(2, newGuest.getLast());
@@ -90,7 +95,7 @@ public class HotelDataBase {
             stmt.setString(9, newGuest.getCountry());
             stmt.setString(10, newGuest.getState());
             stmt.setString(11, newGuest.getZipCode());
-            stmt.setInt(12, newGuest.getUserId());
+            stmt.setString(12, newGuest.getEmail());
             stmt.executeUpdate();
             conn.commit();
         } catch (SQLException e) {
@@ -103,12 +108,12 @@ public class HotelDataBase {
      * that is to be deleted from the guest table from in the database
      * @throws SQLException If database access fails
      */
-    public static void deleteGuest(int guestId) {
+    public static void deleteGuest(String email) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(
-                     "DELETE FROM guests WHERE guest_id = ?")) {
+                     "DELETE FROM guests WHERE email = ?")) {
             conn.setAutoCommit(false);
-            stmt.setInt(1, guestId);
+            stmt.setString(1, email);
             stmt.executeUpdate();
             conn.commit();
         } catch (SQLException e) {
@@ -122,60 +127,30 @@ public class HotelDataBase {
      * @throws SQLException If database access fails
      * @return guest User object
      */
-    public static User getGuest(int guestId) {
+    public static User getGuest(String email) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(
-                     "SELECT * FROM guests WHERE guest_id = "+Integer.toString(guestId))) {
+                     "SELECT * FROM guests WHERE email = '"+email+"'")) {
             User user = new User();
-            user.setUserId(rs.getInt("guest_id"));
-            user.setFirst(rs.getString("firstname"));
-            user.setLast(rs.getString("lastname"));
-            user.setEmail(rs.getString("email"));
-            user.setPassword(rs.getString("password"));
-            user.setPhoneNumber(rs.getString("phone"));
-            user.setAddress1(rs.getString("address1"));
-            user.setAddress2(rs.getString("address2"));
-            user.setCity(rs.getString("city"));
-            user.setState(rs.getString("state"));
-            user.setZipCode(rs.getString("zipCode"));
+            while(rs.next()) {
+                user.setFirst(rs.getString("firstname"));
+                user.setLast(rs.getString("lastname"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setPhoneNumber(rs.getString("phone"));
+                user.setAddress1(rs.getString("address1"));
+                user.setAddress2(rs.getString("address2"));
+                user.setCity(rs.getString("city"));
+                user.setState(rs.getString("state"));
+                user.setZipCode(rs.getString("zipCode"));
+            }
             return user;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
-    /*
-     * Used for testing as of now: display all guest from database directly
-
-    public static void displayAllGuests() {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(
-                     "SELECT * FROM guests")) {
-            System.out.println("\nGuest List:");
-            System.out.println("guest_id\tFirstName\tLastName\tEmail\tPassword\tPhone\tAddress1\tAddress2\tCity\tState\tZipCode\tCard_id");
-            while (rs.next()) {
-                System.out.println(
-                        rs.getInt("guest_id") + "\t" +
-                                rs.getString("firstname") + "\t" +
-                                rs.getString("lastname") + "\t" +
-                                rs.getString("email") + "\t" +
-                                rs.getString("password") + "\t" +
-                                rs.getString("phone") + "\t" +
-                                rs.getString("address1") + "\t" +
-                                rs.getString("address2") + "\t" +
-                                rs.getString("city") + "\t" +
-                                rs.getString("state") + "\t" +
-                                rs.getString("zipCode") + "\t" +
-                                rs.getString("card_id")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-     */
     // End of Guest /////////////////////////////////////
 
     // Card /////////////////////////////////////////////
@@ -184,27 +159,74 @@ public class HotelDataBase {
      * @param card Card object that gives information to be stored
      * @throws SQLException If database access fails
      */
-    public static void addCard(Card card) {
+    public static void addCard(Card card, String email) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(
                      "INSERT INTO card (holderName, cardNumber, expiration, cvc, address1, address2, city, country, state, zipCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
             conn.setAutoCommit(false);
-            stmt.setString(1, card.getHolderName());
-            stmt.setString(2, card.getCardNumber());
-            stmt.setString(3, card.getExpiration());
-            stmt.setString(4, card.getCvc());
-            stmt.setString(5, card.getAddress1());
-            stmt.setString(6, card.getAddress2());
-            stmt.setString(7, card.getCity());
-            stmt.setString(8, card.getCountry());
-            stmt.setString(9, card.getState());
-            stmt.setString(10, card.getZipCode());
+            stmt.setString(1, email);
+            stmt.setString(2, card.getHolderName());
+            stmt.setString(3, card.getCardNumber());
+            stmt.setString(4, card.getExpiration());
+            stmt.setString(5, card.getCvc());
+            stmt.setString(6, card.getAddress1());
+            stmt.setString(7, card.getAddress2());
+            stmt.setString(8, card.getCity());
+            stmt.setString(9, card.getCountry());
+            stmt.setString(10, card.getState());
+            stmt.setString(11, card.getZipCode());
             stmt.executeUpdate();
             conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    public static void updateCard(Card newCard, String email) {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement("UPDATE guests SET " +
+                     "holderName=?," +
+                     "cardNumber=?," +
+                     "expiration=?," +
+                     "cvc=?," +
+                     "address1=?," +
+                     "address2=?," +
+                     "city=?," +
+                     "country=?," +
+                     "state=?," +
+                     "zipCode=? WHERE email=?")) {
+            conn.setAutoCommit(false);
+            stmt.setString(1, newCard.getHolderName());
+            stmt.setString(2, newCard.getCardNumber());
+            stmt.setString(3, newCard.getExpiration());
+            stmt.setString(4, newCard.getCvc());
+            stmt.setString(5, newCard.getAddress1());
+            stmt.setString(6, newCard.getAddress2());
+            stmt.setString(7, newCard.getCity());
+            stmt.setString(8, newCard.getCountry());
+            stmt.setString(9, newCard.getState());
+            stmt.setString(10, newCard.getZipCode());
+            stmt.setString(11, email);
+            stmt.executeUpdate();
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteCard(int card_id) {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement(
+                     "DELETE FROM guests WHERE card_id = ?")) {
+            conn.setAutoCommit(false);
+            stmt.setInt(1, card_id);
+            stmt.executeUpdate();
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     // more in progress
     // End of Card //////////////////////////////////////
 }

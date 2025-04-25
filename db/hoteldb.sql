@@ -1,13 +1,3 @@
-/*
-    HotelDataBase
-    4/16/25
-    @author Michael Guerrero  
-    Hoteldb is a collection of sql commands to be run, such as the creation
-    of the tables for the hoteldb schema.
-
-    To Run: Highlight each statement and run indivdually.
-*/
-
 -- run each statement manually by highlighting them with your cursor.
 
 -- Drop tables if they exist
@@ -36,6 +26,7 @@ create TABLE guests (
 -- creates card table
 create TABLE card (
     card_id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100) UNIQUE NOT NULL,
     holderName VARCHAR(50) NOT NULL,
     cardNumber VARCHAR(16) UNIQUE NOT NULL,
     expiration VARCHAR(5) NOT NULL,
