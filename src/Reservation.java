@@ -1,47 +1,41 @@
+import java.sql.Date;
+import java.sql.Time;
+
 public class Reservation {
     /*
 This class contains important information needed in order to reserve a room.
 @E.Sanchez
 @version 1.0
  */
+    private int reserve_id;
+    private int room_Number;
+    private int guest_id;
+    private String name;
+    private Date check_In_Date;
+    private Date check_Out_Date;
+    private Time check_In_Time = Time.valueOf("00:00:00");
+    private Time check_Out_Time = Time.valueOf("00:00:00");
+    private int card_id;
 
-    private String checkInDate;
-    private String checkOutDate;
-    private int revId;
-    private int userId;
-    private String reserveTime;
-    /*
-    @param checkInDate - check in date
-    @param checkOutDate - check out date
-    @param revId - reservation ID
-    @param userId  - userID
-    @param reserveTime - reservation time
-     */
-    /*
-    setters
-     */
+    // setters
+    public void setRoom_Number(int room_Number) {this.room_Number = room_Number;}
+    public void setGuest_id(int guest_id) {this.guest_id = guest_id;}
+    public void setName(String name) {this.name = name;}
+    public void setCheck_In_Date(Date check_In_Date) {this.check_In_Date = check_In_Date;}
+    public void setCheck_Out_Date(Date check_Out_Date) {this.check_Out_Date = check_Out_Date;}
+    public void setCheck_In_Time(Time check_In_Time) {this.check_In_Time = check_In_Time;}
+    public void setCheck_Out_Time(Time check_Out_Time) {this.check_Out_Time = check_Out_Time;}
+    public void setReserve_id(int reserve_id) {this.reserve_id = reserve_id;}
+    public void setCard_id(int card_id) {this.card_id = card_id;}
 
-    public void setCheckInDate(String checkInDate) {this.checkInDate = checkInDate;}
-    public void setCheckOutDate(String checkOutDate) {this.checkOutDate = checkOutDate;}
-    public void setRevId(int revId) {this.revId = revId;}
-    public void setUserId(int userId) {this.userId = userId;}
-    public void setReserveTime(String reserveTime) {this.reserveTime = reserveTime;}
-     /*
-    getters
-     */
-
-    public String getCheckInDate() {return checkInDate;}
-
-    public String getCheckOutDate() {return checkOutDate;}
-
-    public int getRevId() {return revId;}
-
-    public int getUserId() {return userId;}
-
-    public String getReserveTime() {return reserveTime;}
-
-
-
-
-
+    // getters
+    public int getRoom_Number() {return room_Number;}
+    public int getGuest_id() {return guest_id;}
+    public String getName() {return name;}
+    public Date getCheck_In_Date() {return check_In_Date;}
+    public Date getCheck_Out_Date() {return check_Out_Date;}
+    public Time getCheck_In_Time() {return check_In_Time;}
+    public Time getCheck_Out_Time() {return check_Out_Time;}
+    public int getReserve_id() {return reserve_id;}
+    public int getCard_id() {return card_id;}
 }

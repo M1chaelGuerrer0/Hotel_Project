@@ -1,24 +1,22 @@
 public class Room {
-    private int room_id;
-    private String roomType;
-    private int  pricePerNight;
-    private int roomCapacity;
+    private int room_Number;
+    private String room_Type;
+    private double  price_Per_Night;
+    private int room_Capacity;
     private String availability;
-    private int userId;
 
     // Setters
-    public void setRoomNumber(int roomNumber){this.room_id=roomNumber;}
-    public void setRoomType(String roomType){this.roomType = roomType;}
-    public void setPricePerNight(int pricePerNight){this.pricePerNight = pricePerNight;}
-    public void setRoomCapacity(int roomCapacity){this.roomCapacity = roomCapacity;}
+    public void setRoom_Type(String roomType){this.room_Type = roomType;}
+    public void setPrice_Per_Night(double price_Per_Night){this.price_Per_Night = price_Per_Night;}
+    public void setRoom_Capacity(int room_Capacity){this.room_Capacity = room_Capacity;}
     public void setAvailability(String availability){this.availability = availability;}
-    public void setUserId(int userId){this.userId = userId;}
+    public void setRoom_Number(int room_Number){this.room_Number = room_Number;};
 
     // Getters
-    public int getRoomNumber(){return room_id;}
-    public String getRoomType(){return roomType;}
-    public int getPricePerNight(){return pricePerNight;}
-    public int getRoomCapacity(){return roomCapacity;}
+    public String getRoom_Type(){return room_Type;}
+    public double getPrice_Per_Night(){return price_Per_Night;}
+    public int getRoom_Capacity(){return room_Capacity;}
     public String getAvailability(){return availability;}
-    public int getUserId(){return userId;}
+    public int getRoom_Number() {return room_Number;}
+
 }
