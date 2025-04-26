@@ -23,4 +23,9 @@ DEDSEC Hotel Project
  * If having sync issues disconnect and reconnect.
  * For more accuracy use the workbench for viewing the tables.
 
+## DEMO
+ * Run first and read comments
+ * Any errors are more than likely failure to read comments
+ * Ask me for help if needed.
+
 We goated
