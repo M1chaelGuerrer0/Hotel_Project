@@ -165,7 +165,7 @@ public class RegisterController extends HotelDataBase {
             guest.setZip_Code(zipCode);
             guest.displayUser();                                // display current guest
 
-            addGuest(guest);
+            HotelDataBase.addGuest(guest);
             System.out.println("Your passwords match.");
 
             root = FXMLLoader.load(getClass().getResource("login.fxml"));
@@ -178,6 +178,6 @@ public class RegisterController extends HotelDataBase {
             mismatch();
         }
     }
-    
+
 
 }
