@@ -64,12 +64,15 @@ public class ParentController extends LoginController {
 
         @param event listens for when an event fires
     */
-    public void loginButton(ActionEvent event) throws IOException {
+    public String loginButton(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("login.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
+
+        return "1";
     }
 
     /*
