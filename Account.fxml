@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="accountScene" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gooncentral.AccountController">
+   <children>
+      <Button fx:id="cancel" layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
+      <Label layoutX="16.0" layoutY="102.0" text="Email:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="16.0" layoutY="126.0" text="Password:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="15.0" layoutY="187.0" text="Address 1:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="15.0" layoutY="211.0" text="Address 2:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="15.0" layoutY="276.0" text="City:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="15.0" layoutY="233.0" text="State:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="190.0" layoutY="10.0" prefHeight="39.0" prefWidth="220.0" text="Account Information" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="emailDisplay" layoutX="63.0" layoutY="102.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="passwordDisplay" layoutX="93.0" layoutY="126.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="address1Display" layoutX="95.0" layoutY="187.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="address2Display" layoutX="95.0" layoutY="211.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="stateDisplay" layoutX="62.0" layoutY="233.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="countryDisplay" layoutX="82.0" layoutY="254.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="15.0" layoutY="254.0" text="Country:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="cityDisplay" layoutX="52.0" layoutY="276.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="edit" layoutX="14.0" layoutY="323.0" mnemonicParsing="false" onAction="#editButton" text="Edit">
+         <font>
+            <Font size="11.0" />
+         </font>
+         <padding>
+            <Insets bottom="2.0" left="4.0" right="4.0" top="2.0" />
+         </padding>
+      </Button>
+      <Label layoutX="15.0" layoutY="297.0" text="Postal / Zip Code:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="zipDisplay" layoutX="149.0" layoutY="297.0" prefHeight="25.0" prefWidth="382.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="initialize" layoutX="2.0" layoutY="1.0" mnemonicParsing="false" onAction="#displayInfo" text="Button" visible="false" />
+      <Label layoutX="16.0" layoutY="76.0" text="Last Name:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="16.0" layoutY="52.0" text="First Name:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="emailDisplay1" layoutX="100.0" layoutY="52.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="emailDisplay2" layoutX="100.0" layoutY="76.0" prefHeight="25.0" prefWidth="500.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="16.0" layoutY="152.0" text="Phone Number:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="phoneDisplay" layoutX="135.0" layoutY="152.0" prefHeight="25.0" prefWidth="382.0" text="null">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
