@@ -54,6 +54,8 @@ public class LoginController {
 
     public static Boolean logStatus = false;
 
+    public String inputEmail;
+
     public String password;
 
 
@@ -103,17 +105,21 @@ public class LoginController {
 
         @param event listens for when an event fires
     */
-    public void loginButton(ActionEvent event) throws IOException {
-        String currentEmail = userEmail.getText();
-        String compPassword = userPassword.getText();
+    public String loginButton(ActionEvent event) throws IOException {
+        String inputEmail = userEmail.getText();            // fetches input email in login text field for email
+        String inputPassword = userPassword.getText();      // fetches input password in login text field for password
 
-        // Verify that the user's entered data matches with info found in the database
         User guest = new User();
 
+        /*
+            Verifies that the user's entered data matches with info found in the database, first verifying the
+            email exists by retrieving it from the database as an object, and then comparing the password input
+            to the one in the database. Catches runtime exceptions when the email could not be found.
+        */
         try {
-            guest = HotelDataBase.getGuest(currentEmail);
+            guest = HotelDataBase.getGuest(inputEmail);
             password = guest.getPassword();
-            int match = compPassword.compareTo(password);           // compares the two password input to confirm if they match
+            int match = inputPassword.compareTo(password);           // compares the two password input to confirm if they match
             System.out.println(match);                              // will return 0, if a mismatch will return an int != 0
 
             /*
@@ -137,7 +143,8 @@ public class LoginController {
             mismatch();
         }
 
-
+        System.out.println(inputEmail);
+        return inputEmail;
     }
 
 
