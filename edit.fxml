@@ -51,43 +51,67 @@
       </Label>
       <TextField fx:id="userEmail" layoutX="64.0" layoutY="105.0" promptText="Email">
          <padding>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
+         <font>
+            <Font size="14.0" />
+         </font>
       </TextField>
       <TextField fx:id="userPassword" layoutX="93.0" layoutY="129.0" promptText="Password">
          <padding>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
+         <font>
+            <Font size="14.0" />
+         </font>
       </TextField>
-      <TextField fx:id="street1" layoutX="95.0" layoutY="190.0" promptText="Street Address 1">
+      <TextField fx:id="street1" layoutX="95.0" layoutY="190.0" prefHeight="20.0" prefWidth="172.0" promptText="Street Address 1">
          <padding>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
+         <font>
+            <Font size="14.0" />
+         </font>
       </TextField>
-      <TextField fx:id="street2" layoutX="93.0" layoutY="214.0" promptText="Street Address 2 (Optional)">
+      <TextField fx:id="street2" layoutX="93.0" layoutY="214.0" prefHeight="20.0" prefWidth="172.0" promptText="Street Address 2 (Optional)">
          <padding>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
+         <font>
+            <Font size="14.0" />
+         </font>
       </TextField>
       <TextField fx:id="userState" layoutX="60.0" layoutY="236.0" promptText="State">
          <padding>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
+         <font>
+            <Font size="14.0" />
+         </font>
       </TextField>
       <TextField fx:id="userCountry" layoutX="82.0" layoutY="258.0" promptText="Country">
          <padding>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
+         <font>
+            <Font size="14.0" />
+         </font>
       </TextField>
       <TextField fx:id="userCity" layoutX="51.0" layoutY="279.0" promptText="City">
          <padding>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
+         <font>
+            <Font size="14.0" />
+         </font>
       </TextField>
-      <TextField fx:id="confirmPassword" layoutX="240.0" layoutY="129.0" promptText="Confirm Password">
+      <TextField fx:id="confirmPassword" layoutX="262.0" layoutY="129.0" promptText="Confirm Password">
          <padding>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
+         <font>
+            <Font size="14.0" />
+         </font>
       </TextField>
       <Label layoutX="15.0" layoutY="297.0" text="Postal / Zip Code:">
          <font>
@@ -96,8 +120,11 @@
       </Label>
       <TextField fx:id="zip" layoutX="148.0" layoutY="300.0" promptText="Zip / Postal Code">
          <padding>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
+         <font>
+            <Font size="14.0" />
+         </font>
       </TextField>
       <Button fx:id="cancel" layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
       <Button fx:id="save" layoutX="545.0" layoutY="360.0" mnemonicParsing="false" onAction="#saveButton" text="Save" />
@@ -112,14 +139,20 @@
          </font>
       </Label>
       <TextField fx:id="firstName" layoutX="102.0" layoutY="55.0" promptText="First Name">
+         <font>
+            <Font size="14.0" />
+         </font>
          <padding>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
       </TextField>
       <TextField fx:id="lastName" layoutX="102.0" layoutY="79.0" promptText="Last Name">
          <padding>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
+         <font>
+            <Font size="14.0" />
+         </font>
       </TextField>
       <Label layoutX="16.0" layoutY="152.0" text="Phone Number:">
          <font>
@@ -128,8 +161,11 @@
       </Label>
       <TextField fx:id="phoneNum" layoutX="134.0" layoutY="155.0" promptText="Password">
          <padding>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
+         <font>
+            <Font size="14.0" />
+         </font>
       </TextField>
    </children>
 </AnchorPane>
