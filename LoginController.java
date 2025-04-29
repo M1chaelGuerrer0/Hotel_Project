@@ -54,7 +54,7 @@ public class LoginController {
 
     public static Boolean logStatus = false;
 
-    public String inputEmail;
+    public static String inputEmail;
 
     public String password;
 
@@ -106,7 +106,7 @@ public class LoginController {
         @param event listens for when an event fires
     */
     public String loginButton(ActionEvent event) throws IOException {
-        String inputEmail = userEmail.getText();            // fetches input email in login text field for email
+        inputEmail = userEmail.getText();                   // fetches input email in login text field for email
         String inputPassword = userPassword.getText();      // fetches input password in login text field for password
 
         User guest = new User();
