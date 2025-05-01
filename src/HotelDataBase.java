@@ -36,6 +36,14 @@ public class HotelDataBase {
     private static final String PASSWORD = "";
 
     // Guest ////////////////////////////////////////////
+    /* Guest Methods: HotelDataBase
+     * .addGuest(User guest) // add guest in db
+     * .updateGuest(User guest) // update guest in db
+     * .getGuest(String email) // copies a guest from the db into a User
+     * .deleteGuest(String email) // delete guest and cards associated too
+     * .displayGuest() // prints all guest in guest table in db
+     */
+
     /*
      * Add a new guest to guest table in the db
      * @param guest User object that gives information to be stored
@@ -68,8 +76,12 @@ public class HotelDataBase {
             conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            if (e.getErrorCode() == 1062) {
+                System.out.println("Error: This Guest is already added to the database.");
+            } else {
+                System.out.println("Database error: " + e.getMessage());
+                e.printStackTrace();
+            }        }
     }
     /*
      * update guest information to the guest table in the db
@@ -219,7 +231,12 @@ public class HotelDataBase {
             conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getErrorCode() == 1062) {
+                System.out.println("Error: This Card is already added to the database.");
+            } else {
+                System.out.println("Database error: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 
@@ -274,35 +291,62 @@ public class HotelDataBase {
         }
     }
     /*
-     * Display all cards that are associated with a guest
-     * @param guest_id the id of the guest
+     * Gets a List of all cards from the card table in the db
+     * @return guests A list of cards
      */
-    public static void displayCards(int guest_id) {
+    public static List<Card> getCards() {
+        List<Card> cards = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(
-                     "SELECT * FROM card Where guest_id = "+guest_id)) {
-            System.out.println("\nList of Cards connected to guest_id = " + guest_id +
-                    "\nCard_id\tholder_Name\tcard_Number\texpiration\tcvc" +
-                    "\taddress1\taddress2\tcity\tcountry\tstate\tzip_Code");
+             ResultSet rs = stmt.executeQuery("SELECT * FROM card")) {
             while (rs.next()) {
-                System.out.println(rs.getInt("card_id") + "\t" +
-                        rs.getString("holder_Name") + "\t" +
-                        rs.getString("card_Number") + "\t" +
-                        rs.getString("expiration") + "\t"+
-                        rs.getString("cvc") + "\t" +
-                        rs.getString("address1") + "\t" +
-                        rs.getString("address2") + "\t" +
-                        rs.getString("city") + "\t" +
-                        rs.getString("country") + "\t" +
-                        rs.getString("state") + "\t" +
-                        rs.getString("zip_Code") + "\t"
-                );
-
+                cards.add(new Card(rs.getString("holder_Name"),
+                        rs.getString("card_Number"),
+                        rs.getString("expiration"),
+                        rs.getString("cvc"),
+                        rs.getString("address1"),
+                        rs.getString("address2"),
+                        rs.getString("zip_Code"),
+                        rs.getString("city"),
+                        rs.getString("state"),
+                        rs.getString("country"),
+                        rs.getInt("card_id"),
+                        rs.getInt("guest_id")
+                ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return cards;
+    }
+    /*
+     * Gets a List of all cards associated with a guest from the card table in the db
+     * @return guests A list of cards
+     */
+    public static List<Card> getCardsOfGuest(int guest_id) {
+        List<Card> cards = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM card Where guest_id = "+ guest_id)) {
+            while (rs.next()) {
+                cards.add(new Card(rs.getString("holder_Name"),
+                        rs.getString("card_Number"),
+                        rs.getString("expiration"),
+                        rs.getString("cvc"),
+                        rs.getString("address1"),
+                        rs.getString("address2"),
+                        rs.getString("zip_Code"),
+                        rs.getString("city"),
+                        rs.getString("state"),
+                        rs.getString("country"),
+                        rs.getInt("card_id"),
+                        rs.getInt("guest_id")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cards;
     }
     /*
      * Gets a card in the card table in the db
@@ -314,21 +358,22 @@ public class HotelDataBase {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(
                      "SELECT * FROM card WHERE card_id = " + card_id)) {
-            Card card = new Card();
             while(rs.next()) {
-                card.setCard_id(rs.getInt("card_id"));
-                card.setHolder_Name(rs.getString("holder_Name"));
-                card.setCard_Number(rs.getString("card_Number"));
-                card.setExpiration(rs.getString("expiration"));
-                card.setCvc(rs.getString("cvc"));
-                card.setAddress1(rs.getString("address1"));
-                card.setAddress2(rs.getString("address2"));
-                card.setCity(rs.getString("city"));
-                card.setCountry(rs.getString("country"));
-                card.setState(rs.getString("state"));
-                card.setZip_Code(rs.getString("zip_Code"));
+                Card card = new Card(rs.getString("holder_Name"),
+                        rs.getString("card_Number"),
+                        rs.getString("expiration"),
+                        rs.getString("cvc"),
+                        rs.getString("address1"),
+                        rs.getString("address2"),
+                        rs.getString("zip_Code"),
+                        rs.getString("city"),
+                        rs.getString("state"),
+                        rs.getString("country"),
+                        rs.getInt("card_id"),
+                        rs.getInt("guest_id")
+                );
+                return card;
             }
-            return card;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -343,7 +388,7 @@ public class HotelDataBase {
     public static void addRoom(Room room) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = conn.prepareStatement("INSERT INTO room " +
-                     "( room_Type, price_Per_Night, room_Capacity, availability) " +
+                     "(room_Type, price_Per_Night, room_Capacity, availability) " +
                      "VALUES ( ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             conn.setAutoCommit(false);
             stmt.setString(1, room.getRoom_Type());
