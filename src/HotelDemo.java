@@ -18,11 +18,7 @@ public class HotelDemo {
         HotelDataBase.addCard(card); // adds card to db
 
         // Room Registration
-        Room room = new Room();
-        room.setRoom_Type("AC");
-        room.setPrice_Per_Night(350.00);
-        room.setRoom_Capacity(2);
-        room.setAvailability("OPEN");
+        Room room = new Room(0,"AC",350.00,2,"OPEN");
         // running it the first time will grant the room_Number
         // there is nothing unique about rooms so dupes can happen
         // MAKE BELOW A COMMENT IF AFTER FIRST SEQUENCE TO PREVENT DUPES
@@ -32,23 +28,12 @@ public class HotelDemo {
         // UNCOMMENT THE TWO BELOW AFTER FIRST RUN
         //card = HotelDataBase.getCard(1); // this gives the card_id
         //room = HotelDataBase.getRoom(1); // this gives the room_Number
-        Reservation reservation = new Reservation();
-        reservation.setRoom_Number(room.getRoom_Number());
-        reservation.setGuest_id(guest.getUser_id());
-        reservation.setCard_id(card.getCard_id());
-        reservation.setName(guest.getFirst_Name() + " " + guest.getLast_Name());
-        reservation.setCheck_In_Date(Date.valueOf("2025-12-24")); // FORMAT IS IMPORTANT
-        reservation.setCheck_Out_Date(Date.valueOf("2025-12-26")); // FORMAT IS IMPORTANT
-
+        Reservation reservation = new Reservation(0,room.getRoom_Number(),guest.getUser_id(),
+                guest.getFirst_Name(), Date.valueOf("2025-12-24"), Date.valueOf("2025-12-26"), // format
+                Time.valueOf("00:00:00"), Time.valueOf("00:00:00"),card.getCard_id()); // format
         System.out.println("\nPREP FOR RESERVATION:(if any 0's then failure)\n\tguest_id = "+guest.getUser_id()+"\n\tcard_id = "+card.getCard_id()+"\n\troom_Number = "+room.getRoom_Number());
         // running it the first time will grant the reserve_id
         // MAKE BELOW A COMMENT IF THIS IS NOT THE FIRST SEQUENCE WITH THE SAME FIELDS
         HotelDataBase.addReservation(reservation); // adds reservation to db
-        // UNCOMMENT BELOW IF THIS IS NOT THE FIRST SEQUENCE WITH SAME FIELDS
-        //reservation = HotelDataBase.getReservation(room.getRoom_Number()); // gets reserve_id
-        //reservation.setCheck_In_Time(Time.valueOf("12:00:00")); // FORMAT IS IMPORTANT
-        //reservation.setCheck_Out_Time(Time.valueOf("11:00:00")); // FORMAT IS IMPORTANT
-        //HotelDataBase.updateReservation(reservation);
-
     }
 }

@@ -17,6 +17,20 @@ This class contains important information needed in order to reserve a room.
     private Time check_Out_Time = Time.valueOf("00:00:00");
     private int card_id;
 
+    public Reservation(int reserve_id,int room_Number,int guest_id,String name,
+                       Date check_In_Date,Date check_Out_Date,Time check_In_Time,
+                       Time check_Out_Time, int card_id){
+        this.reserve_id = reserve_id;
+        this.room_Number = room_Number;
+        this.guest_id = guest_id;
+        this.name = name;
+        this.check_In_Date = check_In_Date;
+        this.check_Out_Date = check_Out_Date;
+        this.check_In_Time = check_In_Time;
+        this.check_Out_Time = check_Out_Time;
+        this.card_id = card_id;
+    }
+
     // setters
     public void setRoom_Number(int room_Number) {this.room_Number = room_Number;}
     public void setGuest_id(int guest_id) {this.guest_id = guest_id;}
@@ -38,4 +52,17 @@ This class contains important information needed in order to reserve a room.
     public Time getCheck_Out_Time() {return check_Out_Time;}
     public int getReserve_id() {return reserve_id;}
     public int getCard_id() {return card_id;}
+
+    @Override
+    public String toString() {
+        return "\nreserve_id: " + this.reserve_id +
+                "\nroom_Number: " + this.room_Number +
+                "\nguest_id: " + this.guest_id +
+                "\nname: "+ this.name +
+                "\ncheck_In_Date: " + this.check_In_Date +
+                "\ncheck_Out_Date: " + this.check_Out_Date +
+                "\ncheck_In_Time: " + this.check_In_Time +
+                "\ncheck_Out_Time: " + this.check_Out_Time +
+                "\ncard_id: " + this.card_id + "\n";
+    }
 }

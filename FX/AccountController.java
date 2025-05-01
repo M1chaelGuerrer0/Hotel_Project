@@ -35,6 +35,12 @@ public class AccountController extends LoginController {
     private Button initialize;
 
     @FXML
+    private Label firstDisplay;
+
+    @FXML
+    private Label lastDisplay;
+
+    @FXML
     private Label emailDisplay;
 
     @FXML
@@ -72,10 +78,12 @@ public class AccountController extends LoginController {
         Fires on the scene's startup, displaying the user's account information on the Account scene
     */
     public void displayInfo() {
-        User guest = new User();
+        User guest;
         guest = HotelDataBase.getGuest(inputEmail);
 
         assert guest != null;
+        String firstName = guest.getFirst_Name();
+        String lastName = guest.getLast_Name();
         String email = guest.getEmail();
         String password = guest.getPassword();
         String phoneNum = guest.getPhone_Number();
@@ -86,6 +94,8 @@ public class AccountController extends LoginController {
         String country = guest.getCountry();
         String city = guest.getCity();
 
+        firstDisplay.setText(firstName);
+        lastDisplay.setText(lastName);
         emailDisplay.setText(email);
         passwordDisplay.setText(password);
         phoneDisplay.setText(phoneNum);

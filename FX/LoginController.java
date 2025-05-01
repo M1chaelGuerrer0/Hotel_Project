@@ -109,7 +109,7 @@ public class LoginController {
         inputEmail = userEmail.getText();                   // fetches input email in login text field for email
         String inputPassword = userPassword.getText();      // fetches input password in login text field for password
 
-        User guest = new User();
+        User guest;
 
         /*
             Verifies that the user's entered data matches with info found in the database, first verifying the
@@ -120,7 +120,7 @@ public class LoginController {
             guest = HotelDataBase.getGuest(inputEmail);
             password = guest.getPassword();
             int match = inputPassword.compareTo(password);           // compares the two password input to confirm if they match
-            System.out.println(match);                              // will return 0, if a mismatch will return an int != 0
+            System.out.println(match);                               // will return 0, if a mismatch will return an int != 0
 
             /*
                 Checks whether match was 0, and if so then the user may proceed to the Parent scene, and if not mismatch()

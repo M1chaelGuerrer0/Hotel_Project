@@ -6,15 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class editController extends HotelDataBase {
+public class editController extends AccountController {
 
     @FXML
     private Button cancel;
@@ -23,13 +20,16 @@ public class editController extends HotelDataBase {
     private Button save;
 
     @FXML
-    private TextField firstName;
+    private Button initialize;
 
     @FXML
-    private TextField lastName;
+    private TextField userFirst;
 
     @FXML
-    private TextField phoneNum;
+    private TextField userLast;
+
+    @FXML
+    private TextField userPhone;
 
     @FXML
     private TextField userEmail;
@@ -41,16 +41,16 @@ public class editController extends HotelDataBase {
     private TextField confirmPassword;
 
     @FXML
-    private TextField street1;
+    private TextField userStreet1;
 
     @FXML
-    private TextField street2;
+    private TextField userStreet2;
 
     @FXML
     private TextField userCity;
 
     @FXML
-    private TextField zip;
+    private TextField userZip;
 
     @FXML
     private TextField userState;
@@ -58,12 +58,76 @@ public class editController extends HotelDataBase {
     @FXML
     private TextField userCountry;
 
+    @FXML
+    private Label firstDisplay;
+
+    @FXML
+    private Label lastDisplay;
+
+    @FXML
+    private Label emailDisplay;
+
+    @FXML
+    private Label passwordDisplay;
+
+    @FXML
+    private Label phoneDisplay;
+
+    @FXML
+    private Label address1Display;
+
+    @FXML
+    private Label address2Display;
+
+    @FXML
+    private Label zipDisplay;
+
+    @FXML
+    private Label stateDisplay;
+
+    @FXML
+    private Label countryDisplay;
+
+    @FXML
+    private Label cityDisplay;
+
     private Parent root;
 
     private Scene scene;
 
     private Stage stage;
 
+
+    public void setup() {
+        User guest;
+        guest = HotelDataBase.getGuest(inputEmail);
+        assert guest != null;
+
+        String firstName = guest.getFirst_Name();
+        String lastName = guest.getLast_Name();
+        String email = guest.getEmail();
+        String password = guest.getPassword();
+        String phoneNum = guest.getPhone_Number();
+        String address1 = guest.getAddress1();
+        String address2 = guest.getAddress2();
+        String zip = guest.getZip_Code();
+        String state = guest.getState();
+        String country = guest.getCountry();
+        String city = guest.getCity();
+
+        userFirst.setText(firstName);
+        userLast.setText(lastName);
+        userEmail.setText(email);
+        userPassword.setText(password);
+        userPhone.setText(phoneNum);
+        userStreet1.setText(address1);
+        userStreet2.setText(address2);
+        userZip.setText(zip);
+        userState.setText(state);
+        userCountry.setText(country);
+        userCity.setText(city);
+
+    }
 
     /*
         Warming prompt indicating that the users passwords do not match
@@ -99,59 +163,63 @@ public class editController extends HotelDataBase {
         @param event listens for when an event fires
     */
     public void saveButton(ActionEvent event) throws IOException {
-        String firstname = firstName.getText();
-        System.out.println(firstname);
-        String lastname = lastName.getText();
-        System.out.println(lastname);
+        String firstname = userFirst.getText();
+        String lastname = userLast.getText();
         String email = userEmail.getText();
-        System.out.println(email);
         String password = userPassword.getText();
-        System.out.println(password);
         String conPass = confirmPassword.getText();
-        System.out.println(conPass);
-        String phone = phoneNum.getText();
-        System.out.println(phone);
-        String address1 = street1.getText();
-        System.out.println(address1);
-        String address2 = street2.getText();
-        System.out.println(address2);
+        String phone = userPhone.getText();
+        String address1 = userStreet1.getText();
+        String address2 = userStreet2.getText();
         String city = userCity.getText();
-        System.out.println(city);
         String country = userCountry.getText();
-        System.out.println(country);
         String state = userState.getText();
+        String zipCode = userZip.getText();
+
+        System.out.println(firstname);
+        System.out.println(lastname);
+        System.out.println(email);
+        System.out.println(password);
+        System.out.println(conPass);
+        System.out.println(phone);
+        System.out.println(address1);
+        System.out.println(address2);
+        System.out.println(city);
+        System.out.println(country);
         System.out.println(state);
-        String zipCode = zip.getText();
         System.out.println(zipCode);
 
-        User guest = new User();
-
         int match = password.compareTo(conPass);           // compares the two password input to confirm if they match
-        System.out.println(match);                         // will return 0, if a mismatch will return an int != 0
-
+                                                           // will return 0, if a mismatch will return an int != 0
+        System.out.println(match);
 
         /*
-            Checks whether match was 0, and if so then the password is saved and the scene is swapped to back to
+            Checks whether match was 0, and if so then the information is saved and the scene is swapped to back to
             the Login scene, and if not mismatch() is called and the user is prompted to check their entered
             information
         */
         if (match == 0) {
-            // Store all the above info into the database
-            guest.setFirst(firstname);
-            guest.setLast(lastname);
-            guest.setEmail(email);
+            System.out.println("Your passwords match.");
+
+            User guest;
+            guest = HotelDataBase.getGuest(inputEmail);
+            assert guest != null;
+
+            // Updates changed info of the logged-in user and then store that in the database
+
+            // TODO : email editing still needs to be possible
+            guest.setFirst_Name(firstname);
+            guest.setLast_Name(lastname);
             guest.setPassword(password);
-            guest.setPhoneNumber(phone);
+            guest.setPhone_Number(phone);
             guest.setAddress1(address1);
             guest.setAddress2(address2);
             guest.setCity(city);
             guest.setCountry(country);
             guest.setState(state);
-            guest.setZipCode(zipCode);
-            guest.displayUser();                                // display current guest
+            guest.setZip_Code(zipCode);
 
-            addGuest(guest);
-            System.out.println("Your passwords match.");
+            HotelDataBase.updateGuest(guest);
 
             root = FXMLLoader.load(getClass().getResource("Account.fxml"));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -162,5 +230,13 @@ public class editController extends HotelDataBase {
             System.out.println("Your passwords do not match.");
             mismatch();
         }
+
+    }
+
+    /*
+        Initializes the scene by firing the button automatically to set the user email being targeted
+    */
+    public void initialize() {
+        initialize.fire();
     }
 }

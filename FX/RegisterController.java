@@ -150,7 +150,8 @@ public class RegisterController extends HotelDataBase {
             information
         */
         if (match == 0) {
-            User guest = new User();
+            User guest = new User(firstname, lastname, email, password, phone, address1,
+                                  address2, zipCode, city, state, country, 0);
 
             // Store all the above info into the database
             guest.setFirst_Name(firstname);
@@ -164,7 +165,6 @@ public class RegisterController extends HotelDataBase {
             guest.setCountry(country);
             guest.setState(state);
             guest.setZip_Code(zipCode);
-            guest.displayUser();                                // display current guest
 
             HotelDataBase.addGuest(guest);
             System.out.println("Your passwords match.");

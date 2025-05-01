@@ -33,7 +33,7 @@ public class HotelDataBase {
     // Database connection details
     private static final String URL = "jdbc:mysql://localhost:3306/hoteldb";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = ""; // CHANGE PASSWORD BASED ON YOUR PASSWORD
 
     // Guest ////////////////////////////////////////////
     /* Guest Methods: HotelDataBase
@@ -161,10 +161,11 @@ public class HotelDataBase {
                         rs.getInt("guest_id")
                 ));
             }
+            return guests;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return guests;
+        return null;
     }
     /*
      * Gets one guest from the guest table in the db
@@ -324,10 +325,11 @@ public class HotelDataBase {
                         rs.getInt("guest_id")
                 ));
             }
+            return cards;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return cards;
+        return null;
     }
     /*
      * Gets a List of all cards associated with a guest from the card table in the db
@@ -353,10 +355,11 @@ public class HotelDataBase {
                         rs.getInt("guest_id")
                 ));
             }
+            return cards;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return cards;
+        return null;
     }
     /*
      * Gets a card in the card table in the db
@@ -390,7 +393,17 @@ public class HotelDataBase {
         return null;
     }
     // End of Card //////////////////////////////////////
+
     // Room /////////////////////////////////////////////
+
+    /* Room Methods: HotelDataBase
+     * .addRoom(Room room) // add room in db
+     * .updateRoom(Room room) // update room in db
+     * .deleteRoom(int room_Number) // delete room
+     * .getRooms() // list of all rooms
+     * .getRoom(int room_Number) // grabs a room class object
+     */
+
     /*
      * Add a new room to the room table in db
      * @param room an object created by the Room class to be put into the db
@@ -452,27 +465,27 @@ public class HotelDataBase {
         }
     }
     /*
-     * Display all rooms
+     * Gets a List of all rooms from the room table in the db
+     * @return rooms A list of rooms
      */
-    public static void displayRoom() {
+    public static List<Room> getRooms() {
+        List<Room> rooms = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(
-                     "SELECT * FROM room")) {
-            System.out.println("\nList of Rooms:" +
-                    "\nroom_Number\troom_Type" +
-                    "\tprice_Per_Night\troom_Capacity\tavailability");
+             ResultSet rs = stmt.executeQuery("SELECT * FROM room")) {
             while (rs.next()) {
-                System.out.println(rs.getInt("room_Number") + "\t" +
-                        rs.getString("room_Type") + "\t" +
-                        rs.getDouble("price_Per_Night") + "\t" +
-                        rs.getInt("room_Capacity") + "\t"+
+                rooms.add(new Room(rs.getInt("room_Number"),
+                        rs.getString("room_Type"),
+                        rs.getDouble("price_Per_Night"),
+                        rs.getInt("room_Capacity"),
                         rs.getString("availability")
-                );
+                ));
             }
+            return rooms;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
     /*
      * Gets a room in the room table in the db
@@ -484,15 +497,15 @@ public class HotelDataBase {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(
                      "SELECT * FROM room WHERE room_Number = " + room_Number)) {
-            Room room = new Room();
             while(rs.next()) {
-                room.setRoom_Number(rs.getInt("room_Number"));
-                room.setRoom_Type(rs.getString("room_Type"));
-                room.setPrice_Per_Night(rs.getDouble("price_Per_Night"));
-                room.setRoom_Capacity(rs.getInt("room_Capacity"));
-                room.setAvailability(rs.getString("availability"));
+                Room room = new Room(rs.getInt("room_Number"),
+                        rs.getString("room_Type"),
+                        rs.getDouble("price_Per_Night"),
+                        rs.getInt("room_Capacity"),
+                        rs.getString("availability")
+                );
+                return room;
             }
-            return room;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -602,31 +615,31 @@ public class HotelDataBase {
         }
     }
     /*
-     * Display all reservation
+     * Gets a List of all Reservation from the room table in the db
+     * @return reservations A list of Reservations
      */
-    public static void displayReservation() {
+    public static List<Reservation> getReservations() {
+        List<Reservation> reservations = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(
-                     "SELECT * FROM reservation")) {
-            System.out.println("\nList of reservation:" +
-                    "\nreserve_id\troom_Number\tguest_id\tname\t" +
-                    "check_In_Date\tcheck_Out_Date\tcheck_In_Time\tcheck_Out_Time");
+             ResultSet rs = stmt.executeQuery("SELECT * FROM reservation")) {
             while (rs.next()) {
-                System.out.println(rs.getInt("reserve_id") + "\t" +
-                        rs.getInt("room_Number") + "\t" +
-                        rs.getInt("guest_id") + "\t" +
-                        rs.getInt("card_id") + "\t" +
-                        rs.getString("name") + "\t" +
-                        rs.getDate("check_In_Date") + "\t"+
-                        rs.getDate("check_Out_Date") + "\t" +
-                        rs.getTime("check_In_Time") + "\t" +
-                        rs.getTime("check_Out_Time")
-                );
+                reservations.add(new Reservation(rs.getInt("reserve_id"),
+                        rs.getInt("room_Number"),
+                        rs.getInt("guest_id"),
+                        rs.getString("name"),
+                        rs.getDate("check_In_Date"),
+                        rs.getDate("check_Out_Date"),
+                        rs.getTime("check_In_Time"),
+                        rs.getTime("check_Out_Time"),
+                        rs.getInt("card_id")
+                        ));
             }
+            return reservations;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
     /*
      * Gets a reservation in the reservation table in the db
@@ -638,19 +651,19 @@ public class HotelDataBase {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(
                      "SELECT * FROM reservation WHERE room_Number = " + room_Number)) {
-            Reservation reservation = new Reservation();
             while(rs.next()) {
-                reservation.setReserve_id(rs.getInt("reserve_id"));
-                reservation.setRoom_Number(rs.getInt("room_Number"));
-                reservation.setGuest_id(rs.getInt("guest_id"));
-                reservation.setName(rs.getString("name"));
-                reservation.setCheck_In_Date(rs.getDate("check_In_Date"));
-                reservation.setCheck_Out_Date(rs.getDate("check_Out_Date"));
-                reservation.setCheck_In_Time(rs.getTime("check_In_Time"));
-                reservation.setCheck_Out_Time(rs.getTime("check_In_Time"));
-                reservation.setCard_id(rs.getInt("card_id"));
+                Reservation reservation = new Reservation(rs.getInt("reserve_id"),
+                                rs.getInt("room_Number"),
+                                rs.getInt("guest_id"),
+                                rs.getString("name"),
+                                rs.getDate("check_In_Date"),
+                                rs.getDate("check_Out_Date"),
+                                rs.getTime("check_In_Time"),
+                                rs.getTime("check_Out_Time"),
+                                rs.getInt("card_id")
+                        );
+                return reservation;
             }
-            return reservation;
         } catch (SQLException e) {
             e.printStackTrace();
         }

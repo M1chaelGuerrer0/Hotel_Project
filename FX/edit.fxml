@@ -65,7 +65,7 @@
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="street1" layoutX="95.0" layoutY="190.0" prefHeight="20.0" prefWidth="172.0" promptText="Street Address 1">
+      <TextField fx:id="userStreet1" layoutX="95.0" layoutY="190.0" prefHeight="20.0" prefWidth="172.0" promptText="Street Address 1">
          <padding>
             <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
@@ -73,7 +73,7 @@
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="street2" layoutX="93.0" layoutY="214.0" prefHeight="20.0" prefWidth="172.0" promptText="Street Address 2 (Optional)">
+      <TextField fx:id="userStreet2" layoutX="93.0" layoutY="214.0" prefHeight="20.0" prefWidth="172.0" promptText="Street Address 2 (Optional)">
          <padding>
             <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
@@ -118,7 +118,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="zip" layoutX="148.0" layoutY="300.0" promptText="Zip / Postal Code">
+      <TextField fx:id="userZip" layoutX="148.0" layoutY="300.0" promptText="Zip / Postal Code">
          <padding>
             <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
@@ -138,7 +138,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="firstName" layoutX="102.0" layoutY="55.0" promptText="First Name">
+      <TextField fx:id="userFirst" layoutX="102.0" layoutY="55.0" promptText="First Name">
          <font>
             <Font size="14.0" />
          </font>
@@ -146,7 +146,7 @@
             <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
       </TextField>
-      <TextField fx:id="lastName" layoutX="102.0" layoutY="79.0" promptText="Last Name">
+      <TextField fx:id="userLast" layoutX="102.0" layoutY="79.0" promptText="Last Name">
          <padding>
             <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
@@ -159,7 +159,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="phoneNum" layoutX="134.0" layoutY="155.0" promptText="Password">
+      <TextField fx:id="userPhone" layoutX="134.0" layoutY="155.0" promptText="Phone Number">
          <padding>
             <Insets bottom="0.1" left="0.1" right="0.1" top="0.1" />
          </padding>
@@ -167,5 +167,61 @@
             <Font size="14.0" />
          </font>
       </TextField>
+      <Label fx:id="firstDisplay" layoutX="110.0" layoutY="62.0" prefHeight="25.0" prefWidth="500.0" text="null" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lastDisplay" layoutX="110.0" layoutY="86.0" prefHeight="25.0" prefWidth="500.0" text="null" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="emailDisplay" layoutX="73.0" layoutY="112.0" prefHeight="25.0" prefWidth="500.0" text="null" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="passwordDisplay" layoutX="103.0" layoutY="136.0" prefHeight="25.0" prefWidth="500.0" text="null" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="phoneDisplay" layoutX="145.0" layoutY="162.0" prefHeight="25.0" prefWidth="382.0" text="null" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="address1Display" layoutX="105.0" layoutY="197.0" prefHeight="25.0" prefWidth="500.0" text="null" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="address2Display" layoutX="105.0" layoutY="221.0" prefHeight="25.0" prefWidth="500.0" text="null" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="stateDisplay" layoutX="72.0" layoutY="243.0" prefHeight="25.0" prefWidth="500.0" text="null" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="countryDisplay" layoutX="92.0" layoutY="264.0" prefHeight="25.0" prefWidth="500.0" text="null" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="cityDisplay" layoutX="62.0" layoutY="286.0" prefHeight="25.0" prefWidth="500.0" text="null" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="zipDisplay" layoutX="159.0" layoutY="307.0" prefHeight="25.0" prefWidth="382.0" text="null" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="initialize" layoutX="12.0" layoutY="11.0" mnemonicParsing="false" onAction="#setup" text="Button" visible="false" />
    </children>
 </AnchorPane>
