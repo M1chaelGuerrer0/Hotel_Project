@@ -9,9 +9,25 @@ public class Card {
     private String country;
     private String state;
     private String zip_Code;
-    private int card_id;
-    private int guest_id;
+    private int card_id = 0;
+    private int guest_id = 0;
 
+    public Card(String holder_Name, String card_Number, String expiration,
+                String cvc, String address1, String address2, String city,
+                String country, String state, String zip_Code, int card_id, int guest_id){
+        this.holder_Name = holder_Name;
+        this.card_Number = card_Number;
+        this.expiration = expiration;
+        this.cvc = cvc;
+        this.address1 = address1;
+        this.address2 = address2;
+        this.zip_Code = zip_Code;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.card_id = card_id;
+        this.guest_id = guest_id;
+    }
     /////// Setters ///////
     public void setHolder_Name(String holder_Name) {this.holder_Name = holder_Name;}
     public void setCard_Number(String card_Number) {
@@ -51,9 +67,9 @@ public class Card {
     public int getCard_id() {return card_id;}
     public int getGuest_id() {return guest_id;}
 
-    public void displayCard() {
-        System.out.println(
-                "holder_Name: " + this.holder_Name +
+    @Override
+    public String toString() {
+        return "\nholder_Name: " + this.holder_Name +
                 "\ncard_Number: " + this.card_Number +
                 "\nexpiration: " + this.expiration +
                 "\ncvc: " + this.cvc +
@@ -63,7 +79,7 @@ public class Card {
                 "\ncountry: " + this.country +
                 "\nstate: " + this.state +
                 "\nzip_Code: " + this.zip_Code +
-                "\ncard_id: " + this.card_id
-        );
+                "\ncard_id: " + this.card_id +
+                "\nguest_id: " + this.guest_id + "\n";
     }
 }
