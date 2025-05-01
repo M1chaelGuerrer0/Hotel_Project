@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 /*
  EVERYTHING YOU NEED TO RUN
  * You need to install mySQL installer and make a custom installation
@@ -124,32 +126,33 @@ public class HotelDataBase {
         }
     }
     /*
-        Displays all guest
+     * Gets a List of all Guests from the guest table in the db
+     * @return guests A list of all guests
      */
-    public static void displayGuests() {
+    public static List<User> getGuests() {
+        List<User> guests = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM guests")) {
-            System.out.println("\nGuest List:");
-            System.out.println("guest_id\tfirst_name\tlast_name\temail\tpassword\tphone\t" +
-                    "address1\taddress2\tcity\tcountry\tstate\tzip_Code");
             while (rs.next()) {
-                System.out.println(rs.getInt("guest_id") + "\t" +
-                        rs.getString("first_name") + "\t" +
-                        rs.getString("last_name") +"\t" +
-                        rs.getString("email") + "\t" +
-                        rs.getString("phone") +"\t" +
-                        rs.getString("address1") + "\t" +
-                        rs.getString("address2") +"\t" +
-                        rs.getString("city") + "\t" +
-                        rs.getString("country") + "\t" +
-                        rs.getString("state") +"\t" +
-                        rs.getString("zip_Code")
-                );
+                guests.add(new User(rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("phone"),
+                        rs.getString("address1"),
+                        rs.getString("address2"),
+                        rs.getString("zip_Code"),
+                        rs.getString("city"),
+                        rs.getString("state"),
+                        rs.getString("country"),
+                        rs.getInt("guest_id")
+                ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return guests;
     }
     /*
      * Gets one guest from the guest table in the db
@@ -162,22 +165,21 @@ public class HotelDataBase {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(
                      "SELECT * FROM guests WHERE email = '"+email+"'")) {
-            User user = new User();
             while(rs.next()) {
-                user.setUser_id(rs.getInt("guest_id"));
-                user.setFirst_Name(rs.getString("first_name"));
-                user.setLast_Name(rs.getString("last_name"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setPhone_Number(rs.getString("phone"));
-                user.setAddress1(rs.getString("address1"));
-                user.setAddress2(rs.getString("address2"));
-                user.setCity(rs.getString("city"));
-                user.setCountry(rs.getString("country"));
-                user.setState(rs.getString("state"));
-                user.setZip_Code(rs.getString("zip_Code"));
+                User guest = new User(rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("phone"),
+                        rs.getString("address1"),
+                        rs.getString("address2"),
+                        rs.getString("zip_Code"),
+                        rs.getString("city"),
+                        rs.getString("state"),
+                        rs.getString("country"),
+                        rs.getInt("guest_id"));
+                return guest;
             }
-            return user;
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,14 +1,14 @@
--- run each statement manually by highlighting them with your cursor.
+-- run each statement manually by highlighting them with your cursor and pressing execute statement
 
--- Drop tables if they exist
-DROP TABLE IF EXISTS reservation;
-DROP TABLE IF EXISTS room;
-DROP TABLE IF EXISTS card;
-DROP TABLE IF EXISTS guests;
+-- Drop tables in order of execution
+DROP TABLE IF EXISTS reservation; -- first
+DROP TABLE IF EXISTS room; -- second
+DROP TABLE IF EXISTS card; -- third
+DROP TABLE IF EXISTS guests; -- forth
 
 
 -- creates guest table
-create TABLE guests (
+create TABLE guests ( -- first
     guest_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
@@ -25,7 +25,7 @@ create TABLE guests (
 );
 
 -- creates card table
-create TABLE card (
+create TABLE card ( -- second
     card_id INT AUTO_INCREMENT PRIMARY KEY,
     guest_id INT,
     FOREIGN KEY (guest_id) REFERENCES guests(guest_id) ON DELETE CASCADE,
@@ -43,7 +43,7 @@ create TABLE card (
 );
 
 -- creates room table
-create TABLE room (
+create TABLE room ( -- third
     room_Number INT AUTO_INCREMENT PRIMARY KEY,
     room_Type VARCHAR(10) NOT NULL,
     price_Per_Night DECIMAL(10,2) NOT NULL,
@@ -53,7 +53,7 @@ create TABLE room (
 );
 
 -- creates reservation table
-create TABLE reservation (
+create TABLE reservation ( -- forth
     reserve_id INT AUTO_INCREMENT PRIMARY KEY,
     room_Number INT NOT NULL,
     guest_id INT NOT NULL,
