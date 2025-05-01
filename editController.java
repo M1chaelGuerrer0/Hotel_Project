@@ -207,7 +207,7 @@ public class editController extends AccountController {
 
             // Updates changed info of the logged-in user and then store that in the database
 
-            // TODO : Needs to update existing user, not create a new one (issue is within the email being targeted)
+            // TODO : email editing still needs to be possible
             guest.setFirst_Name(firstname);
             guest.setLast_Name(lastname);
             guest.setPassword(password);
