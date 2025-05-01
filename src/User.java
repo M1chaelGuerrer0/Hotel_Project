@@ -10,8 +10,23 @@ public class User {
     private String zip_Code;
     private String country;
     private String password;
-    private int user_id;
+    private int user_id = 0;
 
+    public User(String first_Name, String last_Name, String email, String password, String phone_Number, String address1,
+                String address2, String zip_Code, String city, String state, String country,  int user_id){
+        this.first_Name = first_Name;
+        this.last_Name = last_Name;
+        this.email = email;
+        this.password = password;
+        this.phone_Number = phone_Number;
+        this.address1 = address1;
+        this.address2 = address2;
+        this.zip_Code = zip_Code;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.user_id = user_id;
+    }
     // setters
     public void setFirst_Name(String first_Name){this.first_Name = first_Name;}
     public void setLast_Name(String last_Name){this.last_Name = last_Name;}
@@ -41,19 +56,19 @@ public class User {
     /*
      * Displays current User fields
      */
-    public void displayUser() {
-        System.out.println(
-                "first_name: " + this.first_Name +
+    @Override
+    public String toString() {
+        return "\nfirst_name: " + this.first_Name +
                 "\nlast_name: " + this.last_Name +
+                "\nemail: " + this.email +
                 "\npassword: "+ this.password +
                 "\nphone_Number: " + this.phone_Number +
-                "\nemail: " + this.email +
                 "\naddress1: " + this.address1 +
                 "\naddress2: " + this.address2 +
+                "\nzip_Code: " + this.zip_Code +
                 "\ncity: " + this.city +
-                "\ncountry: " + this.country +
                 "\nstate: " + this.state +
-                "\nzip_Code: " + this.zip_Code
-        );
+                "\ncountry: " + this.country +
+                "\nuser_id: " + this.user_id + "\n";
     }
 }
