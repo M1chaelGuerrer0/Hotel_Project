@@ -35,5 +35,6 @@ public class HotelDemo {
         // running it the first time will grant the reserve_id
         // MAKE BELOW A COMMENT IF THIS IS NOT THE FIRST SEQUENCE WITH THE SAME FIELDS
         HotelDataBase.addReservation(reservation); // adds reservation to db
+        System.out.println("\nTotal Revenue: $" + HotelDataBase.total_revenue());
     }
 }

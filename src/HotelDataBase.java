@@ -670,4 +670,19 @@ public class HotelDataBase {
         return null;
     }
     // End of Reservation ///////////////////////////////
+    public static int total_revenue() {
+        int total_revenue = 0;
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(
+                     "SELECT SUM(price_Per_Night) " +
+                             "AS total_revenue FROM reservation res JOIN room r ON res.room_Number = r.room_Number;")) {
+            while(rs.next()) {
+                return total_revenue = rs.getInt("total_revenue");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total_revenue;
+    }
 }
