@@ -8,36 +8,14 @@ public class HotelDemo {
         User guest = new User("Simon","Claw","TheClaw@gmail.com","123",
                 "xxxxxxxxxxx","Knowwhere","", "xxxxx","LA","CA",
                 "US",0);
-        // running it the first time will grant the user_id
-        // MAKE BELOW A COMMENT AFTER FIRST SEQUENCE IF FIELDS ARE THE SAME IN USER
         HotelDataBase.addGuest(guest); // add guest to database
-
-
         // STEP 2: new Card for guest
-        // UNCOMMENT BELOW IF THIS IS NOT THE FIRST SEQUENCE WITH THE SAME GUEST FIELDS
+        // UNCOMMENT BELOW TO GET guest_id after first run
         //guest = HotelDataBase.getGuest(guest.getEmail()); // this is to get the user.id
         Card card = new Card(guest.getFirst_Name()+" "+guest.getLast_Name(),"1111111111111111",
                 "1027","333",guest.getAddress1(), "", guest.getCity(), guest.getCountry(), guest.getState(),
                 guest.getZip_Code(), 0, guest.getUser_id());
-        // running it the first time will grant the card_id
-        // MAKE BELOW A COMMENT AFTER FIRST SEQUENCE WITH SAME FIELDS IN CARD
         HotelDataBase.addCard(card); // adds card to db
-        /* TO UPDATE CARD:
-         // If we are doing multiple cards per guest
-         HotelDataBase.displayCards(guest.getUser_id()); // display all cards associated with guest
-         card.setCard_id(4); // chose which id to update
-         // If 1-1 with 1 card per 1 guest
-         card.setCard_id(guest.getUser_id()); // same as guest_id
-         If 1-1 deleting card can lead to issues
-        */
-
-        /* Card Methods: HotelDataBase
-         * .addCard(Card card) // adds a card to db
-         * .updateCard(Card card) // updates a card to db
-         * .displayCards(int guest_id) // displays all cards associated to guest_id
-         * .getCard(int card_id) // copies the card from the db into a Card
-         * .deleteCard(int card_id) // deletes a card from the db
-         */
 
         // Room Registration
         Room room = new Room();
@@ -48,17 +26,10 @@ public class HotelDemo {
         // running it the first time will grant the room_Number
         // there is nothing unique about rooms so dupes can happen
         // MAKE BELOW A COMMENT IF AFTER FIRST SEQUENCE TO PREVENT DUPES
-        //HotelDataBase.addRoom(room); // adds room to db
-        /* Room Methods: HotelDataBase
-         * .addRoom(Room room) // adds a room to the db
-         * .updateRoom(Room room) // updates a room to the db
-         * .displayRoom() // displays all rooms
-         * .getRoom(int room_Number) // copies a room from the db into a Room
-         * .deleteCard(int room_Number) // deletes a room from the db
-         */
+        HotelDataBase.addRoom(room);
 
         // reservation process
-        // UNCOMMENT THE TWO BELOW IF THIS IS NOT THE FIRST SEQUENCE OF ADDING THE SAME FIELDS
+        // UNCOMMENT THE TWO BELOW AFTER FIRST RUN
         //card = HotelDataBase.getCard(1); // this gives the card_id
         //room = HotelDataBase.getRoom(1); // this gives the room_Number
         Reservation reservation = new Reservation();

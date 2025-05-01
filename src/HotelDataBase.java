@@ -39,9 +39,9 @@ public class HotelDataBase {
     /* Guest Methods: HotelDataBase
      * .addGuest(User guest) // add guest in db
      * .updateGuest(User guest) // update guest in db
-     * .getGuest(String email) // copies a guest from the db into a User
      * .deleteGuest(String email) // delete guest and cards associated too
-     * .displayGuest() // prints all guest in guest table in db
+     * .getGuests() // list of all guest
+     * .getGuest(String email) // copies a guest from the db into a User
      */
 
     /*
@@ -200,6 +200,16 @@ public class HotelDataBase {
     // End of Guest /////////////////////////////////////
 
     // Card /////////////////////////////////////////////
+
+    /* Card Methods: HotelDataBase
+     * .addCard(Card card) // add card in db
+     * .updateCard(Card card) // update card in db
+     * .deleteCard(int card_id) // delete card
+     * .getCards() // list of all cards
+     * .getCardsOfGuest(int guest_id) // list of all cards associated with the guest
+     * .getCard(int card_id) // grabs a card class object
+     */
+
     /*
      * Add a new card to card table in the db
      * @param card an object created by the card class to be put into the db
@@ -292,7 +302,7 @@ public class HotelDataBase {
     }
     /*
      * Gets a List of all cards from the card table in the db
-     * @return guests A list of cards
+     * @return cards A list of card
      */
     public static List<Card> getCards() {
         List<Card> cards = new ArrayList<>();
@@ -321,7 +331,7 @@ public class HotelDataBase {
     }
     /*
      * Gets a List of all cards associated with a guest from the card table in the db
-     * @return guests A list of cards
+     * @return cards A list of cards
      */
     public static List<Card> getCardsOfGuest(int guest_id) {
         List<Card> cards = new ArrayList<>();

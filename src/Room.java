@@ -1,5 +1,5 @@
 public class Room {
-    private int room_Number;
+    private int room_Number=0;
     private String room_Type;
     private double  price_Per_Night;
     private int room_Capacity;
