@@ -14,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.*;
 
 /*
     LOGIN CONTROLLER
@@ -42,7 +41,7 @@ public class LoginController {
     private Button register;
 
     @FXML
-    private TextField user;
+    private TextField userEmail;
 
     @FXML
     private TextField userPassword;
@@ -55,7 +54,9 @@ public class LoginController {
 
     public static Boolean logStatus = false;
 
-    public String temp;
+    public static String inputEmail;
+
+    public String password;
 
 
     /*
@@ -104,43 +105,46 @@ public class LoginController {
 
         @param event listens for when an event fires
     */
-    public void loginButton(ActionEvent event) throws IOException {
-        String password = userPassword.getText();
-        // TODO : Verify that the user's entered data matches with info found in the database
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(
-                     "SELECT * FROM guests WHERE email = "+Integer.toString(email))) {
-             temp = rs.getString("password");
+    public String loginButton(ActionEvent event) throws IOException {
+        inputEmail = userEmail.getText();                   // fetches input email in login text field for email
+        String inputPassword = userPassword.getText();      // fetches input password in login text field for password
 
-
-        } catch (SQLException e) {
-            mismatch();
-            throw new RuntimeException(e);
-        }
-
-        // Separate email and password verification to allow for email verification first, then check for pass
-        int match = temp.compareTo(password);           // compares the two password input to confirm if they match
-                                                        // will return 0, if a mismatch will return an int != 0
-        System.out.println(match);
+        User guest = new User();
 
         /*
-            Checks whether match was 0, and if so then the user may proceed to the Parent scene, and if not mismatch()
-            is called and the user is prompted to check their entered information
+            Verifies that the user's entered data matches with info found in the database, first verifying the
+            email exists by retrieving it from the database as an object, and then comparing the password input
+            to the one in the database. Catches runtime exceptions when the email could not be found.
         */
-        if (match == 0) {
-            logStatus = true;
-            System.out.println("logStatus: " + logStatus);
-            System.out.println("Your password is correct.");
-            root = FXMLLoader.load(getClass().getResource("Parent.fxml"));
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } else {
-            System.out.println("Your password did not match.");
+        try {
+            guest = HotelDataBase.getGuest(inputEmail);
+            password = guest.getPassword();
+            int match = inputPassword.compareTo(password);           // compares the two password input to confirm if they match
+            System.out.println(match);                              // will return 0, if a mismatch will return an int != 0
+
+            /*
+                Checks whether match was 0, and if so then the user may proceed to the Parent scene, and if not mismatch()
+                is called and the user is prompted to check their entered information
+            */
+            if (match == 0) {
+                logStatus = true;
+                System.out.println("logStatus: " + logStatus);
+                System.out.println("Your password is correct.");
+                root = FXMLLoader.load(getClass().getResource("Parent.fxml"));
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            } else {
+                System.out.println("Your password did not match.");
+                mismatch();
+            }
+        } catch (RuntimeException e) {
             mismatch();
         }
+
+        System.out.println(inputEmail);
+        return inputEmail;
     }
 
 

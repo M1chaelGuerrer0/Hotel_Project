@@ -20,22 +20,16 @@ import java.io.IOException;
     This class serves as the controller for all the buttons located on the Account scene, also allowing users to
     change the data they have saved to the database
 */
-public class AccountController extends HotelDataBase {
+public class AccountController extends LoginController {
 
     @FXML
     private AnchorPane accountScene;
 
     @FXML
-    private Button editPersonal;
-
-    @FXML
-    private Button editAddress;
+    private Button edit;
 
     @FXML
     private Button cancel;
-
-    @FXML
-    private Button save;
 
     @FXML
     private Button initialize;
@@ -45,6 +39,9 @@ public class AccountController extends HotelDataBase {
 
     @FXML
     private Label passwordDisplay;
+
+    @FXML
+    private Label phoneDisplay;
 
     @FXML
     private Label address1Display;
@@ -71,16 +68,33 @@ public class AccountController extends HotelDataBase {
     private Stage stage;
 
 
-    // TODO : Need to retrieve and display account info onto "null" labels
+    /*
+        Fires on the scene's startup, displaying the user's account information on the Account scene
+    */
     public void displayInfo() {
-        emailDisplay.setText("null");
-        passwordDisplay.setText("null");
-        address1Display.setText("null");
-        address2Display.setText("null");
-        zipDisplay.setText("null");
-        stateDisplay.setText("null");
-        countryDisplay.setText("null");
-        cityDisplay.setText("null");
+        User guest = new User();
+        guest = HotelDataBase.getGuest(inputEmail);
+
+        assert guest != null;
+        String email = guest.getEmail();
+        String password = guest.getPassword();
+        String phoneNum = guest.getPhone_Number();
+        String address1 = guest.getAddress1();
+        String address2 = guest.getAddress2();
+        String zip = guest.getZip_Code();
+        String state = guest.getState();
+        String country = guest.getCountry();
+        String city = guest.getCity();
+
+        emailDisplay.setText(email);
+        passwordDisplay.setText(password);
+        phoneDisplay.setText(phoneNum);
+        address1Display.setText(address1);
+        address2Display.setText(address2);
+        zipDisplay.setText(zip);
+        stateDisplay.setText(state);
+        countryDisplay.setText(country);
+        cityDisplay.setText(city);
     }
 
     /*
@@ -112,7 +126,9 @@ public class AccountController extends HotelDataBase {
     /*
         Initializes the scene by firing the button automatically to display the user's account information
     */
-    public void initialize() { initialize.fire(); }
+    public void initialize() {
+        initialize.fire();
+    }
 
 
 }

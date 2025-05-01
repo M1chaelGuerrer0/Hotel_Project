@@ -448,6 +448,7 @@ public class HotelDataBase {
      * @param reservation an object created by the Reservation class to be put into the db
      */
     public static void addReservation(Reservation reservation) {
+        // checks if there already is a reservation under that same time for the same room
         int temp = 0;
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(
@@ -465,13 +466,13 @@ public class HotelDataBase {
             pstmt.setDate(5, new java.sql.Date(reservation.getCheck_Out_Date().getTime()));
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    temp = rs.getInt("overlapping_reservations"); // Match the alias
+                    temp = rs.getInt("overlapping_reservations");
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(temp == 0) {
+        if(temp == 0) { // if room is available
             try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
                  PreparedStatement stmt = conn.prepareStatement("INSERT INTO reservation " +
                          "(room_Number, guest_id, card_id, name, check_In_Date, " +
@@ -482,7 +483,7 @@ public class HotelDataBase {
                 stmt.setInt(2, reservation.getGuest_id());
                 stmt.setInt(3, reservation.getCard_id());
                 stmt.setString(4, reservation.getName());
-                stmt.setTimestamp(5, new Timestamp(reservation.getCheck_In_Date().getTime()));  // Using Timestamp for DATETIME
+                stmt.setTimestamp(5, new Timestamp(reservation.getCheck_In_Date().getTime()));
                 stmt.setTimestamp(6, new Timestamp(reservation.getCheck_Out_Date().getTime()));
                 stmt.setTime(7, reservation.getCheck_In_Time());
                 stmt.setTime(8, reservation.getCheck_Out_Time());
@@ -498,7 +499,7 @@ public class HotelDataBase {
                 e.printStackTrace();
             }
         }
-        else{
+        else{ // if not available
             System.out.println("ROOM TAKEN FOR THAT TIME");
         }
     }

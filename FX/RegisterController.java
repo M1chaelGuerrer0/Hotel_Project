@@ -73,25 +73,6 @@ public class RegisterController extends HotelDataBase {
     @FXML
     private TextField userCountry;
 
-    /*@FXML
-    private ChoiceBox<String> stateBox;
-
-    private String[] states = {
-            "AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC",
-            "FL", "GA", "GU", "HI", "ID", "IL", "IN", "IA", "KS", "KY",
-            "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE",
-            "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "MP", "OH", "OK",
-            "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT",
-            "VA", "VI", "WA", "WV", "WI", "WY"
-    };*/
-
-    /*@FXML
-    private ChoiceBox<String> countryBox;
-
-    private String[] countries = {
-            "United States"
-    };*/
-
     private Parent root;
 
     private Scene scene;
@@ -127,38 +108,37 @@ public class RegisterController extends HotelDataBase {
 
     /*
         Stores all the new user's information into the database, then switches from the current scene back to the
-        Login scene. Entered password is also compared with the confirm password to verify that the password is
+        Login scene. Entered password is also compared with the confirmation password to verify that the password is
         correct, and then saved.
 
         @param event listens for when an event fires
     */
     public void registerButton(ActionEvent event) throws IOException {
         String firstname = firstName.getText();
-        System.out.println(firstname);
         String lastname = lastName.getText();
-        System.out.println(lastname);
         String email = userEmail.getText();
-        System.out.println(email);
         String password = userPassword.getText();
-        System.out.println(password);
         String conPass = confirmPassword.getText();
-        System.out.println(conPass);
         String phone = phoneNum.getText();
-        System.out.println(phone);
         String address1 = street1.getText();
-        System.out.println(address1);
         String address2 = street2.getText();
-        System.out.println(address2);
         String city = userCity.getText();
-        System.out.println(city);
         String country = userCountry.getText();
-        System.out.println(country);
         String state = userState.getText();
-        System.out.println(state);
         String zipCode = zip.getText();
-        System.out.println(zipCode);
 
-        User guest = new User();
+        System.out.println(firstname);
+        System.out.println(lastname);
+        System.out.println(email);
+        System.out.println(password);
+        System.out.println(conPass);
+        System.out.println(phone);
+        System.out.println(address1);
+        System.out.println(address2);
+        System.out.println(city);
+        System.out.println(country);
+        System.out.println(state);
+        System.out.println(zipCode);
 
         int match = password.compareTo(conPass);           // compares the two password input to confirm if they match
                                                            // will return 0, if a mismatch will return an int != 0
@@ -170,21 +150,23 @@ public class RegisterController extends HotelDataBase {
             information
         */
         if (match == 0) {
+            User guest = new User();
+
             // Store all the above info into the database
-            guest.setFirst(firstname);
-            guest.setLast(lastname);
+            guest.setFirst_Name(firstname);
+            guest.setLast_Name(lastname);
             guest.setEmail(email);
             guest.setPassword(password);
-            guest.setPhoneNumber(phone);
+            guest.setPhone_Number(phone);
             guest.setAddress1(address1);
             guest.setAddress2(address2);
             guest.setCity(city);
             guest.setCountry(country);
             guest.setState(state);
-            guest.setZipCode(zipCode);
+            guest.setZip_Code(zipCode);
             guest.displayUser();                                // display current guest
 
-            addGuest(guest);
+            HotelDataBase.addGuest(guest);
             System.out.println("Your passwords match.");
 
             root = FXMLLoader.load(getClass().getResource("login.fxml"));
@@ -197,36 +179,6 @@ public class RegisterController extends HotelDataBase {
             mismatch();
         }
     }
-
-    /*public void initialize(URL arg0, ResourceBundle arg1) {
-        stateBox.getItems().addAll(states);
-
-        stateBox.setConverter(new StringConverter<String>() {
-            @Override
-            public String toString(String s) {
-                return (s == null) ? "State" : s;
-            }
-
-            @Override
-            public String fromString(String s) {
-                return null;
-            }
-        });
-
-        countryBox.getItems().addAll(countries);
-
-        countryBox.setConverter(new StringConverter<String>() {
-            @Override
-            public String toString(String s) {
-                return (s == null) ? "Country" : s;
-            }
-
-            @Override
-            public String fromString(String s) {
-                return null;
-            }
-        });
-    }*/
 
 
 }
