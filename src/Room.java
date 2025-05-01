@@ -5,6 +5,7 @@ public class Room {
     private int room_Capacity;
     private String availability;
 
+    public Room(){}
     public Room(int room_Number, String room_Type, double  price_Per_Night, int room_Capacity, String availability){
         this.room_Number = room_Number;
         this.room_Type = room_Type;

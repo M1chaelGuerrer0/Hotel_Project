@@ -17,6 +17,7 @@ This class contains important information needed in order to reserve a room.
     private Time check_Out_Time = Time.valueOf("00:00:00");
     private int card_id;
 
+    public Reservation(){}
     public Reservation(int reserve_id,int room_Number,int guest_id,String name,
                        Date check_In_Date,Date check_Out_Date,Time check_In_Time,
                        Time check_Out_Time, int card_id){

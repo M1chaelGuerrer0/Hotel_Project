@@ -12,6 +12,7 @@ public class Card {
     private int card_id = 0;
     private int guest_id = 0;
 
+    public Card(){}
     public Card(String holder_Name, String card_Number, String expiration,
                 String cvc, String address1, String address2, String city,
                 String country, String state, String zip_Code, int card_id, int guest_id){

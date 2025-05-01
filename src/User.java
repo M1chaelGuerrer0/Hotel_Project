@@ -12,6 +12,7 @@ public class User {
     private String password;
     private int user_id = 0;
 
+    public User(){}
     public User(String first_Name, String last_Name, String email, String password, String phone_Number, String address1,
                 String address2, String zip_Code, String city, String state, String country,  int user_id){
         this.first_Name = first_Name;
