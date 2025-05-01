@@ -55,7 +55,7 @@ create TABLE room (
 -- creates reservation table
 create TABLE reservation (
     reserve_id INT AUTO_INCREMENT PRIMARY KEY,
-    room_Number INT UNIQUE NOT NULL,
+    room_Number INT NOT NULL,
     guest_id INT NOT NULL,
     card_id INT NOT NULL,
     name VARCHAR(100) NOT NULL,

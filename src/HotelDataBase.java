@@ -448,30 +448,58 @@ public class HotelDataBase {
      * @param reservation an object created by the Reservation class to be put into the db
      */
     public static void addReservation(Reservation reservation) {
+        int temp = 0;
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement("INSERT INTO reservation " +
-                     "(room_Number, guest_id, card_id, name, check_In_Date, " +
-                     "check_Out_Date, check_In_Time, check_Out_Time) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
-            conn.setAutoCommit(false);
-            stmt.setInt(1, reservation.getRoom_Number());
-            stmt.setInt(2, reservation.getGuest_id());
-            stmt.setInt(3, reservation.getCard_id());
-            stmt.setString(4, reservation.getName());
-            stmt.setTimestamp(5, new Timestamp(reservation.getCheck_In_Date().getTime()));  // Using Timestamp for DATETIME
-            stmt.setTimestamp(6, new Timestamp(reservation.getCheck_Out_Date().getTime()));
-            stmt.setTime(7, reservation.getCheck_In_Time());
-            stmt.setTime(8, reservation.getCheck_Out_Time());
-            stmt.executeUpdate();
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    reservation.setReserve_id(generatedKeys.getInt(1));
+             PreparedStatement pstmt = conn.prepareStatement(
+                     "SELECT COUNT(*) AS overlapping_reservations " +
+                             "FROM reservation " +
+                             "WHERE room_Number = ? " +
+                             "AND ( " +
+                             "    (? BETWEEN check_In_Date AND check_Out_Date) OR " +
+                             "    (? BETWEEN check_In_Date AND check_Out_Date) OR " +
+                             "    (check_In_Date BETWEEN ? AND ?))")) {
+            pstmt.setInt(1, reservation.getRoom_Number());
+            pstmt.setDate(2, new java.sql.Date(reservation.getCheck_In_Date().getTime()));
+            pstmt.setDate(3, new java.sql.Date(reservation.getCheck_Out_Date().getTime()));
+            pstmt.setDate(4, new java.sql.Date(reservation.getCheck_In_Date().getTime()));
+            pstmt.setDate(5, new java.sql.Date(reservation.getCheck_Out_Date().getTime()));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    temp = rs.getInt("overlapping_reservations"); // Match the alias
                 }
             }
-            conn.commit();
-
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        if(temp == 0) {
+            try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                 PreparedStatement stmt = conn.prepareStatement("INSERT INTO reservation " +
+                         "(room_Number, guest_id, card_id, name, check_In_Date, " +
+                         "check_Out_Date, check_In_Time, check_Out_Time) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+                conn.setAutoCommit(false);
+                stmt.setInt(1, reservation.getRoom_Number());
+                stmt.setInt(2, reservation.getGuest_id());
+                stmt.setInt(3, reservation.getCard_id());
+                stmt.setString(4, reservation.getName());
+                stmt.setTimestamp(5, new Timestamp(reservation.getCheck_In_Date().getTime()));  // Using Timestamp for DATETIME
+                stmt.setTimestamp(6, new Timestamp(reservation.getCheck_Out_Date().getTime()));
+                stmt.setTime(7, reservation.getCheck_In_Time());
+                stmt.setTime(8, reservation.getCheck_Out_Time());
+                stmt.executeUpdate();
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        reservation.setReserve_id(generatedKeys.getInt(1));
+                    }
+                }
+                conn.commit();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            System.out.println("ROOM TAKEN FOR THAT TIME");
         }
     }
     /*
@@ -504,10 +532,10 @@ public class HotelDataBase {
      * Deletes a reservation in the reservation table in the db
      * @param reserve_id the reservation ID number
      */
-    public static void deleteReservation(int room_Number) {
+    public static void deleteReservation(int reserve_id) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(
-                     "DELETE FROM reservation WHERE room_Number = "+room_Number)) {
+                     "DELETE FROM reservation WHERE reserve_id = "+reserve_id)) {
             conn.setAutoCommit(false);
             stmt.executeUpdate();
             conn.commit();
