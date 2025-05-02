@@ -47,7 +47,7 @@ public class HotelDataBase {
             connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/hoteldb",
                     "root",
-                    "113529"
+                    ""
             );
         } catch (SQLException e) {
             throw new RuntimeException("DB connection failed", e);
