@@ -47,10 +47,10 @@ public class HotelDataBase {
             connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/hoteldb",
                     "root",
-                    "" //  make sure to change
+                    "113529"
             );
         } catch (SQLException e) {
-            throw new RuntimeException("DB connection failed: (Most likely failed to change Password)", e);
+            throw new RuntimeException("DB connection failed", e);
         }
     }
     // Guest ////////////////////////////////////////////
@@ -511,7 +511,6 @@ public class HotelDataBase {
         return null;
     }
     // End of Room //////////////////////////////////////
-
     // Reservation //////////////////////////////////////
     /*
      * Add a new Reservation to the reservation table in db
@@ -662,52 +661,7 @@ public class HotelDataBase {
         }
         return null;
     }
-    /*
-     * Gets a List of all Reservation from the room table in the db 
-     * and filters out reservations that have ended
-     * @return reservations A filtered list of Reservations
-     */
-    public static ObservableList<Reservation> getCheckList() {
-        ObservableList<Reservation> allReservations = FXCollections.observableArrayList();
-        ObservableList<Reservation> filteredReservations = FXCollections.observableArrayList();
-
-        String query = "SELECT * FROM reservation";
-
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
-
-            while (rs.next()) {
-
-                Reservation reservation = new Reservation();
-                reservation.setReserve_id(rs.getInt("reserve_id"));
-                reservation.setName(rs.getString("name"));
-                reservation.setCard_id(rs.getInt("card_id"));
-                reservation.setGuest_id(rs.getInt("guest_id"));
-                reservation.setRoom_Number(rs.getInt("room_number"));
-                reservation.setCheck_In_Date(Date.valueOf(rs.getString("check_in_date")));
-                reservation.setCheck_Out_Date(Date.valueOf(rs.getString("check_out_date")));
-                String checkInTimeStr = rs.getString("check_in_time");
-                reservation.setCheck_In_Time(checkInTimeStr != null ? Time.valueOf(checkInTimeStr) : null);
-                String checkOutTimeStr = rs.getString("check_out_time");
-                reservation.setCheck_Out_Time(checkOutTimeStr != null ? Time.valueOf(checkOutTimeStr):Time.valueOf("00:00:00") );
-
-                allReservations.add(reservation);
-            }
-            System.out.println("Total reservations fetched: " + allReservations.size());
-
-            for (Reservation r : allReservations) {
-                if (r.getCheck_Out_Time().equals(Time.valueOf("00:00:00"))) {
-                    filteredReservations.add(r);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return filteredReservations;
-    }
     // End of Reservation ///////////////////////////////
-    
     public static int total_revenue() {
         int total_revenue = 0;
         try (Statement stmt = connection.createStatement();
