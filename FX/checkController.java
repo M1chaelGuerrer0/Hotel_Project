@@ -9,9 +9,6 @@ package com.example.Hotel;
     also serving as a current reservation and revenue list
 */
 
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -23,8 +20,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-public class checkController {
-    // The current time
+public class checkController extends HotelDataBase {
+   //Time formatting
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     @FXML
@@ -32,7 +29,7 @@ public class checkController {
     @FXML
     private TableColumn<Reservation, String> name;
     @FXML
-    private TableColumn<Reservation, Integer> room;
+    private TableColumn<Reservation, Integer> rooms;
     @FXML
     private TableColumn<Reservation, String> checkInDate;
     @FXML
@@ -68,85 +65,27 @@ public class checkController {
                     setText(null);
                 } else {
                     Reservation reservation = (Reservation) getTableRow().getItem();
-                    double pricePerNight = getRoomPrice(reservation.getRoom_Number());
-                    double calculatedRevenue = calculateRevenue(reservation, pricePerNight);
+                    int pricePerNight = getRoomPrice(reservation.getRoom_Number());
+                    int calculatedRevenue = calculateRevenue(reservation, pricePerNight);
                     setText(String.format("$%.2f", calculatedRevenue));
                 }
             }
         });
 
         // gets list from getInitialList() method
-        table.setItems(getInitialList());
+        table.setItems(HotelDataBase.getCheckList());
     }
-
-    // get the initial list of reservations from the database
-    private ObservableList<Reservation> getInitialList() {
-        ObservableList<Reservation> allReservations = FXCollections.observableArrayList();
-        ObservableList<Reservation> filteredReservations = FXCollections.observableArrayList();
-
-        String query = "SELECT * FROM reservation";
-
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
-
-            // Debugging: Check if the connection is working
-            System.out.println("Database connected successfully!");
-
-            while (rs.next()) {
-                Reservation reservation = new Reservation();
-                reservation.setName(rs.getString("name"));
-                reservation.setRoom_Number(rs.getInt("room_number"));
-                reservation.setCheck_In_Date(Date.valueOf(rs.getString("check_in_date")));
-                reservation.setCheck_Out_Date(Date.valueOf(rs.getString("check_out_date")));
-                String checkOutTimeStr = rs.getString("check_out_time");
-                if (checkOutTimeStr != null) {
-                    reservation.setCheck_Out_Time(Time.valueOf(checkOutTimeStr));
-                } else {
-                    reservation.setCheck_Out_Time(null);
-                }
-
-
-                String checkInTimeStr = rs.getString("check_in_time");
-                if (checkInTimeStr != null) {
-                    reservation.setCheck_In_Time(Time.valueOf(checkInTimeStr));
-                } else {
-                    reservation.setCheck_In_Time(null);
-                }
-
-                allReservations.add(reservation);
-            }
-
-            
-            System.out.println("Total reservations fetched: " + allReservations.size());
-
-            
-            for (Reservation r : allReservations) {
-                if (r.getCheck_In_Time() == null) {
-                    filteredReservations.add(r);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();  
-        }
-
-        
-        System.out.println("Filtered reservations count: " + filteredReservations.size());
-
-        return filteredReservations;
-    }
-
 
     // get the price per night for a room from the database
-    private double getRoomPrice(int roomNumber) {
-        double price = 0;
+    private int getRoomPrice(int roomNumber) {
+        int price = 0;
         String query = "SELECT price_per_night FROM room WHERE room_number = ?";
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, roomNumber);  
+            stmt.setInt(1, roomNumber);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    price = rs.getDouble("price_per_night");
+                    price = rs.getInteger("price_per_night");
                 }
             }
         } catch (SQLException e) {
@@ -156,7 +95,7 @@ public class checkController {
     }
 
     // Method to calculate the revenue based on price per night and stay duration
-    private double calculateRevenue(Reservation reservation, double pricePerNight) {
+    private int calculateRevenue(Reservation reservation, int pricePerNight) {
         try {
             // Parse check-in and check-out dates (only the date part)
             LocalDate checkInDate = LocalDate.parse(reservation.getCheck_In_Date().toString());
@@ -171,19 +110,18 @@ public class checkController {
         }
     }
 
-
     /*
         Refresh button refreshes the table for any changes made
-        pressed when the worker wants to
+        pressed when the worker wants to clear reservations that have concluded
     */
     @FXML
     public void Refresh() {
-        table.setItems(getInitialList());
+        table.setItems(HotelDataBase.getCheckList());
     }
 
     /*
         Check-in button lists the current time under the selected reservation,
-        pressed when the customer checks in
+        pressed when the customer checks in and updates info in database
     */
     @FXML
     public void setCheckInTime() {
@@ -191,13 +129,13 @@ public class checkController {
         if (selected != null) {
             String time = LocalDateTime.now().format(formatter);
             selected.setCheck_In_Time(Time.valueOf(time));
-            updateCheckInTime(selected.getreserve_id(), time);
+            HotelDataBase.updateReservation(selected);
             table.refresh();
         }
     }
     /*
         check out button lists the current time under the selected reservation,
-        pressed when customer checks out
+        pressed when customer checks out and updates info in database
     */
     @FXML
     public void setCheckOutTime() {
@@ -205,38 +143,8 @@ public class checkController {
         if (selected != null) {
             String time = LocalDateTime.now().format(formatter);
             selected.setCheck_Out_Time(Time.valueOf(time));
-            updateCheckOutTime(selected.getreserve_id(), time);
+            HotelDataBase.updateReservation(selected);
             table.refresh();
         }
     }
-
-    // updates check in time in the database (does not currently work)
-    
-    private void updateCheckInTime(int id, String time) {
-        String sql = "UPDATE reservation SET check_in_time = ? WHERE id = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, time);
-            stmt.setInt(2, id);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Error updating check-in time: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-   // updates check out time in the database (does not currently work)
-    
-    private void updateCheckOutTime(int id, String time) {
-        String sql = "UPDATE reservation SET check_out_time = ? WHERE id = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, time);
-            stmt.setInt(2, id);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
