@@ -1,3 +1,5 @@
+package Application;
+
 public class Room {
     private int room_Number=0;
     private String room_Type;

@@ -1,3 +1,5 @@
+package Application;
+
 public class User {
     private String first_Name;
     private String last_Name;

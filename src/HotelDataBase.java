@@ -1,3 +1,5 @@
+package Application;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +11,15 @@ import java.util.List;
  * You need to create a schema called hoteldb.
  * You need to add the plugin called Database Navigator on IntelliJ.
    Found under settings and plugins.
- * Then you need to find mysql-connector-j-9.2.0.jar and put it under modules.
+ * Then you need to find mysql-connection
+ ector-j-9.2.0.jar and put it under modules.
     Under Project structure under dependencies.
- * You need to add a connection called hoteldb_connection and make sure the database is hoteldb.
+ * You need to add a connection
+ ection called hoteldb_connection
+ ection and make sure the database is hoteldb.
  * You need to put root as user and use the same password from earlier.
- * You need to download the mysql-connector-j-9.2.0.zip and extract.
+ * You need to download the mysql-connection
+ ector-j-9.2.0.zip and extract.
 
  * Create the database tables in "hoteldb.sql"
  * Default USER is root but if you changed it on your end
@@ -21,7 +27,9 @@ import java.util.List;
  * Change the PASSWORD variable to your password in this code.
 
  Troubleshoot
- * If having sync issues disconnect and reconnect.
+ * If having sync issues disconnection
+ ect and reconnection
+ ect.
  * For more accuracy use the workbench for viewing the tables.
 
  Test
@@ -31,10 +39,20 @@ import java.util.List;
 
 public class HotelDataBase {
     // Database connection details
-    private static final String URL = "jdbc:mysql://localhost:3306/hoteldb";
-    private static final String USER = "root";
-    private static final String PASSWORD = ""; // CHANGE PASSWORD BASED ON YOUR PASSWORD
+    public static final Connection connection;
 
+    static {
+        try {
+            // Initialize connection once
+            connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/hoteldb",
+                    "root",
+                    "" //  make sure to change
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException("DB connection failed: (Most likely failed to change Password)", e);
+        }
+    }
     // Guest ////////////////////////////////////////////
     /* Guest Methods: HotelDataBase
      * .addGuest(User guest) // add guest in db
@@ -49,13 +67,12 @@ public class HotelDataBase {
      * @param guest User object that gives information to be stored
      */
     public static void addGuest(User guest) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(
+        try (PreparedStatement stmt = connection.prepareStatement(
                      "INSERT INTO guests (" +
                              "first_name, last_name, email, password, phone, " +
                              "address1, address2, city, country, state, zip_Code) " +
                              "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
-            conn.setAutoCommit(false);
+            connection.setAutoCommit(false);
             stmt.setString(1, guest.getFirst_Name());
             stmt.setString(2, guest.getLast_Name());
             stmt.setString(3, guest.getEmail());
@@ -73,23 +90,23 @@ public class HotelDataBase {
                     guest.setUser_id(generatedKeys.getInt(1));
                 }
             }
-            conn.commit();
+            connection.commit();
 
         } catch (SQLException e) {
             if (e.getErrorCode() == 1062) {
-                System.out.println("Error: This Guest is already added to the database.");
+                System.out.println("Error: This Guest is already added to the database.\n"
+                        + e.getMessage());
             } else {
                 System.out.println("Database error: " + e.getMessage());
-                e.printStackTrace();
-            }        }
+            }
+        }
     }
     /*
      * update guest information to the guest table in the db
      * @param newGuest User object that gives information to be stored
      */
     public static void updateGuest(User newGuest) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement("UPDATE guests SET " +
+        try (PreparedStatement stmt = connection.prepareStatement("UPDATE guests SET " +
                      "first_name=?," +
                      "last_name=?," +
                      "email=?," +
@@ -100,8 +117,8 @@ public class HotelDataBase {
                      "city=?," +
                      "country=?," +
                      "state=?," +
-                     "zip_Code=? WHERE email=?")) {
-            conn.setAutoCommit(false);
+                     "zip_Code=? WHERE guest_id=?")) {
+            connection.setAutoCommit(false);
             stmt.setString(1, newGuest.getFirst_Name());
             stmt.setString(2, newGuest.getLast_Name());
             stmt.setString(3, newGuest.getEmail());
@@ -113,9 +130,9 @@ public class HotelDataBase {
             stmt.setString(9, newGuest.getCountry());
             stmt.setString(10, newGuest.getState());
             stmt.setString(11, newGuest.getZip_Code());
-            stmt.setString(12, newGuest.getEmail());
+            stmt.setInt(12, newGuest.getUser_id());
             stmt.executeUpdate();
-            conn.commit();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -126,13 +143,11 @@ public class HotelDataBase {
      * that is to be deleted from the guest table from in the db
      */
     public static void deleteGuest(String email) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(
-                     "DELETE FROM guests WHERE email = ?")) {
-            conn.setAutoCommit(false);
+        try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM guests WHERE email = ?")) {
+            connection.setAutoCommit(false);
             stmt.setString(1,email);
             stmt.executeUpdate();
-            conn.commit();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -143,8 +158,7 @@ public class HotelDataBase {
      */
     public static List<User> getGuests() {
         List<User> guests = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
+        try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM guests")) {
             while (rs.next()) {
                 guests.add(new User(rs.getString("first_name"),
@@ -174,10 +188,8 @@ public class HotelDataBase {
      * @return guest User object
      */
     public static User getGuest(String email) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(
-                     "SELECT * FROM guests WHERE email = '"+email+"'")) {
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM guests WHERE email = '"+email+"'")) {
             while(rs.next()) {
                 User guest = new User(rs.getString("first_name"),
                         rs.getString("last_name"),
@@ -216,12 +228,11 @@ public class HotelDataBase {
      * @param card an object created by the card class to be put into the db
      */
     public static void addCard(Card card) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement("INSERT INTO card " +
-                     "(guest_id, holder_Name, card_Number, expiration, " +
-                     "cvc, address1, address2, city, country, state, zip_Code) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
-            conn.setAutoCommit(false);
+        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO card " +
+                "(guest_id, holder_Name, card_Number, expiration, " +
+                "cvc, address1, address2, city, country, state, zip_Code) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
+            connection.setAutoCommit(false);
             stmt.setInt(1, card.getGuest_id());
             stmt.setString(2, card.getHolder_Name());
             stmt.setString(3, card.getCard_Number());
@@ -239,7 +250,7 @@ public class HotelDataBase {
                     card.setCard_id(generatedKeys.getInt(1));
                 }
             }
-            conn.commit();
+            connection.commit();
 
         } catch (SQLException e) {
             if (e.getErrorCode() == 1062) {
@@ -256,20 +267,19 @@ public class HotelDataBase {
      * @param card an object created by the card class to be put into the db
      */
     public static void updateCard(Card newCard) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement("UPDATE card SET " +
-                     "holder_Name=?," +
-                     "card_Number=?," +
-                     "expiration=?," +
-                     "cvc=?," +
-                     "address1=?," +
-                     "address2=?," +
-                     "city=?," +
-                     "country=?," +
-                     "state=?," +
-                     "zip_Code=? " +
-                     "WHERE card_id="+newCard.getCard_id())) {
-            conn.setAutoCommit(false);
+        try (PreparedStatement stmt = connection.prepareStatement("UPDATE card SET " +
+                "holder_Name=?," +
+                "card_Number=?," +
+                "expiration=?," +
+                "cvc=?," +
+                "address1=?," +
+                "address2=?," +
+                "city=?," +
+                "country=?," +
+                "state=?," +
+                "zip_Code=? " +
+                "WHERE card_id="+newCard.getCard_id())) {
+            connection.setAutoCommit(false);
             stmt.setString(1, newCard.getHolder_Name());
             stmt.setString(2, newCard.getCard_Number());
             stmt.setString(3, newCard.getExpiration());
@@ -281,7 +291,7 @@ public class HotelDataBase {
             stmt.setString(9, newCard.getState());
             stmt.setString(10, newCard.getZip_Code());
             stmt.executeUpdate();
-            conn.commit();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -291,12 +301,11 @@ public class HotelDataBase {
      * @param card_id the id associated with the card
      */
     public static void deleteCard(int card_id) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(
+        try (PreparedStatement stmt = connection.prepareStatement(
                      "DELETE FROM card WHERE card_id = "+card_id)) {
-            conn.setAutoCommit(false);
+            connection.setAutoCommit(false);
             stmt.executeUpdate();
-            conn.commit();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -307,8 +316,7 @@ public class HotelDataBase {
      */
     public static List<Card> getCards() {
         List<Card> cards = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
+        try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM card")) {
             while (rs.next()) {
                 cards.add(new Card(rs.getString("holder_Name"),
@@ -317,10 +325,10 @@ public class HotelDataBase {
                         rs.getString("cvc"),
                         rs.getString("address1"),
                         rs.getString("address2"),
-                        rs.getString("zip_Code"),
                         rs.getString("city"),
-                        rs.getString("state"),
                         rs.getString("country"),
+                        rs.getString("state"),
+                        rs.getString("zip_code"),
                         rs.getInt("card_id"),
                         rs.getInt("guest_id")
                 ));
@@ -337,8 +345,7 @@ public class HotelDataBase {
      */
     public static List<Card> getCardsOfGuest(int guest_id) {
         List<Card> cards = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
+        try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM card Where guest_id = "+ guest_id)) {
             while (rs.next()) {
                 cards.add(new Card(rs.getString("holder_Name"),
@@ -367,10 +374,8 @@ public class HotelDataBase {
      * @return card an object created by the card class
      */
     public static Card getCard(int card_id) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(
-                     "SELECT * FROM card WHERE card_id = " + card_id)) {
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM card WHERE card_id = " + card_id)) {
             while(rs.next()) {
                 Card card = new Card(rs.getString("holder_Name"),
                         rs.getString("card_Number"),
@@ -409,11 +414,10 @@ public class HotelDataBase {
      * @param room an object created by the Room class to be put into the db
      */
     public static void addRoom(Room room) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement("INSERT INTO room " +
-                     "(room_Type, price_Per_Night, room_Capacity, availability) " +
-                     "VALUES ( ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
-            conn.setAutoCommit(false);
+        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO room " +
+                "(room_Type, price_Per_Night, room_Capacity, availability) " +
+                "VALUES ( ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+            connection.setAutoCommit(false);
             stmt.setString(1, room.getRoom_Type());
             stmt.setDouble(2, room.getPrice_Per_Night());
             stmt.setInt(3, room.getRoom_Capacity());
@@ -424,7 +428,7 @@ public class HotelDataBase {
                     room.setRoom_Number(generatedKeys.getInt(1));
                 }
             }
-            conn.commit();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -434,17 +438,16 @@ public class HotelDataBase {
      * @param room an object created by the Room class to be put into the db
      */
     public static void updateRoom(Room room) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement("UPDATE room SET " +
-                     "room_Type=?, price_Per_Night=?, room_Capacity=?, availability=? " +
-                     "WHERE room_Number="+room.getRoom_Number())) {
-            conn.setAutoCommit(false);
+        try (PreparedStatement stmt = connection.prepareStatement("UPDATE room SET " +
+                "room_Type=?, price_Per_Night=?, room_Capacity=?, availability=? " +
+                "WHERE room_Number="+room.getRoom_Number())) {
+            connection.setAutoCommit(false);
             stmt.setString(1, room.getRoom_Type());
             stmt.setDouble(2, room.getPrice_Per_Night());
             stmt.setInt(3, room.getRoom_Capacity());
             stmt.setString(4, room.getAvailability());
             stmt.executeUpdate();
-            conn.commit();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -454,12 +457,11 @@ public class HotelDataBase {
      * @param room_Number the number of the room
      */
     public static void deleteRoom(int room_Number) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(
-                     "DELETE FROM room WHERE room_Number = "+room_Number)) {
-            conn.setAutoCommit(false);
+        try (PreparedStatement stmt = connection .prepareStatement(
+                "DELETE FROM room WHERE room_Number = "+room_Number)) {
+            connection.setAutoCommit(false);
             stmt.executeUpdate();
-            conn.commit();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -470,8 +472,7 @@ public class HotelDataBase {
      */
     public static List<Room> getRooms() {
         List<Room> rooms = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
+        try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM room")) {
             while (rs.next()) {
                 rooms.add(new Room(rs.getInt("room_Number"),
@@ -493,10 +494,8 @@ public class HotelDataBase {
      * @return room an object created by the room class
      */
     public static Room getRoom(int room_Number) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(
-                     "SELECT * FROM room WHERE room_Number = " + room_Number)) {
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM room WHERE room_Number = " + room_Number)) {
             while(rs.next()) {
                 Room room = new Room(rs.getInt("room_Number"),
                         rs.getString("room_Type"),
@@ -520,20 +519,18 @@ public class HotelDataBase {
     public static void addReservation(Reservation reservation) {
         // checks if there already is a reservation under that same time for the same room
         int temp = 0;
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement pstmt = conn.prepareStatement(
-                     "SELECT COUNT(*) AS overlapping_reservations " +
-                             "FROM reservation " +
-                             "WHERE room_Number = ? " +
-                             "AND ( " +
-                             "    (? BETWEEN check_In_Date AND check_Out_Date) OR " +
-                             "    (? BETWEEN check_In_Date AND check_Out_Date) OR " +
-                             "    (check_In_Date BETWEEN ? AND ?))")) {
+        try (PreparedStatement pstmt = connection.prepareStatement("SELECT COUNT(*) AS overlapping_reservations " +
+                "FROM reservation " +
+                "WHERE room_Number = ? " +
+                "AND ( " +
+                "(? BETWEEN check_In_Date AND check_Out_Date) OR " +
+                "(? BETWEEN check_In_Date AND check_Out_Date) OR " +
+                "(check_In_Date BETWEEN ? AND ?))")) {
             pstmt.setInt(1, reservation.getRoom_Number());
-            pstmt.setDate(2, new java.sql.Date(reservation.getCheck_In_Date().getTime()));
-            pstmt.setDate(3, new java.sql.Date(reservation.getCheck_Out_Date().getTime()));
-            pstmt.setDate(4, new java.sql.Date(reservation.getCheck_In_Date().getTime()));
-            pstmt.setDate(5, new java.sql.Date(reservation.getCheck_Out_Date().getTime()));
+            pstmt.setDate(2, new Date(reservation.getCheck_In_Date().getTime()));
+            pstmt.setDate(3, new Date(reservation.getCheck_Out_Date().getTime()));
+            pstmt.setDate(4, new Date(reservation.getCheck_In_Date().getTime()));
+            pstmt.setDate(5, new Date(reservation.getCheck_Out_Date().getTime()));
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     temp = rs.getInt("overlapping_reservations");
@@ -543,12 +540,11 @@ public class HotelDataBase {
             e.printStackTrace();
         }
         if(temp == 0) { // if room is available
-            try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-                 PreparedStatement stmt = conn.prepareStatement("INSERT INTO reservation " +
-                         "(room_Number, guest_id, card_id, name, check_In_Date, " +
-                         "check_Out_Date, check_In_Time, check_Out_Time) " +
-                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
-                conn.setAutoCommit(false);
+            try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO reservation " +
+                    "(room_Number, guest_id, card_id, name, check_In_Date, " +
+                    "check_Out_Date, check_In_Time, check_Out_Time) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+                connection.setAutoCommit(false);
                 stmt.setInt(1, reservation.getRoom_Number());
                 stmt.setInt(2, reservation.getGuest_id());
                 stmt.setInt(3, reservation.getCard_id());
@@ -563,7 +559,7 @@ public class HotelDataBase {
                         reservation.setReserve_id(generatedKeys.getInt(1));
                     }
                 }
-                conn.commit();
+                connection.commit();
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -578,12 +574,11 @@ public class HotelDataBase {
      * @param reservation an object created by the Reservation class to be put into the db
      */
     public static void updateReservation(Reservation reservation) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement("UPDATE reservation SET " +
-                     "room_Number=?, guest_id=?, card_id=?, name=?, check_In_Date=?, " +
-                     "check_Out_Date=?, check_In_Time=?, check_Out_Time=?" +
-                     "WHERE reserve_id="+reservation.getReserve_id())) {
-            conn.setAutoCommit(false);
+        try (PreparedStatement stmt = connection.prepareStatement("UPDATE reservation SET " +
+                "room_Number=?, guest_id=?, card_id=?, name=?, check_In_Date=?, " +
+                "check_Out_Date=?, check_In_Time=?, check_Out_Time=?" +
+                "WHERE reserve_id="+reservation.getReserve_id())) {
+            connection.setAutoCommit(false);
             stmt.setInt(1,reservation.getRoom_Number());
             stmt.setInt(2,reservation.getGuest_id());
             stmt.setInt(3,reservation.getCard_id());
@@ -594,7 +589,7 @@ public class HotelDataBase {
             stmt.setTime(8,reservation.getCheck_Out_Time());
 
             stmt.executeUpdate();
-            conn.commit();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -604,12 +599,11 @@ public class HotelDataBase {
      * @param reserve_id the reservation ID number
      */
     public static void deleteReservation(int reserve_id) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(
-                     "DELETE FROM reservation WHERE reserve_id = "+reserve_id)) {
-            conn.setAutoCommit(false);
+        try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM reservation " +
+                "WHERE reserve_id = "+reserve_id)) {
+            connection.setAutoCommit(false);
             stmt.executeUpdate();
-            conn.commit();
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -620,8 +614,7 @@ public class HotelDataBase {
      */
     public static List<Reservation> getReservations() {
         List<Reservation> reservations = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
+        try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM reservation")) {
             while (rs.next()) {
                 reservations.add(new Reservation(rs.getInt("reserve_id"),
@@ -647,10 +640,9 @@ public class HotelDataBase {
      * @return reservation an object created by the Reservation class
      */
     public static Reservation getReservation(int room_Number) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(
-                     "SELECT * FROM reservation WHERE room_Number = " + room_Number)) {
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM reservation " +
+                     "WHERE room_Number = " + room_Number)) {
             while(rs.next()) {
                 Reservation reservation = new Reservation(rs.getInt("reserve_id"),
                                 rs.getInt("room_Number"),
@@ -672,11 +664,9 @@ public class HotelDataBase {
     // End of Reservation ///////////////////////////////
     public static int total_revenue() {
         int total_revenue = 0;
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(
-                     "SELECT SUM(price_Per_Night) " +
-                             "AS total_revenue FROM reservation res JOIN room r ON res.room_Number = r.room_Number;")) {
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT SUM(price_Per_Night) " +
+                     "AS total_revenue FROM reservation res JOIN room r ON res.room_Number = r.room_Number;")) {
             while(rs.next()) {
                 return total_revenue = rs.getInt("total_revenue");
             }
