@@ -1,8 +1,14 @@
+package Application;
+
+import org.junit.Test;
+
+import java.sql.Date;
 import java.util.List;
-// add data to db test
-// tables need to be empty
+
 public class addTest {
-    public static void main(String[] args){
+
+    @Test
+    public void addGuestTest(){
         User guest = new User();
         guest.setFirst_Name("x");
         guest.setLast_Name("x");
@@ -31,18 +37,20 @@ public class addTest {
                 "country: US\n" +
                 "user_id: 1\n" +
                 "]\nObserved: "+guests);
-
+    }
+    @Test
+    public void addCardTest(){
         Card card = new Card();
-        card.setHolder_Name(guest.getFirst_Name()+" "+guest.getLast_Name());
-        card.setGuest_id(guest.getUser_id());
+        card.setHolder_Name("x x");
+        card.setGuest_id(1);
         card.setCard_Number("xxxxxxxxxxxxxxxx");
         card.setExpiration("xxxx");
         card.setCvc("xxx");
-        card.setAddress1(guest.getAddress1());
-        card.setCity(guest.getCity());
-        card.setCountry(guest.getCountry());
-        card.setState(guest.getState());
-        card.setZip_Code(guest.getZip_Code());
+        card.setAddress1("x");
+        card.setCity("LA");
+        card.setCountry("US");
+        card.setState("CA");
+        card.setZip_Code("x");
         System.out.println("\nParameters for Card:"+card);
         HotelDataBase.addCard(card); // first time running will have card_id
         List<Card> cards = HotelDataBase.getCards();
@@ -60,6 +68,9 @@ public class addTest {
                 "card_id: 1\n" +
                 "guest_id: 1\n" +
                 "]\nObserved: "+cards);
+    }
+    @Test
+    public void addRoomTest() {
         Room room = new Room(0,"AC",350.00,2,"OPEN");
         System.out.println("\nParameters for Room:"+room);
         HotelDataBase.addRoom(room); // will keep duping
@@ -70,5 +81,29 @@ public class addTest {
                 "price_Per_Night: 350.0\n" +
                 "room_Capacity: 2\n" +
                 "availability: OPEN\n]"+ "\nObserved: " + rooms);
+    }
+    @Test
+    public void addResTest() {
+        Reservation reservation = new Reservation();
+        reservation.setRoom_Number(1);
+        reservation.setGuest_id(1);
+        reservation.setCard_id(1);
+        reservation.setName("x");
+        reservation.setCheck_In_Date(Date.valueOf("2025-12-24"));
+        reservation.setCheck_Out_Date(Date.valueOf("2025-12-25"));
+        System.out.println("Parameters for Reservation:\n"+reservation);
+        HotelDataBase.addReservation(reservation);
+        List<Reservation> reservations = HotelDataBase.getReservations();
+        System.out.println("Add Reservation Test Result:\nExpected: [\n" +
+                "reserve_id: 1\n" +
+                "room_Number: 1\n" +
+                "guest_id: 1\n" +
+                "name: x\n" +
+                "check_In_Date: 2025-12-24\n" +
+                "check_Out_Date: 2025-12-25\n" +
+                "check_In_Time: 00:00:00\n" +
+                "check_Out_Time: 00:00:00\n" +
+                "card_id: 1\n" +
+                "]" + "\nObserved: " + reservations);
     }
 }
