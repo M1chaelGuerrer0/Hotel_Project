@@ -29,7 +29,7 @@ create TABLE card ( -- second
     card_id INT AUTO_INCREMENT PRIMARY KEY,
     guest_id INT,
     FOREIGN KEY (guest_id) REFERENCES guests(guest_id) ON DELETE CASCADE,
-    holder_Name VARCHAR(50) NOT NULL,
+    holder_Name VARCHAR(100) NOT NULL,
     card_Number VARCHAR(16) UNIQUE NOT NULL,
     expiration VARCHAR(5) NOT NULL,
     cvc VARCHAR(3) NOT NULL,
