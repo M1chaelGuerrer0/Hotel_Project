@@ -3,54 +3,36 @@ import java.util.ArrayList;
 import java.util.List;
 /*
  EVERYTHING YOU NEED TO RUN
- * You need to install mySQL installer and make a custom installation
-   install workbench, client, and shell.
- * You need to make a password and remember it.
- * You need to create a schema called hoteldb.
- * You need to add the plugin called Database Navigator on IntelliJ.
-   Found under settings and plugins.
- * Then you need to find mysql-connection
- ector-j-9.2.0.jar and put it under modules.
-    Under Project structure under dependencies.
- * You need to add a connection
- ection called hoteldb_connection
- ection and make sure the database is hoteldb.
+ * install intellij
+ * install jdk 21
+ * install mySQL installer and make a custom installation. (install workbench, client, and shell.)
+ * Make a password and remember it.
+ * Create a schema called hoteldb.
+ * Add the plugin called Database Navigator on IntelliJ (Found under settings and plugins.)
+ * install mysql-connectionector-j-9.2.0.jar and put it under modules (Under Project structure under dependencies)
+ * Go to db navigator at the top of the screen and create a connection and called hoteldb_connection
+   and change the database to hoteldb.
  * You need to put root as user and use the same password from earlier.
- * You need to download the mysql-connection
- ector-j-9.2.0.zip and extract.
-
- * Create the database tables in "hoteldb.sql"
- * Default USER is root but if you changed it on your end
- * You have to change the variable in this code.
- * Change the PASSWORD variable to your password in this code.
-
- Troubleshoot
- * If having sync issues disconnection
- ect and reconnection
- ect.
- * For more accuracy use the workbench for viewing the tables.
-
- Test
- 4/24/25 video
+ * Test connection and it should be successful.
+ * Run HotelDataBase.reset() once to create the tables
+ * Input the password from earlier under PASSWORD
  */
 
 
 public class HotelDataBase {
-    // Database connection details
     public static final Connection connection;
-
     static {
         try {
-            // Initialize connection once
             connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/hoteldb",
                     "root",
-                    ""
+                    "" // PASSWORD
             );
         } catch (SQLException e) {
             throw new RuntimeException("DB connection failed", e);
         }
     }
+
     // Guest ////////////////////////////////////////////
     /* Guest Methods: HotelDataBase
      * .addGuest(User guest) // add guest in db
@@ -62,7 +44,7 @@ public class HotelDataBase {
 
     /*
      * Add a new guest to guest table in the db
-     * @param guest User object that gives information to be stored
+     * @param guest User class object that gives information to be stored
      */
     public static void addGuest(User guest) {
         try (PreparedStatement stmt = connection.prepareStatement(
@@ -83,15 +65,14 @@ public class HotelDataBase {
             stmt.setString(10, guest.getState());
             stmt.setString(11, guest.getZip_Code());
             stmt.executeUpdate();
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) { // auto assign the key to guest // happens once
                 if (generatedKeys.next()) {
                     guest.setUser_id(generatedKeys.getInt(1));
                 }
             }
             connection.commit();
-
         } catch (SQLException e) {
-            if (e.getErrorCode() == 1062) {
+            if (e.getErrorCode() == 1062) { // if a dupe is caught
                 System.out.println("Error: This Guest is already added to the database.\n"
                         + e.getMessage());
             } else {
@@ -100,7 +81,7 @@ public class HotelDataBase {
         }
     }
     /*
-     * update guest information to the guest table in the db
+     * update guest information to the guest table in the db using guest_id
      * @param newGuest User object that gives information to be stored
      */
     public static void updateGuest(User newGuest) {
@@ -137,8 +118,7 @@ public class HotelDataBase {
     }
     /*
      * Delete a guest from the guest table in the db
-     * @param guestId Integer that is in reference to the guestID
-     * that is to be deleted from the guest table from in the db
+     * @param email the email associated with the guest
      */
     public static void deleteGuest(String email) { // deletes all cards associated with guest as well
         try (Statement stmt = connection.createStatement()) {
@@ -184,9 +164,8 @@ public class HotelDataBase {
     }
     /*
      * Gets one guest from the guest table in the db
-     * @param guestId Integer that is in reference to the guestID
-     * that is to be used to grab from the db
-     * @return guest User object
+     * @param email An email associated with the guest
+     * @return guest User Class Object
      */
     public static User getGuest(String email) {
         try (Statement stmt = connection.createStatement();
@@ -212,7 +191,6 @@ public class HotelDataBase {
         return null;
     }
     // End of Guest /////////////////////////////////////
-
     // Card /////////////////////////////////////////////
 
     /* Card Methods: HotelDataBase
@@ -254,7 +232,7 @@ public class HotelDataBase {
             connection.commit();
 
         } catch (SQLException e) {
-            if (e.getErrorCode() == 1062) {
+            if (e.getErrorCode() == 1062) { // finds dupes
                 System.out.println("Error: This Card is already added to the database.");
             } else {
                 System.out.println("Database error: " + e.getMessage());
@@ -400,7 +378,6 @@ public class HotelDataBase {
         return null;
     }
     // End of Card //////////////////////////////////////
-
     // Room /////////////////////////////////////////////
 
     /* Room Methods: HotelDataBase
@@ -516,6 +493,15 @@ public class HotelDataBase {
     // End of Room //////////////////////////////////////
     // Reservation //////////////////////////////////////
     /*
+     * .addReservation(Reservation reservation) // add res
+     * .updateReservation(Reservation reservation) // update res
+     * .deleteReservation(int reserve_id) // delete res
+     * .getReservations() // get all current res
+     * .getReservationHistory() // get all res
+     * .getReservation(int room_Number) // get a single specific res
+     */
+
+    /*
      * Add a new Reservation to the reservation table in db
      * @param reservation an object created by the Reservation class to be put into the db
      */
@@ -615,6 +601,7 @@ public class HotelDataBase {
      * Gets a List of all Reservation from the room table in the db
      * @return reservations A list of Reservations
      */
+
     public static List<Reservation> getReservations() {
         List<Reservation> reservations = new ArrayList<>();
         try (Statement stmt = connection.createStatement();
@@ -668,6 +655,7 @@ public class HotelDataBase {
      * @param reserve_Id the ID of the reservation
      * @return reservation an object created by the Reservation class
      */
+
     public static Reservation getReservation(int room_Number) {
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM reservation " +
@@ -690,8 +678,8 @@ public class HotelDataBase {
         }
         return null;
     }
-
     // End of Reservation ///////////////////////////////
+
     public static int total_revenue() {
         int total_revenue = 0;
         try (Statement stmt = connection.createStatement();
@@ -769,4 +757,162 @@ public class HotelDataBase {
             e.printStackTrace();
         }
     }
+
+    // Worker ///////////////////////////////////////////
+    /* worker Methods: HotelDataBase
+     * .addWorker(User worker) // add worker in db
+     * .updateWorker(User worker) // update worker in db
+     * .deleteWorker(String email) // delete worker
+     * .getWorker() // list of all worker
+     * .getWorker(String email) // copies a worker from the db into a User
+     */
+
+    /*
+     * Add a new worker to worker table in the db
+     * @param worker User class object that gives information to be stored
+     */
+    public static void addWorker(User worker) {
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "INSERT INTO workers (" +
+                        "first_name, last_name, email, password, phone, " +
+                        "address1, address2, city, country, state, zip_Code) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
+            connection.setAutoCommit(false);
+            stmt.setString(1, worker.getFirst_Name());
+            stmt.setString(2, worker.getLast_Name());
+            stmt.setString(3, worker.getEmail());
+            stmt.setString(4, worker.getPassword());
+            stmt.setString(5, worker.getPhone_Number());
+            stmt.setString(6, worker.getAddress1());
+            stmt.setString(7, worker.getAddress2());
+            stmt.setString(8, worker.getCity());
+            stmt.setString(9, worker.getCountry());
+            stmt.setString(10, worker.getState());
+            stmt.setString(11, worker.getZip_Code());
+            stmt.executeUpdate();
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    worker.setUser_id(generatedKeys.getInt(1));
+                }
+            }
+            connection.commit();
+
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 1062) {
+                System.out.println("Error: This worker is already added to the database.\n"
+                        + e.getMessage());
+            } else {
+                System.out.println("Database error: " + e.getMessage());
+            }
+        }
+    }
+    /*
+     * update guest information to the guest table in the db
+     * @param newGuest User object that gives information to be stored
+     */
+    public static void updateWorker(User worker) {
+        try (PreparedStatement stmt = connection.prepareStatement("UPDATE workers SET " +
+                "first_name=?," +
+                "last_name=?," +
+                "email=?," +
+                "password=?," +
+                "phone=?," +
+                "address1=?," +
+                "address2=?," +
+                "city=?," +
+                "country=?," +
+                "state=?," +
+                "zip_Code=? WHERE worker_id=?")) {
+            connection.setAutoCommit(false);
+            stmt.setString(1, worker.getFirst_Name());
+            stmt.setString(2, worker.getLast_Name());
+            stmt.setString(3, worker.getEmail());
+            stmt.setString(4, worker.getPassword());
+            stmt.setString(5, worker.getPhone_Number());
+            stmt.setString(6, worker.getAddress1());
+            stmt.setString(7, worker.getAddress2());
+            stmt.setString(8, worker.getCity());
+            stmt.setString(9, worker.getCountry());
+            stmt.setString(10, worker.getState());
+            stmt.setString(11, worker.getZip_Code());
+            stmt.setInt(12, worker.getUser_id());
+            stmt.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    /*
+     * Delete a guest from the guest table in the db
+     * @param guestId Integer that is in reference to the guestID
+     * that is to be deleted from the guest table from in the db
+     */
+    public static void deleteWorker(String email) { // deletes all cards associated with guest as well
+        try (Statement stmt = connection.createStatement()) {
+            connection.setAutoCommit(false);
+            stmt.execute("DELETE FROM worker WHERE email = '"+email+"'");
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    /*
+     * Gets a List of all Guests from the guest table in the db
+     * @return guests A list of all guests
+     */
+    public static List<User> getWorkers() {
+        List<User> workers = new ArrayList<>();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM workers")) {
+            while (rs.next()) {
+                workers.add(new User(rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("phone"),
+                        rs.getString("address1"),
+                        rs.getString("address2"),
+                        rs.getString("zip_Code"),
+                        rs.getString("city"),
+                        rs.getString("state"),
+                        rs.getString("country"),
+                        rs.getInt("worker_id")
+                ));
+            }
+            return workers;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /*
+     * Gets one guest from the guest table in the db
+     * @param guestId Integer that is in reference to the guestID
+     * that is to be used to grab from the db
+     * @return guest User object
+     */
+    public static User getWorkert(String email) {
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM workers WHERE email = '"+email+"'")) {
+            while(rs.next()) {
+                User worker = new User(rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("phone"),
+                        rs.getString("address1"),
+                        rs.getString("address2"),
+                        rs.getString("zip_Code"),
+                        rs.getString("city"),
+                        rs.getString("state"),
+                        rs.getString("country"),
+                        rs.getInt("worker_id"));
+                return worker;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    // End of Worker ////////////////////////////////////
 }
