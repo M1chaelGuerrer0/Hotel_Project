@@ -907,7 +907,7 @@ public class HotelDataBase {
      * that is to be used to grab from the db
      * @return guest User object
      */
-    public static User getWorkert(String email) {
+    public static User getWorker(String email) {
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM workers WHERE email = '"+email+"'")) {
             while(rs.next()) {
