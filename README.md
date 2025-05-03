@@ -1,31 +1,23 @@
 # Hotel_Project
 DEDSEC Hotel Project
 
-## EVERYTHING YOU NEED TO RUN
- * You need to install mySQL installer and make a custom installation
-   install workbench, client, and shell.
- * You need to make a password and remember it.
- * You need to create a schema called hoteldb.
- * You need to add the plugin called Database Navigator on IntelliJ.
-   Found under settings and plugins.
- * Then you need to find mysql-connector-j-9.2.0.jar and put it under modules.
-    Under Project structure under dependencies.
- * You need to add a connection called hoteldb_connection and make sure the database is hoteldb.
+## EVERYTHING YOU NEED TO RUN THE DATABASE
+ * install intellij
+ * install jdk 21
+ * install mySQL installer and make a custom installation. (install workbench, client, and shell.)
+ * Make a password and remember it.
+ * Create a schema called hoteldb.
+ * Add the plugin called Database Navigator on IntelliJ (Found under settings and plugins.)
+ * install mysql-connectionector-j-9.2.0.jar and put it under modules (Under Project structure under dependencies)
+ * Go to db navigator at the top of the screen and create a connection and called hoteldb_connection and change the database to hoteldb.
  * You need to put root as user and use the same password from earlier.
- * You need to download the mysql-connector-j-9.2.0.zip and extract.
+ * Test connection and it should be successful.
+ * Run HotelDataBase.reset() once to create the tables
+ * Input the password from earlier under PASSWORD
 
- * Create the database tables in "hoteldb.sql"
- * Default USER is root but if you changed it on your end
- * You have to change the variable in this code.
- * Change the PASSWORD variable to your password in this code.
+## EVERYTHING YOU NEED TO RUN THE TEST
+ * need to be a maven project
+ * update the pom.xml file // should be automatic when pressing on the red text (errors)
+ * make sure it is JUnit 5.0.0 or higher // reject if told any version below
+ * Files needed: HotelDataBase.java User.java Card.java hoteldb.sql
 
-## Troubleshoot
- * If having sync issues disconnect and reconnect.
- * For more accuracy use the workbench for viewing the tables.
-
-## DEMO
- * Run first and read comments
- * Any errors are more than likely failure to read comments
- * Ask me for help if needed.
-
-We goated
