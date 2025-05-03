@@ -1,14 +1,6 @@
 package com.example.Hotel;
 
-/*
-    Check-in / Check-out controller
-    4/18/25
-    @author Mirella soto
-
-    This class is the controller for the check-in/check-out scene,
-    also serving as a current reservation and revenue list
-*/
-
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -21,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class checkController extends HotelDataBase {
-   //Time formatting
+    //Time formatting
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     @FXML
@@ -67,13 +59,13 @@ public class checkController extends HotelDataBase {
                     Reservation reservation = (Reservation) getTableRow().getItem();
                     int pricePerNight = getRoomPrice(reservation.getRoom_Number());
                     int calculatedRevenue = calculateRevenue(reservation, pricePerNight);
-                    setText(String.format("$%.2f", calculatedRevenue));
+                    setText(String.format("%d", calculatedRevenue));
                 }
             }
         });
 
         // gets list from getInitialList() method
-        table.setItems(HotelDataBase.getCheckList());
+        table.setItems(FXCollections.observableArrayList(getReservations()));
     }
 
     // get the price per night for a room from the database
@@ -85,7 +77,7 @@ public class checkController extends HotelDataBase {
             stmt.setInt(1, roomNumber);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    price = rs.getInteger("price_per_night");
+                    price = rs.getInt("price_per_night");
                 }
             }
         } catch (SQLException e) {
@@ -97,13 +89,12 @@ public class checkController extends HotelDataBase {
     // Method to calculate the revenue based on price per night and stay duration
     private int calculateRevenue(Reservation reservation, int pricePerNight) {
         try {
-            // Parse check-in and check-out dates (only the date part)
+            
             LocalDate checkInDate = LocalDate.parse(reservation.getCheck_In_Date().toString());
             LocalDate checkOutDate = LocalDate.parse(reservation.getCheck_Out_Date().toString());
 
-            // Calculate the number of days stayed (using the date only)
             long stayLength = ChronoUnit.DAYS.between(checkInDate, checkOutDate);
-            return stayLength * pricePerNight;
+            return (int) (stayLength * pricePerNight);
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
@@ -116,7 +107,22 @@ public class checkController extends HotelDataBase {
     */
     @FXML
     public void Refresh() {
-        table.setItems(HotelDataBase.getCheckList());
+        table.setItems(FXCollections.observableArrayList(getReservations()));
+    }
+
+    /*
+        Delete button deletes selected reservation
+        pressed when the worker wants to delete a reservation
+    */
+
+    @FXML
+    public void Delete() {
+        Reservation selected = table.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            int id = selected.getReserve_id();
+            HotelDataBase.deleteReservation(id);
+            table.refresh();
+        }
     }
 
     /*

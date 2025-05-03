@@ -22,6 +22,7 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
     <children>
+	<Button fx:id="deletebutton" mnemonicParsing="false" onAction="#Delete" text="Delete" translateX="-220.0" translateY="136.0" />
         <Button fx:id="Refresh" mnemonicParsing="false" onAction="#Refresh" text="Refresh" translateX="-165.0" translateY="90.0" />
         <Button fx:id="InButton" mnemonicParsing="false" onAction="#setCheckInTime" text="Set check-in time" translateY="45.0" />
         <Button fx:id="OutButton" mnemonicParsing="false" onAction="#setCheckOutTime" text="Set check-out time" translateX="165.0" />
