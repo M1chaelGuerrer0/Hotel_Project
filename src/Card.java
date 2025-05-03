@@ -1,5 +1,3 @@
-package Application;
-
 public class Card {
     private String holder_Name;
     private String card_Number;

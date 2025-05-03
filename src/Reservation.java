@@ -1,5 +1,3 @@
-package Application;
-
 import java.sql.Date;
 import java.sql.Time;
 
@@ -15,8 +13,8 @@ This class contains important information needed in order to reserve a room.
     private String name;
     private Date check_In_Date;
     private Date check_Out_Date;
-    private Time check_In_Time = Time.valueOf("00:00:00");
-    private Time check_Out_Time = Time.valueOf("00:00:00");
+    private Time check_In_Time;
+    private Time check_Out_Time;
     private int card_id;
 
     public Reservation(){}

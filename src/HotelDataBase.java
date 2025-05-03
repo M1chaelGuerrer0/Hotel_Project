@@ -1,5 +1,3 @@
-package Application;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,10 +66,10 @@ public class HotelDataBase {
      */
     public static void addGuest(User guest) {
         try (PreparedStatement stmt = connection.prepareStatement(
-                     "INSERT INTO guests (" +
-                             "first_name, last_name, email, password, phone, " +
-                             "address1, address2, city, country, state, zip_Code) " +
-                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
+                "INSERT INTO guests (" +
+                        "first_name, last_name, email, password, phone, " +
+                        "address1, address2, city, country, state, zip_Code) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
             connection.setAutoCommit(false);
             stmt.setString(1, guest.getFirst_Name());
             stmt.setString(2, guest.getLast_Name());
@@ -107,17 +105,17 @@ public class HotelDataBase {
      */
     public static void updateGuest(User newGuest) {
         try (PreparedStatement stmt = connection.prepareStatement("UPDATE guests SET " +
-                     "first_name=?," +
-                     "last_name=?," +
-                     "email=?," +
-                     "password=?," +
-                     "phone=?," +
-                     "address1=?," +
-                     "address2=?," +
-                     "city=?," +
-                     "country=?," +
-                     "state=?," +
-                     "zip_Code=? WHERE guest_id=?")) {
+                "first_name=?," +
+                "last_name=?," +
+                "email=?," +
+                "password=?," +
+                "phone=?," +
+                "address1=?," +
+                "address2=?," +
+                "city=?," +
+                "country=?," +
+                "state=?," +
+                "zip_Code=? WHERE guest_id=?")) {
             connection.setAutoCommit(false);
             stmt.setString(1, newGuest.getFirst_Name());
             stmt.setString(2, newGuest.getLast_Name());
@@ -142,11 +140,14 @@ public class HotelDataBase {
      * @param guestId Integer that is in reference to the guestID
      * that is to be deleted from the guest table from in the db
      */
-    public static void deleteGuest(String email) {
-        try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM guests WHERE email = ?")) {
+    public static void deleteGuest(String email) { // deletes all cards associated with guest as well
+        try (Statement stmt = connection.createStatement()) {
             connection.setAutoCommit(false);
-            stmt.setString(1,email);
-            stmt.executeUpdate();
+            stmt.execute("SET FOREIGN_KEY_CHECKS = 0");
+            stmt.execute("DELETE c FROM card c JOIN guests g ON " +
+                    "c.guest_id = g.guest_id WHERE g.email = '" + email + "'");
+            stmt.execute("DELETE FROM guests WHERE email = '"+email+"'");
+            stmt.execute("SET FOREIGN_KEY_CHECKS = 1");
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -301,10 +302,11 @@ public class HotelDataBase {
      * @param card_id the id associated with the card
      */
     public static void deleteCard(int card_id) {
-        try (PreparedStatement stmt = connection.prepareStatement(
-                     "DELETE FROM card WHERE card_id = "+card_id)) {
+        try (Statement stmt = connection.createStatement()) {
             connection.setAutoCommit(false);
-            stmt.executeUpdate();
+            stmt.execute("SET FOREIGN_KEY_CHECKS = 0");
+            stmt.execute("DELETE FROM card WHERE card_id = "+card_id);
+            stmt.execute("SET FOREIGN_KEY_CHECKS = 1");
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -457,10 +459,11 @@ public class HotelDataBase {
      * @param room_Number the number of the room
      */
     public static void deleteRoom(int room_Number) {
-        try (PreparedStatement stmt = connection .prepareStatement(
-                "DELETE FROM room WHERE room_Number = "+room_Number)) {
+        try (Statement stmt = connection.createStatement()) {
             connection.setAutoCommit(false);
-            stmt.executeUpdate();
+            stmt.execute("SET FOREIGN_KEY_CHECKS = 0");
+            stmt.execute("DELETE FROM room WHERE room_Number = "+room_Number);
+            stmt.execute("SET FOREIGN_KEY_CHECKS = 1");
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -615,6 +618,32 @@ public class HotelDataBase {
     public static List<Reservation> getReservations() {
         List<Reservation> reservations = new ArrayList<>();
         try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM reservation WHERE check_Out_Time IS NULL")) {
+            while (rs.next()) {
+                reservations.add(new Reservation(rs.getInt("reserve_id"),
+                        rs.getInt("room_Number"),
+                        rs.getInt("guest_id"),
+                        rs.getString("name"),
+                        rs.getDate("check_In_Date"),
+                        rs.getDate("check_Out_Date"),
+                        rs.getTime("check_In_Time"),
+                        rs.getTime("check_Out_Time"),
+                        rs.getInt("card_id")
+                ));
+            }
+            return reservations;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /*
+     * Gets a List of all Reservation from the room table in the db
+     * @return reservations A list of Reservations
+     */
+    public static List<Reservation> getReservationHistory() {
+        List<Reservation> reservations = new ArrayList<>();
+        try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM reservation")) {
             while (rs.next()) {
                 reservations.add(new Reservation(rs.getInt("reserve_id"),
@@ -626,7 +655,7 @@ public class HotelDataBase {
                         rs.getTime("check_In_Time"),
                         rs.getTime("check_Out_Time"),
                         rs.getInt("card_id")
-                        ));
+                ));
             }
             return reservations;
         } catch (SQLException e) {
@@ -645,15 +674,15 @@ public class HotelDataBase {
                      "WHERE room_Number = " + room_Number)) {
             while(rs.next()) {
                 Reservation reservation = new Reservation(rs.getInt("reserve_id"),
-                                rs.getInt("room_Number"),
-                                rs.getInt("guest_id"),
-                                rs.getString("name"),
-                                rs.getDate("check_In_Date"),
-                                rs.getDate("check_Out_Date"),
-                                rs.getTime("check_In_Time"),
-                                rs.getTime("check_Out_Time"),
-                                rs.getInt("card_id")
-                        );
+                        rs.getInt("room_Number"),
+                        rs.getInt("guest_id"),
+                        rs.getString("name"),
+                        rs.getDate("check_In_Date"),
+                        rs.getDate("check_Out_Date"),
+                        rs.getTime("check_In_Time"),
+                        rs.getTime("check_Out_Time"),
+                        rs.getInt("card_id")
+                );
                 return reservation;
             }
         } catch (SQLException e) {
@@ -661,6 +690,7 @@ public class HotelDataBase {
         }
         return null;
     }
+
     // End of Reservation ///////////////////////////////
     public static int total_revenue() {
         int total_revenue = 0;
@@ -674,5 +704,69 @@ public class HotelDataBase {
             e.printStackTrace();
         }
         return total_revenue;
+    }
+    public static void reset() { // NEEDS TO BE UPDATE WHEN CHANGES ARE MADE
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute("DROP TABLE IF EXISTS reservation");
+            stmt.execute("DROP TABLE IF EXISTS room");
+            stmt.execute("DROP TABLE IF EXISTS card");
+            stmt.execute("DROP TABLE IF EXISTS guests");
+            stmt.execute("create TABLE guests (\n" +
+                    "    guest_id INT AUTO_INCREMENT PRIMARY KEY,\n" +
+                    "    first_name VARCHAR(50) NOT NULL,\n" +
+                    "    last_name VARCHAR(50) NOT NULL,\n" +
+                    "    email VARCHAR(100) UNIQUE NOT NULL,\n" +
+                    "    password VARCHAR(100) NOT NULL,\n" +
+                    "    phone VARCHAR(20) NOT NULL,\n" +
+                    "    address1 VARCHAR(100) NOT NULL,\n" +
+                    "    address2 VARCHAR(100),\n" +
+                    "    city VARCHAR(20) NOT NULL,\n" +
+                    "    country VARCHAR(20) NOT NULL,\n" +
+                    "    state VARCHAR(2) NOT NULL,\n" +
+                    "    zip_Code VARCHAR(5) NOT NULL,\n" +
+                    "    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n" +
+                    ")");
+            stmt.execute("create TABLE card (\n" +
+                    "    card_id INT AUTO_INCREMENT PRIMARY KEY,\n" +
+                    "    guest_id INT,\n" +
+                    "    FOREIGN KEY (guest_id) REFERENCES guests(guest_id),\n" +
+                    "    holder_Name VARCHAR(50) NOT NULL,\n" +
+                    "    card_Number VARCHAR(16) UNIQUE NOT NULL,\n" +
+                    "    expiration VARCHAR(5) NOT NULL,\n" +
+                    "    cvc VARCHAR(3) NOT NULL,\n" +
+                    "    address1 VARCHAR(100) NOT NULL,\n" +
+                    "    address2 VARCHAR(100),\n" +
+                    "    city VARCHAR(20) NOT NULL,\n" +
+                    "    country VARCHAR(20) NOT NULL,\n" +
+                    "    state VARCHAR(2) NOT NULL,\n" +
+                    "    zip_Code VARCHAR(5) NOT NULL,\n" +
+                    "    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n" +
+                    ")");
+            stmt.execute("create TABLE room (\n" +
+                    "    room_Number INT AUTO_INCREMENT PRIMARY KEY,\n" +
+                    "    room_Type VARCHAR(10) NOT NULL,\n" +
+                    "    price_Per_Night DECIMAL(10,2) NOT NULL,\n" +
+                    "    room_Capacity INT NOT NULL,\n" +
+                    "    availability VARCHAR(10) NOT NULL,\n" +
+                    "    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n" +
+                    ")");
+            stmt.execute("create TABLE reservation (\n" +
+                    "    reserve_id INT AUTO_INCREMENT PRIMARY KEY,\n" +
+                    "    room_Number INT NOT NULL,\n" +
+                    "    guest_id INT NOT NULL,\n" +
+                    "    card_id INT NOT NULL,\n" +
+                    "    name VARCHAR(100) NOT NULL,\n" +
+                    "    check_In_Date DATE NOT NULL,\n" +
+                    "    check_Out_Date DATE  NOT NULL,\n" +
+                    "    check_In_Time TIME,\n" +
+                    "    check_Out_Time TIME,\n" +
+                    "    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n" +
+                    "    FOREIGN KEY (room_Number) REFERENCES room(room_Number),\n" +
+                    "    FOREIGN KEY (guest_id) REFERENCES guests(guest_id),\n" +
+                    "    FOREIGN KEY (card_id) REFERENCES card(card_id)\n" +
+                    ")");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
