@@ -79,6 +79,10 @@ public class RegisterController extends HotelDataBase {
 
     private Stage stage;
 
+    String empFlag = "@diamond.com";
+
+    String manFlag = "@man.diamond.com";
+
     /*
         Warming prompt indicating that the users passwords do not match
     */
@@ -150,6 +154,8 @@ public class RegisterController extends HotelDataBase {
             information
         */
         if (match == 0) {
+            System.out.println("Your passwords match.");
+
             User guest = new User(firstname, lastname, email, password, phone, address1,
                                   address2, zipCode, city, state, country, 0);
 
@@ -166,8 +172,10 @@ public class RegisterController extends HotelDataBase {
             guest.setState(state);
             guest.setZip_Code(zipCode);
 
-            HotelDataBase.addGuest(guest);
-            System.out.println("Your passwords match.");
+            // checks if the new register is an employee or manager
+            if (email.contains(empFlag) || email.contains(manFlag)) {
+                HotelDataBase.addWorker(guest);
+            } else { HotelDataBase.addGuest(guest); }
 
             root = FXMLLoader.load(getClass().getResource("login.fxml"));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();

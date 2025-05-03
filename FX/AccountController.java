@@ -79,7 +79,10 @@ public class AccountController extends LoginController {
     */
     public void displayInfo() {
         User guest;
-        guest = HotelDataBase.getGuest(inputEmail);
+
+        if (inputEmail.contains(empFlag) || inputEmail.contains(manFlag)) {
+            guest = HotelDataBase.getWorker(inputEmail);
+        } else { guest = HotelDataBase.getGuest(inputEmail); }
 
         assert guest != null;
         String firstName = guest.getFirst_Name();

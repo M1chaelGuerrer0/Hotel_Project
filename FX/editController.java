@@ -206,8 +206,6 @@ public class editController extends AccountController {
             assert guest != null;
 
             // Updates changed info of the logged-in user and then store that in the database
-
-            // TODO : email editing still needs to be possible
             guest.setFirst_Name(firstname);
             guest.setLast_Name(lastname);
             guest.setPassword(password);
