@@ -1,16 +1,22 @@
-package com.example.Hotel;
+package com.example.gooncentral;
+
+/*
+     Check-in / Check-out controller
+     5/3/25
+     @author Mirella soto
+
+     This class is the controller for the check-in/check-out scene,
+     displays a current reservation table and room table
+ */
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
 public class checkController extends HotelDataBase {
     //Time formatting
@@ -30,12 +36,19 @@ public class checkController extends HotelDataBase {
     private TableColumn<Reservation, String> checkOutDate;
     @FXML
     private TableColumn<Reservation, String> checkOutTime;
-    @FXML
-    private TableColumn<Reservation, String> revenue;
 
-    private static final String URL = "jdbc:mysql://localhost:3306/hoteldb";
-    private static final String USER = "root";
-    private static final String PASSWORD = "password";
+    @FXML
+    private TableView<Room> table0;
+    @FXML
+    private TableColumn<Room, String> type;
+    @FXML
+    private TableColumn<Room, Integer> room;
+    @FXML
+    private TableColumn<Room, String> price;
+    @FXML
+    private TableColumn<Room, String> capacity;
+    @FXML
+    private TableColumn<Room, String> availability;
 
     // sets up the TableView when the controller is initialized
     @FXML
@@ -47,58 +60,19 @@ public class checkController extends HotelDataBase {
         checkOutDate.setCellValueFactory(new PropertyValueFactory<Reservation, String>("check_Out_Date"));
         checkInTime.setCellValueFactory(new PropertyValueFactory<Reservation, String>("check_In_Time"));
         checkOutTime.setCellValueFactory(new PropertyValueFactory<Reservation, String>("check_Out_Time"));
-        revenue.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(""));
-
-        revenue.setCellFactory(col -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
-                    setText(null);
-                } else {
-                    Reservation reservation = (Reservation) getTableRow().getItem();
-                    int pricePerNight = getRoomPrice(reservation.getRoom_Number());
-                    int calculatedRevenue = calculateRevenue(reservation, pricePerNight);
-                    setText(String.format("%d", calculatedRevenue));
-                }
-            }
-        });
 
         // gets list from getInitialList() method
         table.setItems(FXCollections.observableArrayList(getReservations()));
-    }
 
-    // get the price per night for a room from the database
-    private int getRoomPrice(int roomNumber) {
-        int price = 0;
-        String query = "SELECT price_per_night FROM room WHERE room_number = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, roomNumber);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    price = rs.getInt("price_per_night");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return price;
-    }
 
-    // Method to calculate the revenue based on price per night and stay duration
-    private int calculateRevenue(Reservation reservation, int pricePerNight) {
-        try {
-            
-            LocalDate checkInDate = LocalDate.parse(reservation.getCheck_In_Date().toString());
-            LocalDate checkOutDate = LocalDate.parse(reservation.getCheck_Out_Date().toString());
+        type.setCellValueFactory(new PropertyValueFactory<Room, String>("room_Type"));
+        room.setCellValueFactory(new PropertyValueFactory<Room, Integer>("room_Number"));
+        price.setCellValueFactory(new PropertyValueFactory<Room, String>("price_Per_Night"));
+        capacity.setCellValueFactory(new PropertyValueFactory<Room, String>("room_Capacity"));
+        availability.setCellValueFactory(new PropertyValueFactory<Room, String>("availability"));
 
-            long stayLength = ChronoUnit.DAYS.between(checkInDate, checkOutDate);
-            return (int) (stayLength * pricePerNight);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+        table0.setItems(FXCollections.observableArrayList(getRooms()));
+
     }
 
     /*

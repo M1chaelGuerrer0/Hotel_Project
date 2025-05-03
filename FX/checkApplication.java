@@ -1,4 +1,4 @@
-package com.example.Hotel;
+package om.example.gooncentral;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,8 +11,7 @@ public class checkApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(checkApplication.class.getResource("check.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 817, 617);
-        stage.setTitle("Check In and Out");
+        Scene scene = new Scene(fxmlLoader.load(), 800, 800);
         stage.setScene(scene);
         stage.show();
     }
