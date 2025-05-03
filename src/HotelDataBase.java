@@ -695,6 +695,7 @@ public class HotelDataBase {
     }
     public static void reset() { // NEEDS TO BE UPDATE WHEN CHANGES ARE MADE
         try (Statement stmt = connection.createStatement()) {
+            stmt.execute("DROP TABLE IF EXISTS workers");
             stmt.execute("DROP TABLE IF EXISTS reservation");
             stmt.execute("DROP TABLE IF EXISTS room");
             stmt.execute("DROP TABLE IF EXISTS card");
@@ -752,6 +753,21 @@ public class HotelDataBase {
                     "    FOREIGN KEY (room_Number) REFERENCES room(room_Number),\n" +
                     "    FOREIGN KEY (guest_id) REFERENCES guests(guest_id),\n" +
                     "    FOREIGN KEY (card_id) REFERENCES card(card_id)\n" +
+                    ")");
+            stmt.execute("CREATE TABLE workers (\n" +
+                    "    worker_id INT AUTO_INCREMENT PRIMARY KEY,\n" +
+                    "    first_name VARCHAR(50) NOT NULL,\n" +
+                    "    last_name VARCHAR(50) NOT NULL,\n" +
+                    "    email VARCHAR(100) UNIQUE NOT NULL,\n" +
+                    "    password VARCHAR(100) NOT NULL,\n" +
+                    "    phone VARCHAR(20) NOT NULL,\n" +
+                    "    address1 VARCHAR(100) NOT NULL,\n" +
+                    "    address2 VARCHAR(100),\n" +
+                    "    city VARCHAR(20) NOT NULL,\n" +
+                    "    country VARCHAR(20) NOT NULL,\n" +
+                    "    state VARCHAR(2) NOT NULL,\n" +
+                    "    zip_Code VARCHAR(5) NOT NULL,\n" +
+                    "    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n" +
                     ")");
         } catch (SQLException e) {
             e.printStackTrace();
