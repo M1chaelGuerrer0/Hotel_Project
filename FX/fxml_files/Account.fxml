@@ -113,12 +113,12 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="emailDisplay1" layoutX="100.0" layoutY="52.0" prefHeight="25.0" prefWidth="500.0" text="null">
+      <Label fx:id="firstDisplay" layoutX="100.0" layoutY="52.0" prefHeight="25.0" prefWidth="500.0" text="null">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="emailDisplay2" layoutX="100.0" layoutY="76.0" prefHeight="25.0" prefWidth="500.0" text="null">
+      <Label fx:id="lastDisplay" layoutX="100.0" layoutY="76.0" prefHeight="25.0" prefWidth="500.0" text="null">
          <font>
             <Font size="16.0" />
          </font>
