@@ -123,9 +123,6 @@ public class ParentController extends LoginController {
             checkButton.setDisable(true);
             workButton.setVisible(false);
             workButton.setDisable(true);
-            logoutButton.setVisible(false);
-            loginButton.setVisible(true);
-            loginButton.setDisable(false);
 
             stage = (Stage) parentScene.getScene().getWindow();
             System.out.println("Logged Out Successfully");
