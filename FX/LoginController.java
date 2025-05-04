@@ -13,6 +13,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /*
@@ -54,9 +56,17 @@ public class LoginController {
 
     public static Boolean logStatus = false;
 
+    public static Boolean empStatus = false;
+
+    public static Boolean manStatus = false;
+
     public static String inputEmail;
 
     public String password;
+
+    String empFlag = "@diamond.com";
+
+    String manFlag = "@man.diamond.com";
 
 
     /*
@@ -116,34 +126,73 @@ public class LoginController {
             email exists by retrieving it from the database as an object, and then comparing the password input
             to the one in the database. Catches runtime exceptions when the email could not be found.
         */
-        try {
-            guest = HotelDataBase.getGuest(inputEmail);
-            password = guest.getPassword();
-            int match = inputPassword.compareTo(password);           // compares the two password input to confirm if they match
-            System.out.println(match);                               // will return 0, if a mismatch will return an int != 0
+        if (inputEmail.contains(empFlag) || inputEmail.contains(manFlag)) {
+
+            empStatus = true;
+            System.out.println("Employee logged in: " + empStatus);
+
+            manStatus = inputEmail.contains(manFlag);
+            System.out.println("Manager logged in: " + manStatus);
+
+            try {
+                guest = HotelDataBase.getWorker(inputEmail);
+                password = guest.getPassword();
+
+                int match = inputPassword.compareTo(password);         // compares the two password input to confirm if they match
+                System.out.println("Password match status: " + match); // will return 0, if a mismatch will return an int != 0
+
+                /*
+                    Checks whether match was 0, and if so then the user may proceed to the Parent scene, and if not mismatch()
+                    is called and the user is prompted to check their entered information
+                */
+                if (match == 0) {
+                    logStatus = true;
+                    System.out.println("logStatus: " + logStatus);
+                    System.out.println("Your password is correct.");
+                    root = FXMLLoader.load(getClass().getResource("Parent.fxml"));
+                    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                } else {
+                    System.out.println("Your password did not match.");
+                    mismatch();
+                }
+            } catch (RuntimeException e) {
+                mismatch();
+            }
+        } else {
+
+            try {
+                guest = HotelDataBase.getGuest(inputEmail);
+                password = guest.getPassword();
+
+                int match = inputPassword.compareTo(password);         // compares the two password input to confirm if they match
+                System.out.println("Password match status: " + match); // will return 0, if a mismatch will return an int != 0
 
             /*
                 Checks whether match was 0, and if so then the user may proceed to the Parent scene, and if not mismatch()
                 is called and the user is prompted to check their entered information
             */
-            if (match == 0) {
-                logStatus = true;
-                System.out.println("logStatus: " + logStatus);
-                System.out.println("Your password is correct.");
-                root = FXMLLoader.load(getClass().getResource("Parent.fxml"));
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            } else {
-                System.out.println("Your password did not match.");
+                if (match == 0) {
+                    logStatus = true;
+                    System.out.println("logStatus: " + logStatus);
+                    System.out.println("Your password is correct.");
+                    root = FXMLLoader.load(getClass().getResource("Parent.fxml"));
+                    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                } else {
+                    System.out.println("Your password did not match.");
+                    mismatch();
+                }
+            } catch (RuntimeException e) {
                 mismatch();
             }
-        } catch (RuntimeException e) {
-            mismatch();
         }
 
-        System.out.println(inputEmail);
+        System.out.println("Logged in using email: " + inputEmail);
         return inputEmail;
     }
 
