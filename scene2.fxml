@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo9.ReservationController">
+   <children>
+      <Label alignment="TOP_CENTER" text="Reservation">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0">
+         <children>
+            <Label text="Check-in Date" />
+            <DatePicker fx:id="myDatePicker" prefHeight="25.0" prefWidth="285.0" />
+            <Label fx:id="myLabel" prefHeight="17.0" prefWidth="606.0" />
+            <Label text="Check-outDate" />
+            <DatePicker fx:id="myDatePicker2" prefHeight="25.0" prefWidth="283.0" />
+            <Button mnemonicParsing="false" onAction="#switchToScene1" text="Finish" />
+         </children>
+      </VBox>
+      <Button mnemonicParsing="false" onAction="#switchToScene0" text="Cancel" />
+   </children>
+</VBox>
