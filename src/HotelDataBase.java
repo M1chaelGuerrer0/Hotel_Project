@@ -628,7 +628,7 @@ public class HotelDataBase {
     public static List<Reservation> getReservations() {
         List<Reservation> reservations = new ArrayList<>();
         try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM reservation WHERE check_Out_Time IS NULL")) {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM reservation WHERE check_Out_Time = '00:00:00'")) {
             while (rs.next()) {
                 reservations.add(new Reservation(rs.getInt("reserve_id"),
                         rs.getInt("room_Number"),

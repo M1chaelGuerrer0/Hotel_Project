@@ -32,6 +32,8 @@ public class HotelDemo {
         reservation.setName("Godzilla");
         reservation.setCheck_In_Date(Date.valueOf("2025-12-24")); // format
         reservation.setCheck_Out_Date(Date.valueOf("2025-12-26")); // format
+        reservation.setCheck_In_Time(Time.valueOf("00:00:00")); // format
+        reservation.setCheck_Out_Time(Time.valueOf("00:00:00")); // format
         System.out.println("\nPREP FOR RESERVATION:(if any 0's then failure)\n\tguest_id = "+
                 guest.getUser_id()+"\n\tcard_id = "+card.getCard_id()+"\n\troom_Number = "+room.getRoom_Number());
         HotelDataBase.addReservation(reservation); // current reservation to db
