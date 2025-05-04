@@ -1,4 +1,4 @@
-package om.example.gooncentral;
+package com.example.gooncentral;
 
 /*
      Check-in / Check-out controller
