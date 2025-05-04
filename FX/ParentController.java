@@ -83,6 +83,7 @@ public class ParentController extends LoginController {
         }
 
     }
+    }
 
     /*
         Switches from the current scene to the Login scene
@@ -165,6 +166,7 @@ public class ParentController extends LoginController {
              stage.setScene(scene);
              stage.show();
          }
+     }
 
     /*
         Initializes the scene by firing the button automatically to display the user's account information
