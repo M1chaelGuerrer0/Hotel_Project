@@ -147,6 +147,7 @@ public class ParentController extends LoginController {
 
     /*
     
+    Switches from the current scene to the Account scene
      @param event listens for when an event fires
      */
      public void accountButton(ActionEvent event) throws IOException {
@@ -166,7 +167,6 @@ public class ParentController extends LoginController {
          }
 
     /*
-         Switches from the current scene to the Account scene
         Initializes the scene by firing the button automatically to display the user's account information
     */
     public void initialize() {
