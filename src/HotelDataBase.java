@@ -889,7 +889,7 @@ public class HotelDataBase {
     public static void deleteWorker(String email) { // deletes all cards associated with guest as well
         try (Statement stmt = connection.createStatement()) {
             connection.setAutoCommit(false);
-            stmt.execute("DELETE FROM worker WHERE email = '"+email+"'");
+            stmt.execute("DELETE FROM workers WHERE email = '"+email+"'");
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
