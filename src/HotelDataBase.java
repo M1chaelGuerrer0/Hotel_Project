@@ -490,6 +490,29 @@ public class HotelDataBase {
         }
         return null;
     }
+
+    /*
+     * Gets a List of all rooms of a certain type from the room table in the db
+     * @return rooms A list of rooms
+     */
+    public static List<Room> getRoomOfType(String room_Type) {
+        List<Room> rooms = new ArrayList<>();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM room WHERE room_Type = '" +room_Type+"'")) {
+            while (rs.next()) {
+                rooms.add(new Room(rs.getInt("room_Number"),
+                        rs.getString("room_Type"),
+                        rs.getDouble("price_Per_Night"),
+                        rs.getInt("room_Capacity"),
+                        rs.getString("availability")
+                ));
+            }
+            return rooms;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     // End of Room //////////////////////////////////////
     // Reservation //////////////////////////////////////
     /*
@@ -605,7 +628,7 @@ public class HotelDataBase {
     public static List<Reservation> getReservations() {
         List<Reservation> reservations = new ArrayList<>();
         try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM reservation WHERE check_Out_Time = '00:00:00'")) {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM reservation WHERE check_Out_Time IS NULL")) {
             while (rs.next()) {
                 reservations.add(new Reservation(rs.getInt("reserve_id"),
                         rs.getInt("room_Number"),
