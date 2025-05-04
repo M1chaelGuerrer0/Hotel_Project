@@ -146,6 +146,27 @@ public class ParentController extends LoginController {
     }
 
     /*
+    
+     @param event listens for when an event fires
+     */
+     public void accountButton(ActionEvent event) throws IOException {
+         System.out.println(logStatus);
+         if (LoginController.logStatus) {
+             root = FXMLLoader.load(getClass().getResource("Account.fxml"));
+             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+             scene = new Scene(root);
+             stage.setScene(scene);
+             stage.show();
+         } else {
+             root = FXMLLoader.load(getClass().getResource("login.fxml"));
+             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+             scene = new Scene(root);
+             stage.setScene(scene);
+             stage.show();
+         }
+
+    /*
+         Switches from the current scene to the Account scene
         Initializes the scene by firing the button automatically to display the user's account information
     */
     public void initialize() {
