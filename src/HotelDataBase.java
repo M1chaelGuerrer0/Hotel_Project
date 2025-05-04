@@ -706,7 +706,7 @@ public class HotelDataBase {
     public static int total_revenue() {
         int total_revenue = 0;
         try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT SUM(price_Per_Night) " +
+             ResultSet rs = stmt.executeQuery("SELECT SUM(price_Per_Night * DATEDIFF(res.check_Out_Date, res.check_In_Date)) " +
                      "AS total_revenue FROM reservation res JOIN room r ON res.room_Number = r.room_Number;")) {
             while(rs.next()) {
                 return total_revenue = rs.getInt("total_revenue");
