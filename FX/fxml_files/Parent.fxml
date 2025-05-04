@@ -8,25 +8,38 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="parentScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="632.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gooncentral.ParentController">
+<AnchorPane fx:id="parentScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="632.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.demo31.ParentController">
    <children>
-      <Button fx:id="loginButton" layoutX="465.0" layoutY="13.0" mnemonicParsing="false" onAction="#loginButton" text="Login" />
-      <Label layoutX="201.0" layoutY="3.0" prefHeight="70.0" prefWidth="198.0" text="DIAMOND RESORT" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="226.0" layoutY="-1.0" prefHeight="40.0" prefWidth="148.0" text="DIAMOND" textAlignment="CENTER" AnchorPane.leftAnchor="226.0" AnchorPane.rightAnchor="227.0">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
-      <Button fx:id="logoutButton" layoutX="460.0" layoutY="13.0" mnemonicParsing="false" onAction="#logoutButton" prefHeight="25.0" prefWidth="55.0" text="Logout" visible="false">
-         <padding>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-         </padding>
-      </Button>
-      <Button fx:id="accountButton" layoutX="520.0" layoutY="13.0" mnemonicParsing="false" onAction="#accountButton" text="Account" />
+
       <Button fx:id="initialize" layoutX="274.0" layoutY="99.0" mnemonicParsing="false" onAction="#displayLoginLogout" text="Button" visible="false" />
-      <ImageView fx:id="imageView" fitHeight="304.0" fitWidth="608.0" layoutX="-6.666666666666667" layoutY="54.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="-6.666666666666667" AnchorPane.rightAnchor="-1.3333333333333712">
+      <ToolBar layoutX="0" layoutY="-1.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0">
+         <items>
+
+            <Button fx:id="checkButton" mnemonicParsing="false" onAction="#checkButton" text="check" />
+            <Button fx:id="workButton" mnemonicParsing="false" onAction="#workButton" text="work" />
+         </items>
+      </ToolBar>
+      <ImageView fx:id="imageView" blendMode="MULTIPLY" fitHeight="295.0" fitWidth="600.0" layoutX="4.333333333333334" layoutY="71.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.333333333333334" AnchorPane.rightAnchor="5.666666666666629">
          <image>
             <Image url="@../../../images/GTA-5-Diamond-Casino.png" />
          </image>
       </ImageView>
+      <ToolBar layoutX="400.0" layoutY="-1.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+         <items>
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginButton" text="Login" />
+            <Button fx:id="accountButton" mnemonicParsing="false" onAction="#accountButton" text="Account" />
+            <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logoutButton" text="Log out" />
+         </items>
+      </ToolBar>
+      <Label alignment="CENTER" layoutX="252.0" layoutY="19.0" prefHeight="40.0" prefWidth="97.0" text="RESORT" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
