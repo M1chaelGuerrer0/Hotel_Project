@@ -22,6 +22,12 @@
          </padding>
       </Button>
       <Button fx:id="initialize" layoutX="274.0" layoutY="99.0" mnemonicParsing="false" onAction="#displayLoginLogout" text="Button" visible="false" />
+      <ToolBar layoutX="0" layoutY="-1.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0">
+         <items>
+            <Button fx:id="checkButton" mnemonicParsing="false" onAction="#checkButton" text="check" />
+            <Button fx:id="workButton" mnemonicParsing="false" onAction="#workButton" text="work" />
+         </items>
+      </ToolBar>
       <ImageView fx:id="imageView" blendMode="MULTIPLY" fitHeight="295.0" fitWidth="600.0" layoutX="4.333333333333334" layoutY="71.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.333333333333334" AnchorPane.rightAnchor="5.666666666666629">
          <image>
             <Image url="@../../../images/GTA-5-Diamond-Casino.png" />
