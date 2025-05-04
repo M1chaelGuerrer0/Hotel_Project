@@ -61,7 +61,7 @@ public class ParentController extends LoginController {
             logoutButton.setVisible(false);
             loginButton.setVisible(true);
             loginButton.setDisable(false);
-        
+        }
         if (empStatus) {
             checkButton.setVisible(true);
             checkButton.setDisable(false);
@@ -82,7 +82,6 @@ public class ParentController extends LoginController {
             workButton.setDisable(true);
         }
 
-    }
     }
 
     /*
@@ -131,6 +130,11 @@ public class ParentController extends LoginController {
         }
     }
 
+    /*
+    
+    Switches from the current scene to the Check-in table scene
+     @param event listens for when an event fires
+     */
     
     public void checkButton(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("check.fxml"));
@@ -139,10 +143,17 @@ public class ParentController extends LoginController {
         stage.show();
     }
 
+    /*
+    
+    Switches from the current scene to the Workers table scene
+     @param event listens for when an event fires
+     */
+
+
     public void workButton(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("work.fxml"));
         Stage stage = new Stage();
-        stage.setScene(new Scene(root, 800, 800));
+        stage.setScene(new Scene(root, 1000, 800));
         stage.show();
     }
 
