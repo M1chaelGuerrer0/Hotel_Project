@@ -28,6 +28,6 @@
       <Button fx:id="cancel" layoutX="17.0" layoutY="344.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
       <Button fx:id="continueButton" layoutX="257.0" layoutY="344.0" mnemonicParsing="false" onAction="#continueButton" text="Continue" />
       <ComboBox fx:id="cards" layoutX="86.0" layoutY="344.0" onAction="#fill" prefWidth="150.0" />
-      <Button layoutX="257.0" layoutY="293.0" mnemonicParsing="false" text="Add" />
+      <Button layoutX="270.0" layoutY="292.0" mnemonicParsing="false" onAction="#add" text="Add" />
    </children>
 </AnchorPane>

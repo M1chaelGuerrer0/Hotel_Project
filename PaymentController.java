@@ -85,7 +85,10 @@ public class PaymentController  extends LoginController{
 
     @FXML
     public void fill() {
+
         cards.setItems(savedCards);
+
+
     }
 
     /*
@@ -158,34 +161,46 @@ public class PaymentController  extends LoginController{
     public void continueButton(ActionEvent event) throws IOException {
 
         User guest = HotelDataBase.getGuest(LoginController.inputEmail);
-        Card card = new Card();
-        card.setHolder_Name(cardName.getText());
-        card.setGuest_id(guest.getUser_id());
-        card.setCard_Number(cardNum.getText());
-        card.setExpiration(cardExp.getText());
-        card.setCvc(cardCVC.getText());
-        card.setAddress1(street1.getText());
-        card.setCity(userCity.getText());
-        card.setCountry(userCountry.getText());
-        card.setState(userState.getText());
-        card.setZip_Code(zip.getText());
+        if(LoginController.inputEmail != null) {
+            Card card = new Card();
+            card.setHolder_Name(cardName.getText());
+            card.setGuest_id(guest.getUser_id());
+            card.setCard_Number(cardNum.getText());
+            card.setExpiration(cardExp.getText());
+            card.setCvc(cardCVC.getText());
+            card.setAddress1(street1.getText());
+            card.setCity(userCity.getText());
+            card.setCountry(userCountry.getText());
+            card.setState(userState.getText());
+            card.setZip_Code(zip.getText());
+            String cardList = cardName.getText() + " -  " + cardNum.getText();
+            savedCards.add(cardList);
+            fill();
+            HotelDataBase.addCard(card);
+            FXMLLoader fxmlLoader = new FXMLLoader(ReservationApplication.class.getResource("scene2.fxml"));
+            Parent root = fxmlLoader.load();
+            ReservationController reservationController = fxmlLoader.getController();
+            reservationController.setSelectedRoom(selectedRoom);
+            reservationController.setCard(card);
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        else{
+            FXMLLoader fxmlLoader = new FXMLLoader(ReservationApplication.class.getResource("registerLogs.fxml"));
+            Parent root = fxmlLoader.load();
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+            }
+    }
+    public void add(){
         String cardList = cardName.getText() + " -  " + cardNum.getText();
         savedCards.add(cardList);
         fill();
-
-        HotelDataBase.addCard(card);
-
-        FXMLLoader fxmlLoader = new FXMLLoader(ReservationApplication.class.getResource("scene2.fxml"));
-        Parent root = fxmlLoader.load();
-
-        ReservationController reservationController = fxmlLoader.getController();
-
-        reservationController.setSelectedRoom(selectedRoom);
-        reservationController.setCard(card);
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
 
     }
 
