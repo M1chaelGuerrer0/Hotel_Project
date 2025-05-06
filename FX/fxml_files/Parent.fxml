@@ -23,7 +23,7 @@
       <Button fx:id="initialize" layoutX="274.0" layoutY="99.0" mnemonicParsing="false" onAction="#displayLoginLogout" text="Button" visible="false" />
       <ImageView fx:id="imageView" blendMode="MULTIPLY" fitHeight="295.0" fitWidth="600.0" layoutX="4.666666666666667" layoutY="111.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.666666666666667" AnchorPane.rightAnchor="5.333333333333371">
          <image>
-            <Image url="@GTA-5-Diamond-Casino.png" />
+            <Image url="@../../../images/GTA-5-Diamond-Casino.png" />
          </image>
       </ImageView>
       <Label layoutX="264.0" layoutY="32.0" prefHeight="40.0" prefWidth="72.0" text="RESORT" textAlignment="CENTER">
