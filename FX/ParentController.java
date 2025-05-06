@@ -1,4 +1,4 @@
-package com.example.gooncentral;
+package com.example.demo9;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,16 +33,13 @@ public class ParentController extends LoginController {
     private Button logoutButton;
 
     @FXML
-    private Button checkButton;
-
-    @FXML
-    private Button workButton;
-
-    @FXML
     private Button accountButton;
 
     @FXML
     private Button initialize;
+    @FXML
+    private Button reserve;
+
 
     private Parent root;
 
@@ -62,35 +59,23 @@ public class ParentController extends LoginController {
             loginButton.setVisible(true);
             loginButton.setDisable(false);
         }
-        if (empStatus) {
-            checkButton.setVisible(true);
-            checkButton.setDisable(false);
-        }
-
-        if (!empStatus) {
-            checkButton.setVisible(false);
-            checkButton.setDisable(true);
-        }
-
-        if (manStatus) {
-            workButton.setVisible(true);
-            workButton.setDisable(false);
-        }
-
-        if (!manStatus) {
-            workButton.setVisible(false);
-            workButton.setDisable(true);
-        }
 
     }
+    public void reserveButton(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("scene1.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 
+    }
     /*
         Switches from the current scene to the Login scene
 
         @param event listens for when an event fires
     */
     public String loginButton(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        root = FXMLLoader.load(getClass().getResource("logins.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -114,15 +99,10 @@ public class ParentController extends LoginController {
 
         if(alert.showAndWait().get() == ButtonType.OK) {
             logStatus = false;                                      // Indicates whether the user is logged in or not
-            manStatus = false;
-            empStatus = false;
+
             logoutButton.setVisible(false);
             loginButton.setVisible(true);
             loginButton.setDisable(false);
-            checkButton.setVisible(false);
-            checkButton.setDisable(true);
-            workButton.setVisible(false);
-            workButton.setDisable(true);
 
             stage = (Stage) parentScene.getScene().getWindow();
             System.out.println("Logged Out Successfully");
@@ -131,53 +111,26 @@ public class ParentController extends LoginController {
     }
 
     /*
-    
-    Switches from the current scene to the Check-in table scene
-     @param event listens for when an event fires
-     */
-    
-    public void checkButton(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("check.fxml"));
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root, 800, 800));
-        stage.show();
+        Switches from the current scene to the Account scene
+
+        @param event listens for when an event fires
+    */
+    public void accountButton(ActionEvent event) throws IOException {
+        System.out.println(logStatus);
+        if (LoginController.logStatus) {
+            root = FXMLLoader.load(getClass().getResource("Account.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            root = FXMLLoader.load(getClass().getResource("logins.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
     }
-
-    /*
-    
-    Switches from the current scene to the Workers table scene
-     @param event listens for when an event fires
-     */
-
-
-    public void workButton(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("work.fxml"));
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root, 1000, 800));
-        stage.show();
-    }
-
-    /*
-    
-    Switches from the current scene to the Account scene
-     @param event listens for when an event fires
-     */
-     public void accountButton(ActionEvent event) throws IOException {
-         System.out.println(logStatus);
-         if (LoginController.logStatus) {
-             root = FXMLLoader.load(getClass().getResource("Account.fxml"));
-             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-             scene = new Scene(root);
-             stage.setScene(scene);
-             stage.show();
-         } else {
-             root = FXMLLoader.load(getClass().getResource("login.fxml"));
-             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-             scene = new Scene(root);
-             stage.setScene(scene);
-             stage.show();
-         }
-     }
 
     /*
         Initializes the scene by firing the button automatically to display the user's account information

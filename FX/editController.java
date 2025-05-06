@@ -100,7 +100,11 @@ public class editController extends AccountController {
 
     public void setup() {
         User guest;
-        guest = HotelDataBase.getGuest(inputEmail);
+
+        if (inputEmail.contains(empFlag) || inputEmail.contains(manFlag)) {
+            guest = HotelDataBase.getWorker(inputEmail);
+        } else { guest = HotelDataBase.getGuest(inputEmail); }
+
         assert guest != null;
 
         String firstName = guest.getFirst_Name();
@@ -163,6 +167,14 @@ public class editController extends AccountController {
         @param event listens for when an event fires
     */
     public void saveButton(ActionEvent event) throws IOException {
+        User guest;
+
+        if (inputEmail.contains(empFlag) || inputEmail.contains(manFlag)) {
+            guest = HotelDataBase.getWorker(inputEmail);
+        } else { guest = HotelDataBase.getGuest(inputEmail); }
+
+        assert guest != null;
+
         String firstname = userFirst.getText();
         String lastname = userLast.getText();
         String email = userEmail.getText();
@@ -200,10 +212,6 @@ public class editController extends AccountController {
         */
         if (match == 0) {
             System.out.println("Your passwords match.");
-
-            User guest;
-            guest = HotelDataBase.getGuest(inputEmail);
-            assert guest != null;
 
             // Updates changed info of the logged-in user and then store that in the database
             guest.setFirst_Name(firstname);

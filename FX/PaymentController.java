@@ -5,9 +5,7 @@
     This class serves as the controller for all the buttons located on the Payment scene, also storing their card
     information to the database
 */
-
-package com.example.Hotel;
-
+package com.example.demo9;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,13 +14,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.IOException;
 
-public class PaymentController {
+public class PaymentController  extends LoginController{
+    private ObservableList<String> savedCards = FXCollections.observableArrayList();
 
     @FXML
     private AnchorPane paymentScene;
@@ -65,12 +67,29 @@ public class PaymentController {
 
     @FXML
     private TextField userCountry;
+    @FXML
+    private ComboBox cards;
 
     private Parent root;
 
     private Scene scene;
 
+
+
+    public Room selectedRoom;
+    public void setSelectedRoom(Room room) {
+        this.selectedRoom = room;
+
+    }
     private Stage stage;
+
+    @FXML
+    public void fill() {
+
+        cards.setItems(savedCards);
+
+
+    }
 
     /*
         Switches from the current scene back to the Login scene
@@ -78,7 +97,7 @@ public class PaymentController {
         @param event listens for when an event fires
     */
     public void cancelButton(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        root = FXMLLoader.load(getClass().getResource("logins.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -92,40 +111,97 @@ public class PaymentController {
         @param event listens for when an event fires
     */
     public void sameAs(ActionEvent event) throws IOException {
-        System.out.println("1");
+        if (sameAs.isSelected()) {
+            User guest = HotelDataBase.getGuest(LoginController.inputEmail);
 
-        // TODO : Fetch address info from database and fill in address text fields in the payment scene with it
+            street1.setText(guest.getAddress1());
+            street2.setText(guest.getAddress2());
+            userCity.setText(guest.getCity());
+            userCountry.setText(guest.getCountry());
+            userState.setText(guest.getState());
+            zip.setText(guest.getZip_Code());
+
+        }
     }
+    /*
+    After payment returns user to reservation page
+     */
 
+    public void switchToScene1(ActionEvent event){
+        try {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(ReservationApplication.class.getResource("scene1.fxml"));
+            Parent root = fxmlLoader.load();
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    private void autofillCardFields(Card card) {
+        cardNum.setText(card.getCard_Number());
+        cardName.setText(card.getHolder_Name());
+        cardExp.setText(card.getExpiration());
+        cardCVC.setText(card.getCvc());
+
+        street1.setText(card.getAddress1());
+        street2.setText(card.getAddress2());
+        userCity.setText(card.getCity());
+        userCountry.setText(card.getCountry());
+        userState.setText(card.getState());
+        zip.setText(card.getZip_Code());
+    }
     /*
         Stores the users card information, and then switches them back to the prior scene
 
         @param event listens for when an event fires
     */
     public void continueButton(ActionEvent event) throws IOException {
-        String cardNumber = cardNum.getText();
-        System.out.println(cardNumber);
-        String holderName = cardName.getText();
-        System.out.println(holderName);
-        String expiration = cardExp.getText();
-        System.out.println(expiration);
-        String cvc = cardCVC.getText();
-        System.out.println(cvc);
-        String address1 = street1.getText();
-        System.out.println(address1);
-        String address2 = street2.getText();
-        System.out.println(address2);
-        String city = userCity.getText();
-        System.out.println(city);
-        String country = userCountry.getText();
-        System.out.println(country);
-        String state = userState.getText();
-        System.out.println(state);
-        String zipCode = zip.getText();
-        System.out.println(zipCode);
 
-        // TODO : Requires a scene swap back to the scene in which the user sets up their payment
+        User guest = HotelDataBase.getGuest(LoginController.inputEmail);
+        if(LoginController.inputEmail != null) {
+            Card card = new Card();
+            card.setHolder_Name(cardName.getText());
+            card.setGuest_id(guest.getUser_id());
+            card.setCard_Number(cardNum.getText());
+            card.setExpiration(cardExp.getText());
+            card.setCvc(cardCVC.getText());
+            card.setAddress1(street1.getText());
+            card.setCity(userCity.getText());
+            card.setCountry(userCountry.getText());
+            card.setState(userState.getText());
+            card.setZip_Code(zip.getText());
+            String cardList = cardName.getText() + " -  " + cardNum.getText();
+            savedCards.add(cardList);
+            fill();
+            HotelDataBase.addCard(card);
+            FXMLLoader fxmlLoader = new FXMLLoader(ReservationApplication.class.getResource("scene2.fxml"));
+            Parent root = fxmlLoader.load();
+            ReservationController reservationController = fxmlLoader.getController();
+            reservationController.setSelectedRoom(selectedRoom);
+            reservationController.setCard(card);
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        else{
+            FXMLLoader fxmlLoader = new FXMLLoader(ReservationApplication.class.getResource("registerLogs.fxml"));
+            Parent root = fxmlLoader.load();
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+            }
     }
+    public void add(){
+        String cardList = cardName.getText() + " -  " + cardNum.getText();
+        savedCards.add(cardList);
+        fill();
 
+    }
 
 }
