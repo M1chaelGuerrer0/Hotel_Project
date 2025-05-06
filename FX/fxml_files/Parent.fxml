@@ -15,7 +15,7 @@
             <Font size="23.0" />
          </font>
       </Label>
-      <Button fx:id="logoutButton" layoutX="460.0" layoutY="13.0" mnemonicParsing="false" onAction="#logoutButton" prefHeight="25.0" prefWidth="55.0" text="Logout" visible="false">
+      <Button fx:id="logoutButton" layoutX="460.0" layoutY="15.0" mnemonicParsing="false" onAction="#logoutButton" prefHeight="25.0" prefWidth="55.0" text="Logout" visible="false">
          <padding>
             <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
          </padding>
@@ -31,9 +31,9 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="accountButton" layoutX="408.0" layoutY="73.0" mnemonicParsing="false" onAction="#accountButton" text="Account" />
-      <Button fx:id="loginButton" layoutX="488.0" layoutY="73.0" mnemonicParsing="false" onAction="#loginButton" text="Login" />
-      <Button fx:id="reserveButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#reserveButton" text="reserve" />
+      <Button fx:id="accountButton" layoutX="523.0" layoutY="13.0" mnemonicParsing="false" onAction="#accountButton" text="Account" />
+      <Button fx:id="loginButton" layoutX="538.0" layoutY="46.0" mnemonicParsing="false" onAction="#loginButton" text="Login" />
+      <Button fx:id="reserveButton" layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onAction="#reserveButton" text="reserve" />
       <Button fx:id="checkButton" layoutX="77.0" layoutY="13.0" mnemonicParsing="false" onAction="#checkButton" text="check" />
       <Button fx:id="workButton" layoutX="14.0" layoutY="46.0" mnemonicParsing="false" onAction="#workButton" text="work" />
    </children>
