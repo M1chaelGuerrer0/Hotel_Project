@@ -1,4 +1,4 @@
-package com.example.demo9;
+package com.example.gooncentral;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,13 +33,19 @@ public class ParentController extends LoginController {
     private Button logoutButton;
 
     @FXML
+    private Button checkButton;
+
+    @FXML
+    private Button workButton;
+
+    @FXML
     private Button accountButton;
 
     @FXML
     private Button initialize;
-    @FXML
-    private Button reserve;
 
+    @FXML
+    private Button reserveButton;
 
     private Parent root;
 
@@ -60,30 +66,55 @@ public class ParentController extends LoginController {
             loginButton.setDisable(false);
         }
 
-    }
-    public void reserveButton(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("scene1.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        if (empStatus) {
+            checkButton.setVisible(true);
+            checkButton.setDisable(false);
+        }
+
+        if (!empStatus) {
+            checkButton.setVisible(false);
+            checkButton.setDisable(true);
+        }
+
+        if (manStatus) {
+            workButton.setVisible(true);
+            workButton.setDisable(false);
+        }
+
+        if (!manStatus) {
+            workButton.setVisible(false);
+            workButton.setDisable(true);
+        }
+
 
     }
+
+
+        public void reserveButton(ActionEvent event) throws IOException {
+            root = FXMLLoader.load(getClass().getResource("scene1.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        }
+
+
     /*
         Switches from the current scene to the Login scene
 
         @param event listens for when an event fires
     */
-    public String loginButton(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("logins.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        public String loginButton (ActionEvent event) throws IOException {
+            root = FXMLLoader.load(getClass().getResource("login.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
 
 
-        return "1";
-    }
+            return "1";
+        }
 
     /*
         Prompts the user with a warning message informing them that they are about log out, also swapping the
@@ -91,54 +122,77 @@ public class ParentController extends LoginController {
 
         @param event listens for when an event fires
     */
-    public void logoutButton(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Logout");
-        alert.setHeaderText("You're about to logout!");
-        alert.setContentText("Are you sure you would like to logout?");
+        public void logoutButton (ActionEvent event){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Logout");
+            alert.setHeaderText("You're about to logout!");
+            alert.setContentText("Are you sure you would like to logout?");
 
-        if(alert.showAndWait().get() == ButtonType.OK) {
-            logStatus = false;                                      // Indicates whether the user is logged in or not
+            if (alert.showAndWait().get() == ButtonType.OK) {
+                logStatus = false;                                      // Indicates whether the user is logged in or not
+                manStatus = false;
+                empStatus = false;
+                logoutButton.setVisible(false);
+                loginButton.setVisible(true);
+                loginButton.setDisable(false);
+                checkButton.setVisible(false);
+                checkButton.setDisable(true);
+                workButton.setVisible(false);
+                workButton.setDisable(true);
 
-            logoutButton.setVisible(false);
-            loginButton.setVisible(true);
-            loginButton.setDisable(false);
+                stage = (Stage) parentScene.getScene().getWindow();
+                System.out.println("Logged Out Successfully");
+                System.out.println(logStatus);
+            }
+        }
 
-            stage = (Stage) parentScene.getScene().getWindow();
-            System.out.println("Logged Out Successfully");
+
+        public void checkButton (ActionEvent event) throws IOException {
+            root = FXMLLoader.load(getClass().getResource("check.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 800, 800));
+            stage.show();
+        }
+
+        public void workButton (ActionEvent event) throws IOException {
+            root = FXMLLoader.load(getClass().getResource("work.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 1000, 800));
+            stage.show();
+        }
+
+    /*
+
+    Switches from the current scene to the Account scene
+     @param event listens for when an event fires
+     */
+        public void accountButton (ActionEvent event) throws IOException {
             System.out.println(logStatus);
+            if (LoginController.logStatus) {
+                root = FXMLLoader.load(getClass().getResource("Account.fxml"));
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            } else {
+                root = FXMLLoader.load(getClass().getResource("login.fxml"));
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
         }
-    }
 
-    /*
-        Switches from the current scene to the Account scene
+            /*
+            Initializes the scene by firing the button automatically to display the user's account information
+            */
+            public void initialize () {
+                initialize.fire();
 
-        @param event listens for when an event fires
-    */
-    public void accountButton(ActionEvent event) throws IOException {
-        System.out.println(logStatus);
-        if (LoginController.logStatus) {
-            root = FXMLLoader.load(getClass().getResource("Account.fxml"));
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } else {
-            root = FXMLLoader.load(getClass().getResource("logins.fxml"));
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            }
+
+
         }
-    }
-
-    /*
-        Initializes the scene by firing the button automatically to display the user's account information
-    */
-    public void initialize() {
-        initialize.fire();
-
-    }
 
 
-}
+
