@@ -222,6 +222,8 @@ public class ReservationController extends HotelDataBase{
             res.setName(guest.getFirst_Name());
             res.setCheck_In_Date(checkIn);
             res.setCheck_Out_Date(checkOut);
+            res.setCheck_In_Time(Time.valueOf("00:00:00"));
+            res.setCheck_Out_Time(Time.valueOf("00:00:00"));
             res.setGuest_id(guest.getUser_id());
             res.setName(guest.getFirst_Name());
 
