@@ -1,3 +1,10 @@
+/*
+ HotelDataBase
+     5/1/25
+     @author Michael Guerrero
+
+     This is the class that interacts with the database
+*/
 package com.example.gooncentral;
 
 import java.sql.*;
@@ -28,7 +35,7 @@ public class HotelDataBase {
             connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/hoteldb",
                     "root",
-                    "IA0937738" // PASSWORD
+                    "" // PASSWORD
             );
         } catch (SQLException e) {
             throw new RuntimeException("DB connection failed", e);
