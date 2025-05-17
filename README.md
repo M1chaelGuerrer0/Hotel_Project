@@ -1,3 +1,12 @@
+## Tools
+* Intellij
+* MySQL
+* Jira
+* Java 21
+* JavaFX
+* SceneBuilder
+
+
 ## Operation Procedure
 * On IntelliJ, create a JavaFX project called “gooncentral”
 * Click Next and select FormsFX
